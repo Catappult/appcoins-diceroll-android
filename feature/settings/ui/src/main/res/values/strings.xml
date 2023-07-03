@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="settings_title">Settings</string>
+  <string name="loading">Loading…</string>
+  <string name="empty_error">Something went wrong</string>
+  <string name="confirm">Confirm</string>
+
+  <string name="theme">Theme</string>
+  <string name="theme_system">System default theme</string>
+  <string name="theme_light">Light theme</string>
+  <string name="theme_dark">Dark theme</string>
+  <string name="cache_strategy">Use cache</string>
+  <string name="cache_strategy_always">Always</string>
+  <string name="cache_strategy_never">Never</string>
+</resources>

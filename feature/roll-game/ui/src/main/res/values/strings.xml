@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="top_bar_title">Appcoins Dice Roll</string>
+  <string name="roll_game_title">Roll Game</string>
+  <string name="stats_title">Statistics</string>
+
+  <string name="loading">Loading…</string>
+  <string name="empty_error">Something went wrong</string>
+  <string name="confirm">Confirm</string>
+</resources>
