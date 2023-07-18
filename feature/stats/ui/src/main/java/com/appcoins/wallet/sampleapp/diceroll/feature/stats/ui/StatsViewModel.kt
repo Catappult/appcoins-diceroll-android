@@ -4,19 +4,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.data.UserPrefs
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.data.UserPrefsDataSource
+import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
+import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.usecases.GetDiceRollsUseCase
+import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class RollGameViewModel @Inject constructor(
-  userPrefs: UserPrefsDataSource
+  getDiceRollsUseCase: GetDiceRollsUseCase
 ) : ViewModel() {
 
   val uiState: StateFlow<StatsUiState> =
-    userPrefs.getUserPrefs().map { userPrefs ->
+    getDiceRollsUseCase().map { diceRollList ->
       StatsUiState.Success(
-        userPrefs = userPrefs
+        diceRollList = diceRollList
       )
     }
       .stateIn(
@@ -29,6 +32,6 @@ class RollGameViewModel @Inject constructor(
 sealed interface StatsUiState {
   object Loading : StatsUiState
   data class Success(
-    val userPrefs: UserPrefs
+    val diceRollList: List<DiceRoll>,
   ) : StatsUiState
 }

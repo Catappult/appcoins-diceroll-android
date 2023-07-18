@@ -11,8 +11,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.wallet.sampleapp.diceroll.MainActivityUiState.*
+import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.*
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.data.ThemeConfig
 import com.appcoins.wallet.sampleapp.diceroll.ui.DiceRollApp
 import dagger.hilt.android.AndroidEntryPoint

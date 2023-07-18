@@ -8,6 +8,7 @@ android {
 
 dependencies {
   implementation(project(":feature:settings:data"))
+  implementation(project(":feature:stats:data"))
   implementation(project(":core:design"))
   implementation(project(":core:utils"))
 }

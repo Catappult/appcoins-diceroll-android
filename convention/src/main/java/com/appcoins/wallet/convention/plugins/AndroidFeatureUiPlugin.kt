@@ -21,6 +21,7 @@ class AndroidFeatureUiPlugin : Plugin<Project> {
 
       dependencies {
         add("implementation", libs["androidx-compose-runtime"])
+        add("implementation", libs["androidx-compose-accompanist-systemuicontroller"])
         add("implementation", libs["androidx-compose-lifecycle-viewModel"])
         add("implementation", libs["androidx-compose-lifecycle-runtime"])
         add("implementation", libs["androidx-compose-ui-util"])

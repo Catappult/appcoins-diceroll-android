@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "DiceRollEntity")
 data class DiceRollEntity(
   @PrimaryKey
-  val id: String,
-  val rollResult: Boolean,
+  val id: Int,
+  val rollWin: Boolean,
   val betNumber: Int,
   val resultNumber: Int,
 )

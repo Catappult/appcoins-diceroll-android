@@ -6,7 +6,7 @@ import androidx.compose.material3.lightColorScheme
 /**
  * Dark default theme color scheme
  */
-val darkWalletColorScheme = darkColorScheme(
+val darkAppColorScheme = darkColorScheme(
   primary = medium_pink,
   onPrimary = medium_blue,
   primaryContainer = light_pink,
@@ -34,7 +34,7 @@ val darkWalletColorScheme = darkColorScheme(
 /**
  * Light default theme color scheme
  */
-val lightWalletColorScheme = lightColorScheme(
+val lightAppColorScheme = lightColorScheme(
   primary = medium_pink,
   onPrimary = medium_blue,
   primaryContainer = light_pink,

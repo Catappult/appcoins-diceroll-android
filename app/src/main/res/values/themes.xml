@@ -1,9 +1,8 @@
 <resources>
-  <style name="Theme.SplashScreenApp" parent="android:Theme.Material.Light.NoActionBar">
-    <item name="android:statusBarColor">@color/black</item>
-  </style>
-
-  <style name="SplashScreenTheme" parent="Theme.SplashScreenApp">
-    <item name="android:windowBackground">@drawable/wallet_icon</item>
+  <style name="DiceRoll.Theme" parent="android:Theme.Material.Light.NoActionBar" />
+  <style name="DiceRoll.Splash" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenAnimatedIcon">@drawable/wallet_icon</item>
+    <item name="windowSplashScreenBackground">@color/medium_blue</item>
+    <item name="postSplashScreenTheme">@style/DiceRoll.Theme</item>
   </style>
 </resources>

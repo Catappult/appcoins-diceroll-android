@@ -115,19 +115,19 @@ private fun SettingsPanel(
       onClick = { onChangeThemeConfig(ThemeConfig.DARK) },
     )
   }
-  SettingsDialogSectionTitle(text = stringResource(SettingsR.string.cache_strategy))
-  Column(Modifier.selectableGroup()) {
-    SettingsChooserRow(
-      text = stringResource(SettingsR.string.cache_strategy_never),
-      selected = userPrefs.cacheStrategy == CacheStrategy.NEVER,
-      onClick = { onChangeCacheStrategy(CacheStrategy.NEVER) },
-    )
-    SettingsChooserRow(
-      text = stringResource(SettingsR.string.cache_strategy_always),
-      selected = userPrefs.cacheStrategy == CacheStrategy.ALWAYS,
-      onClick = { onChangeCacheStrategy(CacheStrategy.ALWAYS) },
-    )
-  }
+//  SettingsDialogSectionTitle(text = stringResource(SettingsR.string.cache_strategy))
+//  Column(Modifier.selectableGroup()) {
+//    SettingsChooserRow(
+//      text = stringResource(SettingsR.string.cache_strategy_never),
+//      selected = userPrefs.cacheStrategy == CacheStrategy.NEVER,
+//      onClick = { onChangeCacheStrategy(CacheStrategy.NEVER) },
+//    )
+//    SettingsChooserRow(
+//      text = stringResource(SettingsR.string.cache_strategy_always),
+//      selected = userPrefs.cacheStrategy == CacheStrategy.ALWAYS,
+//      onClick = { onChangeCacheStrategy(CacheStrategy.ALWAYS) },
+//    )
+//  }
 }
 
 @Composable
