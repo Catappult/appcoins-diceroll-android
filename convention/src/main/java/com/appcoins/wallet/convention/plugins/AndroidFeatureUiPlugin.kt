@@ -35,6 +35,7 @@ class AndroidFeatureUiPlugin : Plugin<Project> {
         add("implementation", libs["androidx-compose-compiler"])
         add("implementation", libs["androidx-compose-activity"])
         add("implementation", libs["androidx-compose-runtime-tracing"])
+        add("implementation", libs["androidx-compose-constraintlayout"])
         add("implementation", libs["coil-kt"])
         add("implementation", libs["coil-kt-compose"])
         add("implementation", libs["coil-kt-svg"])
