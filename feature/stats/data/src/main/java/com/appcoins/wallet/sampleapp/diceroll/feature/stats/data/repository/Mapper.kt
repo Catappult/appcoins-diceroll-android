@@ -7,8 +7,9 @@ fun DiceRollEntity.mapToDiceRoll(): DiceRoll {
   return DiceRoll(
     id = this.id,
     rollWin = this.rollWin,
-    betNumber = this.betNumber,
-    resultNumber = this.resultNumber
+    guessNumber = this.guessNumber,
+    resultNumber = this.resultNumber,
+    attemptsLeft = this.attemptsLeft
   )
 }
 
@@ -16,8 +17,9 @@ fun DiceRoll.mapToDiceRollEntity(): DiceRollEntity {
   return DiceRollEntity(
     id = this.id,
     rollWin = this.rollWin,
-    betNumber = this.betNumber,
-    resultNumber = this.resultNumber
+    guessNumber = this.guessNumber,
+    resultNumber = this.resultNumber,
+    attemptsLeft = this.attemptsLeft
   )
 }
 
@@ -26,8 +28,9 @@ fun List<DiceRollEntity>.mapToDiceRollList(): List<DiceRoll> {
     DiceRoll(
       id = diceRollEntity.id,
       rollWin = diceRollEntity.rollWin,
-      betNumber = diceRollEntity.betNumber,
-      resultNumber = diceRollEntity.resultNumber
+      guessNumber = diceRollEntity.guessNumber,
+      resultNumber = diceRollEntity.resultNumber,
+      attemptsLeft = diceRollEntity.attemptsLeft
     )
   }
 }

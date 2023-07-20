@@ -23,4 +23,8 @@ class DiceRollRepository @Inject constructor(
   suspend fun saveDiceRoll(diceRoll: DiceRoll) {
     dao.saveDiceRollEntity(diceRoll.mapToDiceRollEntity())
   }
+
+  fun getAttemptsLeft() : Flow<Int?> {
+    return dao.getAttemptsLeft()
+  }
 }

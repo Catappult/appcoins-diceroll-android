@@ -1,8 +1,9 @@
 package com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model
 
 data class DiceRoll(
-  val id: Int,
+  val id: Int?,
   val rollWin: Boolean,
-  val betNumber: Int,
-  val resultNumber: Int
+  val guessNumber: Int,
+  val resultNumber: Int,
+  val attemptsLeft: Int,
 )

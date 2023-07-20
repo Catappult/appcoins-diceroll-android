@@ -27,4 +27,7 @@ interface DiceRollDao {
 
   @Query("SELECT * FROM DiceRollEntity WHERE id = :roll")
   suspend fun getDiceRoll(roll: String): DiceRollEntity?
+
+  @Query("SELECT attemptsLeft FROM DiceRollEntity ORDER BY id DESC LIMIT 1 ")
+  fun getAttemptsLeft(): Flow<Int?>
 }
