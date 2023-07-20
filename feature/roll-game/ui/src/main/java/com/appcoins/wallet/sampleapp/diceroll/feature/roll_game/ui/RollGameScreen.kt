@@ -2,7 +2,9 @@ package com.appcoins.wallet.sampleapp.diceroll.feature.roll_game.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -65,7 +67,9 @@ fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRo
   var attempts by rememberSaveable { mutableStateOf(attemptsLeft) }
   var betNumber by rememberSaveable { mutableStateOf("") }
   Column(
-    modifier = Modifier.fillMaxSize(),
+    modifier = Modifier
+      .fillMaxSize()
+      .verticalScroll(rememberScrollState()),
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.SpaceEvenly
   ) {
@@ -85,13 +89,12 @@ fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRo
             value = betNumber,
             onValueChange = { newValue ->
               // Check if the newValue can be converted to an integer
-              betNumber = if (newValue.toIntOrNull() != null) {
+              betNumber = if (newValue.toIntOrNull() != null && newValue.toInt() in 1..6) {
                 newValue
               } else {
                 ""
               }
             },
-            visualTransformation = DigitVisualTransformation(),
             label = { Text(stringResource(id = R.string.roll_game_guess_prompt)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
           )
@@ -138,7 +141,7 @@ fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRo
       )
     }
 
-    Button(onClick = { /*TODO*/ }) {
+    Button(onClick = { attempts = DEFAULT_ATTEMPTS_NUMBER }) {
       Text(text = stringResource(id = R.string.roll_game_buy_button))
     }
   }
@@ -170,16 +173,6 @@ private fun GameDice(diceValue: Int, resultText: String) {
         color = MaterialTheme.colorScheme.onPrimary
       )
     }
-  }
-}
-
-private class DigitVisualTransformation : VisualTransformation {
-  override fun filter(text: AnnotatedString): TransformedText {
-    val trimmed = text.text.take(1)
-    val newText = buildAnnotatedString {
-      append(trimmed)
-    }
-    return TransformedText(newText, OffsetMapping.Identity)
   }
 }
 
