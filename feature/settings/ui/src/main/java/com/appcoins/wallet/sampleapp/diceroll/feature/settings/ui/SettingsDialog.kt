@@ -25,7 +25,7 @@ import com.appcoins.wallet.sampleapp.diceroll.feature.settings.data.ThemeConfig
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.data.UserPrefs
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.ui.SettingsUiState.Loading
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.ui.SettingsUiState.Success
-import com.appcoins.wallet.sampleapp.diceroll.feature.settings.ui.R as SettingsR
+import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
 
 @Composable
 fun SettingsRoute(
@@ -55,7 +55,7 @@ fun SettingsDialog(
     onDismissRequest = { onDismiss() },
     title = {
       Text(
-        text = stringResource(SettingsR.string.settings_title),
+        text = stringResource(R.string.settings_title),
         style = MaterialTheme.typography.titleLarge,
       )
     },
@@ -65,7 +65,7 @@ fun SettingsDialog(
         when (settingsUiState) {
           Loading -> {
             Text(
-              text = stringResource(SettingsR.string.loading),
+              text = stringResource(R.string.loading),
               modifier = Modifier.padding(vertical = 16.dp),
             )
           }
@@ -81,7 +81,7 @@ fun SettingsDialog(
     },
     confirmButton = {
       Text(
-        text = stringResource(SettingsR.string.confirm),
+        text = stringResource(R.string.confirm),
         style = MaterialTheme.typography.labelLarge,
         modifier = Modifier
           .padding(horizontal = 8.dp)
@@ -97,33 +97,33 @@ private fun SettingsPanel(
   onChangeThemeConfig: (themeConfig: ThemeConfig) -> Unit,
   onChangeCacheStrategy: (cacheStrategy: CacheStrategy) -> Unit,
 ) {
-  SettingsDialogSectionTitle(text = stringResource(SettingsR.string.theme))
+  SettingsDialogSectionTitle(text = stringResource(R.string.settings_theme))
   Column(Modifier.selectableGroup()) {
     SettingsChooserRow(
-      text = stringResource(SettingsR.string.theme_system),
+      text = stringResource(R.string.settings_theme_system),
       selected = userPrefs.themeConfig == ThemeConfig.FOLLOW_SYSTEM,
       onClick = { onChangeThemeConfig(ThemeConfig.FOLLOW_SYSTEM) },
     )
     SettingsChooserRow(
-      text = stringResource(SettingsR.string.theme_light),
+      text = stringResource(R.string.settings_theme_light),
       selected = userPrefs.themeConfig == ThemeConfig.LIGHT,
       onClick = { onChangeThemeConfig(ThemeConfig.LIGHT) },
     )
     SettingsChooserRow(
-      text = stringResource(SettingsR.string.theme_dark),
+      text = stringResource(R.string.settings_theme_dark),
       selected = userPrefs.themeConfig == ThemeConfig.DARK,
       onClick = { onChangeThemeConfig(ThemeConfig.DARK) },
     )
   }
-//  SettingsDialogSectionTitle(text = stringResource(SettingsR.string.cache_strategy))
+//  SettingsDialogSectionTitle(text = stringResource(R.string.cache_strategy))
 //  Column(Modifier.selectableGroup()) {
 //    SettingsChooserRow(
-//      text = stringResource(SettingsR.string.cache_strategy_never),
+//      text = stringResource(R.string.cache_strategy_never),
 //      selected = userPrefs.cacheStrategy == CacheStrategy.NEVER,
 //      onClick = { onChangeCacheStrategy(CacheStrategy.NEVER) },
 //    )
 //    SettingsChooserRow(
-//      text = stringResource(SettingsR.string.cache_strategy_always),
+//      text = stringResource(R.string.cache_strategy_always),
 //      selected = userPrefs.cacheStrategy == CacheStrategy.ALWAYS,
 //      onClick = { onChangeCacheStrategy(CacheStrategy.ALWAYS) },
 //    )

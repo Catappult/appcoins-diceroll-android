@@ -2,8 +2,7 @@ package com.appcoins.wallet.sampleapp.diceroll.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.appcoins.wallet.sampleapp.diceroll.core.design.DiceRollIcons
-import com.appcoins.wallet.sampleapp.diceroll.feature.roll_game.ui.R as GameUiR
-import com.appcoins.wallet.sampleapp.diceroll.feature.stats.ui.R as StatsUiR
+import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
 
 /**
  * Type for the top level destinations in the application. Each of these destinations
@@ -19,13 +18,13 @@ enum class TopLevelDestination(
   GAME(
     selectedIcon = DiceRollIcons.game,
     unselectedIcon = DiceRollIcons.game,
-    iconTextId = GameUiR.string.roll_game_title,
-    titleTextId = GameUiR.string.top_bar_title,
+    iconTextId = R.string.roll_game_title,
+    titleTextId = R.string.top_bar_title,
   ),
   STATS(
     selectedIcon = DiceRollIcons.stats,
     unselectedIcon = DiceRollIcons.stats,
-    iconTextId = StatsUiR.string.stats_title,
-    titleTextId = StatsUiR.string.top_bar_title,
+    iconTextId = R.string.stats_title,
+    titleTextId = R.string.top_bar_title,
   ),
 }
