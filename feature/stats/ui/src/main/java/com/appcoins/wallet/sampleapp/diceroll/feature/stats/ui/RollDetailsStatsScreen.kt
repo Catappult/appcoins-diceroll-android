@@ -8,14 +8,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.DiceRollTheme
+import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
+import com.appcoins.wallet.sampleapp.diceroll.core.utils.widgets.Loading
 import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
+import com.appcoins.wallet.sampleapp.diceroll.feature.stats.ui.utils.result_text_loss
+import com.appcoins.wallet.sampleapp.diceroll.feature.stats.ui.utils.result_text_win
 
 @Composable
 internal fun RollDetailsStatsRoute(
@@ -42,10 +52,10 @@ fun RollDetailsStatsScreen(
 }
 
 @Composable
-fun RollDetailsStatsScreen(diceRollList: List<DiceRoll>) {
+fun RollDetailsStatsContent(diceRollList: List<DiceRoll>) {
   LazyColumn(
   ) {
-    items(diceRollList) { roll ->
+    items(diceRollList.reversed()) { roll ->
       DiceRollItem(roll)
     }
   }
@@ -67,36 +77,102 @@ fun DiceRollItem(roll: DiceRoll) {
       modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
+      horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically,
     ) {
-
       Text(
-        text = roll.guessNumber.toString(),
-        style = MaterialTheme.typography.bodyLarge
+        text = "#${roll.id.toString()}",
+        style = MaterialTheme.typography.headlineSmall
       )
       Text(
         text = roll.resultNumber.toString(),
         style = MaterialTheme.typography.bodyLarge
       )
-
+      val text = if (roll.rollWin) {
+        stringResource(id = R.string.stats_details_win)
+      } else {
+        stringResource(id = R.string.stats_details_loss)
+      }
+      Text(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge,
+        color = if (roll.rollWin) {
+          result_text_win
+        } else {
+          result_text_loss
+        }
+      )
     }
     AnimatedVisibility(visible = isExpanded) {
-//      CarDetails(carItem)
+      RollDetails(roll)
     }
   }
 }
 
+@Composable
+fun RollDetails(roll: DiceRoll) {
+  Column(
+    Modifier
+      .padding(16.dp)
+  ) {
+    DetailsRow(
+      rollKey = stringResource(id = R.string.stats_details_guess),
+      rollContent = roll.guessNumber.toString()
+    )
+    DetailsRow(
+      rollKey = stringResource(id = R.string.stats_details_result),
+      rollContent = roll.resultNumber.toString()
+    )
+    DetailsRow(
+      rollKey = stringResource(id = R.string.stats_details_attempts_left),
+      rollContent = roll.attemptsLeft.toString()
+    )
+  }
+}
+
+@Composable
+fun DetailsRow(
+  rollKey: String,
+  rollContent: String,
+) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(top = 8.dp),
+    horizontalArrangement = Arrangement.SpaceBetween,
+    verticalAlignment = Alignment.CenterVertically,
+  ) {
+    Text(
+      text = rollKey,
+      style = MaterialTheme.typography.bodySmall
+    )
+    Text(
+      text = rollContent,
+      style = MaterialTheme.typography.bodyMedium
+    )
+  }
+}
 
 @Preview
 @Composable
-private fun PreviewStatsContent() {
+private fun PreviewRollDetailsStatsContent() {
   DiceRollTheme(darkTheme = false) {
-    StatsContent(
+    RollDetailsStatsContent(
       diceRollList = listOf(
         DiceRoll(1, true, 1, 1, 2),
         DiceRoll(2, false, 1, 6, 2),
         DiceRoll(3, false, 1, 4, 2),
       )
+    )
+  }
+}
+
+@Preview
+@Composable
+private fun PreviewRollDatailsItemContent() {
+  DiceRollTheme(darkTheme = false) {
+    RollDetails(
+      DiceRoll(1, true, 1, 1, 2),
     )
   }
 }
