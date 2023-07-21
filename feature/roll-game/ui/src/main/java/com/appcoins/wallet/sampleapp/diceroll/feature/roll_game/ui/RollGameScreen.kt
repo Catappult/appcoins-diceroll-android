@@ -1,5 +1,8 @@
 package com.appcoins.wallet.sampleapp.diceroll.feature.roll_game.ui
 
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,20 +16,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.rememberImagePainter
 import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
 import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
@@ -161,11 +159,9 @@ private fun GameDice(diceValue: Int, resultText: String) {
     modifier = Modifier.size(200.dp),
     contentAlignment = Alignment.Center
   ) {
-    Image(
-      painter = rememberImagePainter(diceImages[diceValue - 1]),
-      contentDescription = "Dice Image",
-      modifier = Modifier.matchParentSize()
-    )
+    Crossfade(targetState = diceValue, animationSpec = tween(800)) { targetDiceValue ->
+      DiceImage(imageRes = diceImages[targetDiceValue - 1])
+    }
     if (resultText.isNotEmpty()) {
       Text(
         text = resultText,
@@ -174,6 +170,15 @@ private fun GameDice(diceValue: Int, resultText: String) {
       )
     }
   }
+}
+
+@Composable
+fun DiceImage(@DrawableRes imageRes: Int) {
+  val image = painterResource(imageRes)
+  Image(
+    painter = image,
+    contentDescription = "Dice Image",
+  )
 }
 
 @Preview
@@ -185,4 +190,4 @@ fun PreviewDiceRollScreen() {
   )
 }
 
-const val DEFAULT_ATTEMPTS_NUMBER = 10
+const val DEFAULT_ATTEMPTS_NUMBER = 3

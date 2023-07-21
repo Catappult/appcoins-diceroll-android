@@ -14,7 +14,7 @@ fun NavController.navigateToRollGame(navOptions: NavOptions? = null) {
 
 }
 
-fun NavGraphBuilder.rollGameScreen(onClick: (String) -> Unit) {
+fun NavGraphBuilder.rollGameScreen() {
   composable(route = rollGameNavigationRoute) {
     RollGameRoute()
   }
