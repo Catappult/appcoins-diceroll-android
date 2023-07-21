@@ -18,8 +18,27 @@ import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
 
 @Composable
-internal fun RollDetailsStatsRoute(diceRollList: List<DiceRoll>) {
-  RollDetailsStatsScreen(diceRollList)
+internal fun RollDetailsStatsRoute(
+  viewModel: RollGameViewModel = hiltViewModel(),
+) {
+  val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+  RollDetailsStatsScreen(uiState = uiState)
+}
+
+@Composable
+fun RollDetailsStatsScreen(
+  uiState: StatsUiState
+) {
+  when (uiState) {
+    StatsUiState.Loading -> {
+      Loading(R.string.loading)
+    }
+    is StatsUiState.Success -> {
+      RollDetailsStatsContent(
+        diceRollList = uiState.diceRollList,
+      )
+    }
+  }
 }
 
 @Composable

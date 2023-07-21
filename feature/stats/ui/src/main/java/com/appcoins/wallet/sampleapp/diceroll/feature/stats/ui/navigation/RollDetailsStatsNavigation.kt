@@ -14,8 +14,8 @@ fun NavController.navigateToRollDetailsStatsScreen(navOptions: NavOptions? = nul
 
 }
 
-fun NavGraphBuilder.rollDetailsStatsScreen(onClick: (String) -> Unit) {
+fun NavGraphBuilder.rollDetailsStatsScreen() {
   composable(route = rollDetailsStatsNavigationRoute) {
-//    RollDetailsStatsRoute()
+    RollDetailsStatsRoute()
   }
 }

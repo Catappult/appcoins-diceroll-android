@@ -1,5 +1,6 @@
 package com.appcoins.wallet.sampleapp.diceroll.feature.stats.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,15 +24,17 @@ import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
 
 @Composable
 internal fun StatsRoute(
+  onDetailsClick: (List<DiceRoll>) -> Unit,
   viewModel: RollGameViewModel = hiltViewModel(),
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-  StatsScreen(uiState = uiState)
+  StatsScreen(uiState = uiState, onDetailsClick)
 }
 
 @Composable
 fun StatsScreen(
   uiState: StatsUiState,
+  onDetailsClick: (List<DiceRoll>) -> Unit,
 ) {
   when (uiState) {
     StatsUiState.Loading -> {
@@ -40,30 +43,32 @@ fun StatsScreen(
     is StatsUiState.Success -> {
       StatsContent(
         diceRollList = uiState.diceRollList,
+        onDetailsClick = onDetailsClick
       )
     }
   }
 }
 
 @Composable
-fun StatsContent(diceRollList: List<DiceRoll>) {
+fun StatsContent(diceRollList: List<DiceRoll>, onDetailsClick: (List<DiceRoll>) -> Unit) {
   Column(
     modifier = Modifier
       .fillMaxSize()
       .padding(16.dp)
       .verticalScroll(rememberScrollState())
   ) {
-    StatsHeaderContent(diceRollList)
-    StatsDonutChart(diceRollList)
+    StatsHeaderContent(diceRollList, onDetailsClick)
+    StatsDonutCharts(diceRollList)
     StatsBarChart(diceRollList)
   }
 }
 
 @Composable
-fun StatsHeaderContent(diceRollList: List<DiceRoll>) {
+fun StatsHeaderContent(diceRollList: List<DiceRoll>, onDetailsClick: (List<DiceRoll>) -> Unit) {
   Column(
     modifier = Modifier
-      .fillMaxWidth(),
+      .fillMaxWidth()
+      .clickable { onDetailsClick(diceRollList) },
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     Card(
@@ -180,7 +185,8 @@ private fun PreviewStatsContent() {
         DiceRoll(1, true, 1, 1, 2),
         DiceRoll(2, false, 1, 6, 2),
         DiceRoll(3, false, 1, 4, 2),
-      )
+      ),
+      onDetailsClick = { }
     )
   }
 }

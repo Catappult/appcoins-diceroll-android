@@ -12,6 +12,7 @@ import com.appcoins.wallet.sampleapp.diceroll.core.design.DiceRollTopAppBar
 import com.appcoins.wallet.sampleapp.diceroll.feature.settings.ui.SettingsRoute
 import com.appcoins.wallet.sampleapp.diceroll.navigation.DiceRollNavHost
 import com.appcoins.wallet.sampleapp.diceroll.navigation.TopLevelDestination
+import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,17 +25,14 @@ fun DiceRollApp() {
   }
   Scaffold(
     topBar = {
-      appState.currentTopLevelDestination?.let { topLevelDestination ->
-        DiceRollTopAppBar(
-          titleRes = topLevelDestination.titleTextId,
-          actionIcon = DiceRollIcons.settings,
-          onActionClick = { appState.setShowSettingsDialog(true) },
-        )
-      }
-
+      DiceRollTopAppBar(
+        titleRes = appState.currentTopLevelDestination?.titleTextId ?: R.string.top_bar_title,
+        actionIcon = DiceRollIcons.settings,
+        onActionClick = { appState.setShowSettingsDialog(true) },
+      )
     },
     bottomBar = {
-      SixtBottomBar(
+      DiceRollBottomBar(
         destinations = appState.topLevelDestinations,
         onNavigateToDestination = appState::navigateToTopLevelDestination,
         currentDestination = appState.currentDestination,
@@ -49,7 +47,7 @@ fun DiceRollApp() {
 }
 
 @Composable
-fun SixtBottomBar(
+fun DiceRollBottomBar(
   destinations: List<TopLevelDestination>,
   onNavigateToDestination: (TopLevelDestination) -> Unit,
   currentDestination: NavDestination?,
