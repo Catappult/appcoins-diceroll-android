@@ -192,6 +192,7 @@ fun StatsDonutCharts(diceRollList: List<DiceRoll>) {
         .padding(4.dp)
     ) {
       Text(
+        modifier = Modifier.padding(8.dp),
         text = stringResource(id = R.string.stats_result_distribution),
         style = MaterialTheme.typography.titleSmall
       )
@@ -208,6 +209,7 @@ fun StatsDonutCharts(diceRollList: List<DiceRoll>) {
         .padding(4.dp)
     ) {
       Text(
+        modifier = Modifier.padding(8.dp),
         text = stringResource(id = R.string.stats_guess_distribution),
         style = MaterialTheme.typography.titleSmall
       )
