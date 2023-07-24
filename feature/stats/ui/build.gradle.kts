@@ -11,4 +11,5 @@ dependencies {
   implementation(project(":feature:stats:data"))
   implementation(project(":core:design"))
   implementation(project(":core:utils"))
+  implementation(libs.charts.tehras)
 }

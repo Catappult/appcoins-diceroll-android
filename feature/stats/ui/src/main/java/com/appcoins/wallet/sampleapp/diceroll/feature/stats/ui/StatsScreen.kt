@@ -9,18 +9,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.*
+import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
 import com.appcoins.wallet.sampleapp.diceroll.core.utils.extensions.toPercent
 import com.appcoins.wallet.sampleapp.diceroll.core.utils.widgets.Loading
 import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
+import com.appcoins.wallet.sampleapp.diceroll.feature.stats.ui.utils.*
+import com.github.tehras.charts.piechart.PieChart
+import com.github.tehras.charts.piechart.PieChartData
+import com.github.tehras.charts.piechart.renderer.SimpleSliceDrawer
 
 @Composable
 internal fun StatsRoute(
@@ -58,8 +65,10 @@ fun StatsContent(diceRollList: List<DiceRoll>, onDetailsClick: (List<DiceRoll>) 
       .verticalScroll(rememberScrollState())
   ) {
     StatsHeaderContent(diceRollList, onDetailsClick)
-    StatsDonutCharts(diceRollList)
-    StatsBarChart(diceRollList)
+    if (diceRollList.isNotEmpty()) {
+      StatsDonutCharts(diceRollList)
+//      StatsBarChart(diceRollList)
+    }
   }
 }
 
@@ -135,35 +144,81 @@ fun StatsItem(
   }
 }
 
-@Composable
-fun StatsDonutChart(diceRollList: List<DiceRoll>) {
-  val resultDistribution = diceRollList.groupingBy { it.resultNumber }.eachCount()
-  val guessDistribution = diceRollList.groupingBy { it.guessNumber }.eachCount()
-  val resultPercentageDistribution = resultDistribution.map { it.value.toFloat() }.toPercent()
-
-  DonutChart(
-    colors = listOf(
-      chart_tone1,
-      chart_tone2,
-      chart_tone3,
-      chart_tone4,
-      chart_tone5,
-      chart_tone6,
-    ),
-    inputValues = resultPercentageDistribution,
-    textColor = MaterialTheme.colorScheme.primary
+fun createPieChartData(
+  percentageDistribution: List<Float>,
+  chartTones: List<Color>
+): PieChartData {
+  return PieChartData(
+    percentageDistribution.zip(chartTones)
+      .map { (percentage, chartTone) -> PieChartData.Slice(percentage, chartTone) }
   )
 }
 
 @Composable
-fun StatsBarChart(diceRollList: List<DiceRoll>) {
-  val resultDistribution = diceRollList.groupingBy { it.resultNumber }.eachCount()
-  val guessDistribution = diceRollList.groupingBy { it.guessNumber }.eachCount()
-  val resultPercentageDistribution = resultDistribution.map { it.value.toFloat() }.toPercent()
-
-  BarChart(
-    values = resultPercentageDistribution
+fun StatsDonutCharts(diceRollList: List<DiceRoll>) {
+  val resultPercentageDistribution =
+    diceRollList.groupingBy { it.resultNumber }.eachCount().map { it.value.toFloat() }.toPercent()
+  val guessPercentageDistribution =
+    diceRollList.groupingBy { it.guessNumber }.eachCount().map { it.value.toFloat() }.toPercent()
+  val chartTones = listOf(
+    chart_tone1, chart_tone2, chart_tone3, chart_tone4, chart_tone5, chart_tone6
   )
+  val resultPieChartData by remember {
+    mutableStateOf(
+      createPieChartData(
+        resultPercentageDistribution,
+        chartTones
+      )
+    )
+  }
+
+  val guessPieChartData by remember {
+    mutableStateOf(
+      createPieChartData(
+        guessPercentageDistribution,
+        chartTones
+      )
+    )
+  }
+
+  Column(
+    modifier = Modifier
+      .fillMaxWidth()
+      .height(400.dp)
+  ) {
+    Card(
+      modifier = Modifier
+        .weight(1f)
+        .padding(4.dp)
+    ) {
+      Text(
+        text = stringResource(id = R.string.stats_result_distribution),
+        style = MaterialTheme.typography.titleSmall
+      )
+      PieChart(
+        pieChartData = resultPieChartData,
+        sliceDrawer = SimpleSliceDrawer(
+          sliceThickness = 50f
+        )
+      )
+    }
+    Card(
+      modifier = Modifier
+        .weight(1f)
+        .padding(4.dp)
+    ) {
+      Text(
+        text = stringResource(id = R.string.stats_guess_distribution),
+        style = MaterialTheme.typography.titleSmall
+      )
+      PieChart(
+        pieChartData = guessPieChartData,
+        sliceDrawer = SimpleSliceDrawer(
+          sliceThickness = 50f
+        )
+      )
+    }
+  }
 }
 
 private fun winPercentage(diceRollList: List<DiceRoll>): String {

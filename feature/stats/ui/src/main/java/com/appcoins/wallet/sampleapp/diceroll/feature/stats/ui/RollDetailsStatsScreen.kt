@@ -54,6 +54,9 @@ fun RollDetailsStatsScreen(
 @Composable
 fun RollDetailsStatsContent(diceRollList: List<DiceRoll>) {
   LazyColumn(
+    modifier = Modifier
+      .fillMaxSize()
+      .padding(16.dp)
   ) {
     items(diceRollList.reversed()) { roll ->
       DiceRollItem(roll)
@@ -81,20 +84,19 @@ fun DiceRollItem(roll: DiceRoll) {
       verticalAlignment = Alignment.CenterVertically,
     ) {
       Text(
+        modifier = Modifier
+          .padding(start = 16.dp),
         text = "#${roll.id.toString()}",
         style = MaterialTheme.typography.headlineSmall
       )
       Text(
-        text = roll.resultNumber.toString(),
-        style = MaterialTheme.typography.bodyLarge
-      )
-      val text = if (roll.rollWin) {
-        stringResource(id = R.string.stats_details_win)
-      } else {
-        stringResource(id = R.string.stats_details_loss)
-      }
-      Text(
-        text = text,
+        modifier = Modifier
+          .padding(end = 16.dp),
+        text = if (roll.rollWin) {
+          stringResource(id = R.string.stats_details_win)
+        } else {
+          stringResource(id = R.string.stats_details_loss)
+        },
         style = MaterialTheme.typography.bodyLarge,
         color = if (roll.rollWin) {
           result_text_win
