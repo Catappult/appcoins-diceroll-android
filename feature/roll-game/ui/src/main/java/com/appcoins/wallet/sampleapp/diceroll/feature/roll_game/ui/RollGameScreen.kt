@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.appcoins.wallet.sampleapp.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.wallet.sampleapp.diceroll.core.utils.R
 import com.appcoins.wallet.sampleapp.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
@@ -77,6 +78,11 @@ fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRo
         .fillMaxWidth()
         .padding(16.dp)
     ) {
+      Text(
+        text = stringResource(id = R.string.roll_game_info),
+        fontSize = 12.sp,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+      )
       Row() {
         Card(
           modifier = Modifier
@@ -159,7 +165,11 @@ private fun GameDice(diceValue: Int, resultText: String) {
     modifier = Modifier.size(200.dp),
     contentAlignment = Alignment.Center
   ) {
-    Crossfade(targetState = diceValue, animationSpec = tween(800)) { targetDiceValue ->
+    Crossfade(
+      targetState = diceValue,
+      animationSpec = tween(1000),
+      label = "Dice roll crossfade"
+    ) { targetDiceValue ->
       DiceImage(imageRes = diceImages[targetDiceValue - 1])
     }
     if (resultText.isNotEmpty()) {
@@ -184,10 +194,12 @@ fun DiceImage(@DrawableRes imageRes: Int) {
 @Preview
 @Composable
 fun PreviewDiceRollScreen() {
-  RollGameContent(
-    attemptsLeft = 3,
-    onSaveDiceRoll = {}
-  )
+  DiceRollTheme(darkTheme = false) {
+    RollGameContent(
+      attemptsLeft = 3,
+      onSaveDiceRoll = {}
+    )
+  }
 }
 
 const val DEFAULT_ATTEMPTS_NUMBER = 3
