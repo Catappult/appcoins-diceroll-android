@@ -33,4 +33,8 @@ object Config {
     val kotlinJvm: String,
     val freeCompilerArgs: List<String>
   )
+
+  val versionFlavorDimension = "version"
+  val googlePlayBillingVersion = "googlePlay"
+  val appcoinsBillingVersion = "appcoins"
 }

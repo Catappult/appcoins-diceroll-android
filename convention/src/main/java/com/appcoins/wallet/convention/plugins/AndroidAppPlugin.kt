@@ -43,7 +43,6 @@ class AndroidAppPlugin : Plugin<Project> {
         buildTypes {
           debug {
             isMinifyEnabled = false
-            enableUnitTestCoverage = true
             applicationIdSuffix = ".dev"
             versionNameSuffix = ".dev"
             buildConfigFields(project, BuildConfigType.DEBUG)
@@ -55,12 +54,27 @@ class AndroidAppPlugin : Plugin<Project> {
           }
         }
 
+        flavorDimensions.add(Config.versionFlavorDimension)
+        productFlavors {
+          create(Config.googlePlayBillingVersion) {
+            dimension = Config.versionFlavorDimension
+            applicationIdSuffix = ".gp"
+            versionNameSuffix = ".gp"
+          }
+          create(Config.appcoinsBillingVersion) {
+            dimension = Config.versionFlavorDimension
+            applicationIdSuffix = ".appcoins"
+            versionNameSuffix = ".appcoins"
+          }
+        }
+
         applicationVariants.all {
           val sep = "_"
           val buildType = buildType.name
+          val flavor = flavorName
           val versionName = versionName
           val versionCode = versionCode
-          val fileName = "AppCoins-DiceRoll_v$versionName$sep$versionCode$sep$buildType.apk"
+          val fileName = "DiceRoll_v$versionName$sep$flavor$sep$buildType.apk"
           outputs.all {
             (this as BaseVariantOutputImpl).outputFileName = fileName
           }
