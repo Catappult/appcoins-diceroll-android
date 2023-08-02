@@ -50,6 +50,7 @@ class AndroidAppPlugin : Plugin<Project> {
 
           release {
             isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             buildConfigFields(project, BuildConfigType.RELEASE)
           }
         }
