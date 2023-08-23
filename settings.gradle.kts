@@ -54,7 +54,7 @@ fun File.projectsAndModules(): Pair<Set<String>, Set<String>> {
       File(this, "settings.gradle").exists()
 
   fun File.isModule() = !isProject() &&
-      (File(this, "build.gradle.kts.kts.kts").exists() || File(this, "build.gradle.kts.kts").exists())
+      (File(this, "build.gradle.kts").exists() || File(this, "build.gradle.kts").exists())
 
 
   val modules = mutableSetOf<String>()
@@ -83,11 +83,3 @@ fun File.projectsAndModules(): Pair<Set<String>, Set<String>> {
   val formattedProjects = projects.map { it.replace(":", "/") }.toSet()
   return Pair(formattedProjects, modules)
 }
-include(":core:db")
-include(":core:utils")
-include(":core:design")
-include(":feature:settings:data")
-include(":feature:settings:ui")
-include(":feature:roll-game:ui")
-include(":feature:stats:ui")
-include(":feature:stats:data")
