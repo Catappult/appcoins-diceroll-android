@@ -6,7 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
-internal fun Project.configureAndroidAndKotlin(extension: CommonExtension<*, *, *, *>) {
+internal fun Project.configureAndroidAndKotlin(extension: CommonExtension<*, *, *, *, *>) {
   with(extension) {
     compileSdk = Config.android.compileSdkVersion
     defaultConfig {
@@ -25,7 +25,7 @@ internal fun Project.configureAndroidAndKotlin(extension: CommonExtension<*, *, 
       freeCompilerArgs = freeCompilerArgs + Config.jvm.freeCompilerArgs
     }
 
-    packagingOptions {
+    packaging {
       resources.excludes += "META-INF/NOTICE.md"
       resources.excludes += "META-INF/LICENSE.md"
       resources.excludes += "META-INF/LICENSE-notice.md"
@@ -38,6 +38,6 @@ internal fun Project.configureAndroidAndKotlin(extension: CommonExtension<*, *, 
 }
 
 
-private fun CommonExtension<*, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
+private fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
   (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }

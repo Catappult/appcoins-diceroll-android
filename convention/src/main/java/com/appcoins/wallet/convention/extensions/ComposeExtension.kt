@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.getByType
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-  commonExtension: CommonExtension<*, *, *, *>,
+  commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
   val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -24,7 +24,11 @@ internal fun Project.configureAndroidCompose(
     }
 
     dependencies {
-
+      add("implementation", libs["androidx-compose-runtime"])
+      add("implementation", libs["androidx-compose-compiler"])
+      add("implementation", libs["androidx-compose-foundation"])
+      add("implementation", libs["androidx-compose-accompanist-systemuicontroller"])
+      add("implementation", libs["androidx-compose-material3"])
     }
   }
 }

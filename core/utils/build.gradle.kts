@@ -8,5 +8,4 @@ android {
 
 dependencies {
   implementation(project(":core:design"))
-  implementation(libs.bundles.androidx.compose)
 }

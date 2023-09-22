@@ -18,7 +18,6 @@ fun DiceRollTopAppBar(
   @StringRes titleRes: Int,
   actionIcon: ImageVector,
   actionIconContentDescription: String? = null,
-  colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
   onNavigationClick: () -> Unit = {},
   onActionClick: () -> Unit = {},
 ) {

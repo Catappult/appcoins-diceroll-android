@@ -7,13 +7,14 @@ plugins {
 group = "com.appcoins.wallet.convention"
 
 tasks.withType<KotlinCompile> {
-  kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+  kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
 }
 
 dependencies {
   implementation(libs.gradlePlugin.android)
   implementation(libs.gradlePlugin.kotlin)
   implementation(libs.gradlePlugin.hilt)
+  implementation(libs.gradlePlugin.ksp)
 }
 
 gradlePlugin {

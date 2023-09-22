@@ -1,11 +1,8 @@
 package com.appcoins.wallet.convention.plugins
 
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import com.appcoins.wallet.convention.Config
-import com.appcoins.wallet.convention.extensions.configureAndroidAndKotlin
 import com.appcoins.wallet.convention.extensions.get
 import com.appcoins.wallet.convention.extensions.libs
+import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.InputDirectory
@@ -19,25 +16,21 @@ import java.io.File
 class RoomPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     with(target) {
-//      extensions.configure<KspExtension> {
-//        // The schemas directory contains a schema file for each version of the Room database.
-//        // This is required to enable Room auto migrations.
-//        // See https://developer.android.com/reference/kotlin/androidx/room/AutoMigration
-//        arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
-//      }
+      pluginManager.apply("com.google.devtools.ksp")
+      extensions.configure<KspExtension> {
+        // The schemas directory contains a schema file for each version of the Room database.
+        // This is required to enable Room auto migrations.
+        // See https://developer.android.com/reference/kotlin/androidx/room/AutoMigration
+        arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+      }
       dependencies {
         add("implementation", libs["androidx.room.runtime"])
         add("implementation", libs["androidx.room.ktx"])
-        add("kapt", libs["androidx.room.compiler"])
+        add("ksp", libs["androidx.room.compiler"])
       }
     }
   }
 
-  /**
-   * https://issuetracker.google.com/issues/132245929
-   * Issue fixed, but not released on a stable version yet.
-   * [Export schemas](https://developer.android.com/training/data-storage/room/migrating-db-versions#export-schemas)
-   */
   class RoomSchemaArgProvider(
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)

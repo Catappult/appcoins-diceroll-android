@@ -17,13 +17,11 @@ class AndroidLibraryPlugin : Plugin<Project> {
       with(pluginManager) {
         apply("com.android.library")
         apply("kotlin-android")
-        apply("kotlin-kapt")
         apply<HiltPlugin>()
       }
 
       extensions.configure<LibraryExtension> {
         configureAndroidAndKotlin(this)
-        buildToolsVersion = Config.android.buildToolsVersion
         defaultConfig.targetSdk = Config.android.targetSdk
 
         flavorDimensions.add(Config.versionFlavorDimension)

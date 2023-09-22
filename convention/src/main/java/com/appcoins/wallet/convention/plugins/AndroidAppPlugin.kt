@@ -20,24 +20,15 @@ class AndroidAppPlugin : Plugin<Project> {
         apply("com.android.application")
         apply("kotlin-android")
         apply("kotlin-parcelize")
-        apply("kotlin-kapt")
         apply<HiltPlugin>()
-        apply<RoomPlugin>()
       }
 
       extensions.configure<BaseAppModuleExtension> {
         configureAndroidAndKotlin(this)
-        buildToolsVersion = Config.android.buildToolsVersion
         ndkVersion = Config.android.ndkVersion
         defaultConfig {
           targetSdk = Config.android.targetSdk
           multiDexEnabled = true
-          javaCompileOptions {
-            annotationProcessorOptions {
-              annotationProcessorOptions.arguments["room.schemaLocation"] =
-                "${project.projectDir}/schemas"
-            }
-          }
         }
 
         buildTypes {
@@ -75,7 +66,7 @@ class AndroidAppPlugin : Plugin<Project> {
           val flavor = flavorName
           val versionName = versionName
           val versionCode = versionCode
-          val fileName = "DiceRoll_v$versionName$sep$flavor$sep$buildType.apk"
+          val fileName = "DiceRoll_v$versionName$sep$versionCode$sep$flavor$sep$buildType.apk"
           outputs.all {
             (this as BaseVariantOutputImpl).outputFileName = fileName
           }
@@ -83,12 +74,9 @@ class AndroidAppPlugin : Plugin<Project> {
 
         buildFeatures {
           buildConfig = true
-          viewBinding {
-            enable = true
-          }
           composeOptions {
-            kotlinCompilerExtensionVersion = "1.4.4"
-          }  // "1.1.0"
+            kotlinCompilerExtensionVersion = "1.5.2"
+          }
           compose = true
         }
       }

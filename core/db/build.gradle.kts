@@ -1,5 +1,6 @@
 plugins {
   id("diceroll.android.library")
+  id("diceroll.room")
 }
 
 android {
@@ -8,6 +9,4 @@ android {
 
 dependencies {
   implementation(project(":core:utils"))
-  implementation(libs.bundles.androidx.room)
-  kapt(libs.androidx.room.compiler)
 }

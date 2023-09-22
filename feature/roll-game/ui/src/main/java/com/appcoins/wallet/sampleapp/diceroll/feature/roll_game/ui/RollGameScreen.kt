@@ -4,13 +4,25 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,9 +73,9 @@ fun RollGameScreen(
 
 @Composable
 fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit) {
-  var diceValue by rememberSaveable { mutableStateOf(1) }
+  var diceValue by rememberSaveable { mutableIntStateOf(1) }
   var resultText by rememberSaveable { mutableStateOf("") }
-  var attempts by rememberSaveable { mutableStateOf(attemptsLeft) }
+  var attempts by rememberSaveable { mutableIntStateOf(attemptsLeft) }
   var betNumber by rememberSaveable { mutableStateOf("") }
   Column(
     modifier = Modifier
@@ -91,14 +103,7 @@ fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRo
         ) {
           TextField(
             value = betNumber,
-            onValueChange = { newValue ->
-              // Check if the newValue can be converted to an integer
-              betNumber = if (newValue.toIntOrNull() != null && newValue.toInt() in 1..6) {
-                newValue
-              } else {
-                ""
-              }
-            },
+            onValueChange = { newValue -> betNumber = convertedBetNumber(newValue) },
             label = { Text(stringResource(id = R.string.roll_game_guess_prompt)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
           )
@@ -148,6 +153,14 @@ fun RollGameContent(attemptsLeft: Int, onSaveDiceRoll: suspend (diceRoll: DiceRo
     Button(onClick = { attempts = DEFAULT_ATTEMPTS_NUMBER }) {
       Text(text = stringResource(id = R.string.roll_game_buy_button))
     }
+  }
+}
+
+private fun convertedBetNumber(betNumber: String): String {
+  return if (betNumber.toIntOrNull() != null && betNumber.toInt() in 1..6) {
+    betNumber
+  } else {
+    ""
   }
 }
 

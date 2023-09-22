@@ -20,8 +20,6 @@ class AndroidFeatureUiPlugin : Plugin<Project> {
       }
 
       dependencies {
-        add("implementation", libs["androidx-compose-runtime"])
-        add("implementation", libs["androidx-compose-accompanist-systemuicontroller"])
         add("implementation", libs["androidx-compose-lifecycle-viewModel"])
         add("implementation", libs["androidx-compose-lifecycle-runtime"])
         add("implementation", libs["androidx-compose-ui-util"])
@@ -29,10 +27,7 @@ class AndroidFeatureUiPlugin : Plugin<Project> {
         add("implementation", libs["androidx-compose-ui-tooling-preview"])
         add("implementation", libs["androidx-compose-ui-tooling"])
         add("implementation", libs["androidx-compose-ui-test"])
-        add("implementation", libs["androidx-compose-material3"])
         add("implementation", libs["androidx-compose-foundation-layout"])
-        add("implementation", libs["androidx-compose-foundation"])
-        add("implementation", libs["androidx-compose-compiler"])
         add("implementation", libs["androidx-compose-activity"])
         add("implementation", libs["androidx-compose-runtime-tracing"])
         add("implementation", libs["androidx-compose-constraintlayout"])

@@ -10,5 +10,4 @@ dependencies {
   implementation(project(":feature:settings:data"))
   implementation(project(":core:design"))
   implementation(project(":core:utils"))
-  implementation(libs.bundles.androidx.compose)
 }
