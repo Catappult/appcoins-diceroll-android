@@ -17,7 +17,12 @@
   <string name="roll_game_result_incorrect">Incorrect!</string>
   <string name="roll_game_info">Try to guess the dice number on the next roll</string>
   <string name="roll_game_button">Roll Dice</string>
-  <string name="roll_game_buy_button">Buy Attempts</string>
+  <string name="roll_game_buy_button">Buy more attempts</string>
+
+  <!-- Payments Screen -->
+  <string name="payments_info">Choose one of the payment options to check the differences between the integrations</string>
+  <string name="payments_buy_sdk_button">Buy attempts with SDK</string>
+  <string name="payments_buy_osp_button">Buy attempts with OSP</string>
 
   <!-- Stats Screen -->
   <string name="stats_win_percentage">Win %</string>
