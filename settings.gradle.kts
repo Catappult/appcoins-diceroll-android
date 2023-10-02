@@ -13,7 +13,7 @@ buildCache {
 }
 
 dependencyResolutionManagement {
-  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
   repositories {
     google()
     mavenCentral()
@@ -76,3 +76,5 @@ fun File.projectsAndModules(): Pair<Set<String>, Set<String>> {
   val formattedProjects = projects.map { it.replace(":", "/") }.toSet()
   return Pair(formattedProjects, modules)
 }
+include(":payments:appcoins-sdk")
+include(":payments:appcoins-osp")

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-  namespace = "com.appcoins.wallet.sampleapp.diceroll.core.utils"
+  namespace = "com.appcoins.diceroll.core.utils"
 }
 
 dependencies {
