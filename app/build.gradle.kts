@@ -1,6 +1,5 @@
 plugins {
   id("diceroll.android.app")
-  apply { id("com.android.application") }
 }
 
 android {
@@ -24,7 +23,6 @@ dependencies {
   implementation(project(":feature:settings:ui"))
   implementation(project(":feature:roll-game:ui"))
   implementation(project(":feature:stats:ui"))
-  implementation(project(":feature:catappult-sdk"))
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
 }
