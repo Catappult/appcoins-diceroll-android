@@ -41,7 +41,7 @@ class AndroidAppPlugin : Plugin<Project> {
         }
 
         signingConfigs {
-          register("appcoins-release") {
+          register("release") {
             storeFile = project.property("BDS_WALLET_STORE_FILE")?.let { file(it) }
             storePassword = project.property("BDS_WALLET_STORE_PASSWORD").toString()
             keyAlias = project.property("BDS_WALLET_KEY_ALIAS").toString()
