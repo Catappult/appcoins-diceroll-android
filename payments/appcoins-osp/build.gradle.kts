@@ -1,5 +1,5 @@
 plugins {
-  id("diceroll.android.library")
+  id("diceroll.android.library.compose")
 }
 
 android {
@@ -7,5 +7,6 @@ android {
 }
 
 dependencies {
-
+  implementation(project(":core:network"))
+  implementation(project(":core:utils"))
 }
