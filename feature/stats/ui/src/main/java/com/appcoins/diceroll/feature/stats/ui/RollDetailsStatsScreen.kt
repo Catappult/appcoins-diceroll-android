@@ -41,7 +41,7 @@ fun RollDetailsStatsScreen(
 ) {
   when (uiState) {
     StatsUiState.Loading -> {
-      LoadingAnimation(R.string.loading)
+      LoadingAnimation(stringResource(id = R.string.loading))
     }
     is StatsUiState.Success -> {
       RollDetailsStatsContent(
