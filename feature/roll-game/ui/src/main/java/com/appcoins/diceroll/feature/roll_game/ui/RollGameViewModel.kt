@@ -2,21 +2,27 @@ package com.appcoins.diceroll.feature.roll_game.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
+import com.appcoins.diceroll.feature.roll_game.data.usecases.SaveAttemptsUseCase
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
-import com.appcoins.diceroll.feature.stats.data.usecases.GetAttemptsLeftUseCase
 import com.appcoins.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class RollGameViewModel @Inject constructor(
   private val saveDiceRollUseCase: SaveDiceRollUseCase,
-  private val getAttemptsLeftUseCase: GetAttemptsLeftUseCase
+  private val saveAttemptsUseCase: SaveAttemptsUseCase,
+  private val getAttemptsUseCase: GetAttemptsUseCase,
 ) : ViewModel() {
 
   internal val uiState: StateFlow<RollGameUiState> =
-    getAttemptsLeftUseCase()
+    getAttemptsUseCase()
       .map { attemptsLeft ->
         RollGameUiState.Success(attemptsLeft)
       }
@@ -31,6 +37,10 @@ class RollGameViewModel @Inject constructor(
 
   suspend fun saveDiceRoll(diceRoll: DiceRoll) {
     saveDiceRollUseCase(diceRoll)
+  }
+
+  suspend fun saveAttemptsLeft(attemptsLeft: Int) {
+    saveAttemptsUseCase(attemptsLeft)
   }
 
   fun openPaymentsDialog() {
