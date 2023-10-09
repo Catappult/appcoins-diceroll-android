@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-  namespace = "com.appcoins.diceroll.feature.settings.data"
+  namespace = "com.appcoins.diceroll.feature.roll_game.data"
 }
 
 dependencies {
