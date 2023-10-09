@@ -10,6 +10,7 @@ dependencies {
   compileOnly(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
   implementation(project(":feature:settings:data"))
   implementation(project(":feature:stats:data"))
+  implementation(project(":feature:roll-game:data"))
   implementation(project(":payments:appcoins-sdk"))
   implementation(project(":payments:appcoins-osp"))
   implementation(project(":core:design"))
