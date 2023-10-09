@@ -1,6 +1,5 @@
 package com.appcoins.diceroll.feature.roll_game.ui
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,24 +16,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.appcoins.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaymentsDialog(context: Context, onDismiss: () -> Unit) {
+fun PaymentsDialog(onDismiss: () -> Unit, viewModel: PaymentsViewModel = hiltViewModel()) {
   ModalBottomSheet(
     onDismissRequest = onDismiss,
     sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
   ) {
-
-    PaymentDialogContent()
+    PaymentDialogContent(viewModel::resetAttemptsLeft)
   }
 }
 
 @Composable
-fun PaymentDialogContent() {
+fun PaymentDialogContent(onSaveAttemptsLeft: suspend () -> Unit) {
   Column(
     modifier = Modifier
       .fillMaxWidth()
@@ -60,7 +58,6 @@ fun PaymentDialogContent() {
 @Composable
 fun PreviewPaymentsDialog() {
   DiceRollTheme(darkTheme = true) {
-    PaymentDialogContent(
-    )
+    PaymentDialogContent(onSaveAttemptsLeft = {})
   }
 }
