@@ -41,7 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
-import com.appcoins.diceroll.feature.roll_game.ui.PaymentsDialog
+import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
@@ -57,6 +57,7 @@ internal fun RollGameRoute(
     uiState,
     dialogState,
     viewModel::saveDiceRoll,
+    viewModel::saveAttemptsLeft,
     viewModel::openPaymentsDialog,
     viewModel::closePaymentsDialog,
   )
@@ -67,6 +68,7 @@ fun RollGameScreen(
   uiState: RollGameUiState,
   dialogState: PaymentsDialogState?,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
+  onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
   onClosePaymentsDialog: () -> Unit,
 ) {
@@ -76,6 +78,7 @@ fun RollGameScreen(
       RollGameContent(
         attemptsLeft = uiState.attemptsLeft ?: DEFAULT_ATTEMPTS_NUMBER,
         onSaveDiceRoll = onSaveDiceRoll,
+        onSaveAttemptsLeft = onSaveAttemptsLeft,
         onOpenPaymentsDialog = onOpenPaymentsDialog,
       )
     }
@@ -84,7 +87,7 @@ fun RollGameScreen(
   when (dialogState) {
     null, PaymentsDialogState.Closed -> {}
     PaymentsDialogState.Opened -> {
-      PaymentsDialog(LocalContext.current as Activity, onDismiss = onClosePaymentsDialog)
+      PaymentsDialog(onDismiss = onClosePaymentsDialog)
     }
   }
 }
@@ -93,6 +96,7 @@ fun RollGameScreen(
 fun RollGameContent(
   attemptsLeft: Int,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
+  onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
 ) {
   var diceValue by rememberSaveable { mutableIntStateOf(1) }
@@ -153,6 +157,7 @@ fun RollGameContent(
                   attemptsLeft = attempts
                 )
               )
+              onSaveAttemptsLeft(attempts)
             }
             betNumber = ""
           },
@@ -236,9 +241,8 @@ fun PreviewDiceRollScreen() {
     RollGameContent(
       attemptsLeft = 3,
       onSaveDiceRoll = {},
+      onSaveAttemptsLeft = {},
       {},
     )
   }
 }
-
-const val DEFAULT_ATTEMPTS_NUMBER = 3

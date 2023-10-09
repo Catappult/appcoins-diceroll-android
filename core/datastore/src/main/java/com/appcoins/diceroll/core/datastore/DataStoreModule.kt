@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.feature.settings.data
+package com.appcoins.diceroll.core.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object PreferencesModule {
+object DataStoreModule {
 
   @Provides
   @Singleton
