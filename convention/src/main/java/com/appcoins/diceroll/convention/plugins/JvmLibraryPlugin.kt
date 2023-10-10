@@ -1,8 +1,7 @@
 package com.appcoins.diceroll.convention.plugins
 
 import com.appcoins.diceroll.convention.Config
-import com.appcoins.diceroll.convention.extensions.get
-import com.appcoins.diceroll.convention.extensions.libs
+import com.appcoins.diceroll.convention.extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -28,7 +27,7 @@ class JvmLibraryPlugin : Plugin<Project> {
       }
 
       dependencies.apply {
-        add("implementation", libs["kotlin.stdlib"])
+        implementation("kotlin.stdlib")
       }
     }
   }

@@ -1,7 +1,6 @@
 package com.appcoins.diceroll.convention.plugins
 
-import com.appcoins.diceroll.convention.extensions.get
-import com.appcoins.diceroll.convention.extensions.libs
+import com.appcoins.diceroll.convention.extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -15,16 +14,16 @@ class AndroidFeatureDataPlugin : Plugin<Project> {
       }
 
       dependencies {
-        add("implementation", libs["network-retrofit"])
-        add("implementation", libs["network-retrofit-converter-gson"])
-        add("implementation", libs["network-okhttp"])
-        add("implementation", libs["network-okhttp-loginterceptor"])
-        add("implementation", libs["google-gson"])
+        implementation("network-retrofit")
+        implementation("network-retrofit-converter-gson")
+        implementation("network-okhttp")
+        implementation("network-okhttp-loginterceptor")
+        implementation("google-gson")
 
-        add("implementation", libs["kotlin-coroutines"])
-        add("implementation", libs["kotlin-coroutines-test"])
-        add("implementation", libs["test-mockk"])
-        add("implementation", libs["test-junit"])
+        implementation("kotlin-coroutines")
+        implementation("kotlin-coroutines-test")
+        implementation("test-mockk")
+        implementation("test-junit")
       }
     }
   }
