@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.library.compose")
 }
@@ -7,5 +9,5 @@ android {
 }
 
 dependencies {
-  implementation(project(":core:design"))
+  projectImplementation(":core:design")
 }

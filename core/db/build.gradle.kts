@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.library")
   id("diceroll.room")
@@ -8,5 +10,5 @@ android {
 }
 
 dependencies {
-  implementation(project(":core:utils"))
+  projectImplementation(":core:utils")
 }

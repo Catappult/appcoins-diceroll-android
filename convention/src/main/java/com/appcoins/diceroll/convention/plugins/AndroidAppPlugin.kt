@@ -4,6 +4,7 @@ import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.appcoins.diceroll.convention.Config
 import com.appcoins.diceroll.convention.extensions.configureAndroidAndKotlin
+import com.appcoins.diceroll.convention.extensions.version
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -76,7 +77,7 @@ class AndroidAppPlugin : Plugin<Project> {
         buildFeatures {
           buildConfig = true
           composeOptions {
-            kotlinCompilerExtensionVersion = "1.5.2"
+            kotlinCompilerExtensionVersion = version("androidx-compose-compiler")
           }
           compose = true
         }

@@ -2,8 +2,7 @@ package com.appcoins.diceroll.convention.plugins
 
 import com.android.build.gradle.LibraryExtension
 import com.appcoins.diceroll.convention.extensions.configureAndroidCompose
-import com.appcoins.diceroll.convention.extensions.get
-import com.appcoins.diceroll.convention.extensions.libs
+import com.appcoins.diceroll.convention.extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -20,20 +19,20 @@ class AndroidFeatureUiPlugin : Plugin<Project> {
       }
 
       dependencies {
-        add("implementation", libs["androidx-compose-lifecycle-viewModel"])
-        add("implementation", libs["androidx-compose-lifecycle-runtime"])
-        add("implementation", libs["androidx-compose-ui-util"])
-        add("implementation", libs["androidx-compose-ui-ui"])
-        add("implementation", libs["androidx-compose-ui-tooling-preview"])
-        add("implementation", libs["androidx-compose-ui-tooling"])
-        add("implementation", libs["androidx-compose-ui-test"])
-        add("implementation", libs["androidx-compose-foundation-layout"])
-        add("implementation", libs["androidx-compose-activity"])
-        add("implementation", libs["androidx-compose-runtime-tracing"])
-        add("implementation", libs["androidx-compose-constraintlayout"])
-        add("implementation", libs["coil-kt"])
-        add("implementation", libs["coil-kt-compose"])
-        add("implementation", libs["coil-kt-svg"])
+        implementation("androidx-compose-lifecycle-viewModel")
+        implementation("androidx-compose-lifecycle-runtime")
+        implementation("androidx-compose-ui-util")
+        implementation("androidx-compose-ui-ui")
+        implementation("androidx-compose-ui-tooling-preview")
+        implementation("androidx-compose-ui-tooling")
+        implementation("androidx-compose-ui-test")
+        implementation("androidx-compose-foundation-layout")
+        implementation("androidx-compose-activity")
+        implementation("androidx-compose-runtime-tracing")
+        implementation("androidx-compose-constraintlayout")
+        implementation("coil-kt")
+        implementation("coil-kt-compose")
+        implementation("coil-kt-svg")
       }
     }
   }
