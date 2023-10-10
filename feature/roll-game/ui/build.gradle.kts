@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.feature.ui")
 }
@@ -8,11 +10,11 @@ android {
 
 dependencies {
   compileOnly(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
-  implementation(project(":feature:settings:data"))
-  implementation(project(":feature:stats:data"))
-  implementation(project(":payments:appcoins-sdk"))
-  implementation(project(":payments:appcoins-osp"))
-  implementation(project(":core:design"))
-  implementation(project(":core:utils"))
+  projectImplementation(":feature:settings:data")
+  projectImplementation(":feature:stats:data")
+  projectImplementation(":payments:appcoins-sdk")
+  projectImplementation(":payments:appcoins-osp")
+  projectImplementation(":core:design")
+  projectImplementation(":core:utils")
   implementation(libs.bundles.coil)
 }

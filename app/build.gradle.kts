@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.app")
 }
@@ -18,11 +20,11 @@ android {
 
 dependencies {
   implementation(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
-  implementation(project(":core:design"))
-  implementation(project(":feature:settings:data"))
-  implementation(project(":feature:settings:ui"))
-  implementation(project(":feature:roll-game:ui"))
-  implementation(project(":feature:stats:ui"))
+  projectImplementation(":core:design")
+  projectImplementation(":feature:settings:data")
+  projectImplementation(":feature:settings:ui")
+  projectImplementation(":feature:stats:ui")
+  projectImplementation(":feature:roll-game:ui")
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
 }

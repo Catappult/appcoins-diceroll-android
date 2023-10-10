@@ -12,23 +12,21 @@ import org.gradle.kotlin.dsl.getByType
 internal fun Project.configureAndroidCompose(
   commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
-  val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-
   commonExtension.apply {
     buildFeatures {
       compose = true
     }
 
     composeOptions {
-      kotlinCompilerExtensionVersion = libs.findVersion("androidx-compose-compiler").get().toString()
+      kotlinCompilerExtensionVersion = version("androidx-compose-compiler")
     }
 
     dependencies {
-      add("implementation", libs["androidx-compose-runtime"])
-      add("implementation", libs["androidx-compose-compiler"])
-      add("implementation", libs["androidx-compose-foundation"])
-      add("implementation", libs["androidx-compose-accompanist-systemuicontroller"])
-      add("implementation", libs["androidx-compose-material3"])
+      implementation("androidx-compose-runtime")
+      implementation("androidx-compose-compiler")
+      implementation("androidx-compose-foundation")
+      implementation("androidx-compose-accompanist-systemuicontroller")
+      implementation("androidx-compose-material3")
     }
   }
 }

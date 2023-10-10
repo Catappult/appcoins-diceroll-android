@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.library")
 }
@@ -19,6 +21,6 @@ android {
 
 dependencies {
   compileOnly(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
-  implementation(project(":core:utils"))
+  projectImplementation(":core:utils")
 //  implementation(libs.catappult.billing)
 }
