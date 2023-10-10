@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.feature.data")
 }
@@ -7,7 +9,7 @@ android {
 }
 
 dependencies {
-  implementation(project(":core:utils"))
-  implementation(project(":core:db"))
+  projectImplementation(":core:utils")
+  projectImplementation(":core:db")
   implementation(libs.androidx.datastore.preferences)
 }

@@ -1,7 +1,7 @@
 package com.appcoins.diceroll.convention.plugins
 
-import com.appcoins.diceroll.convention.extensions.get
-import com.appcoins.diceroll.convention.extensions.libs
+import com.appcoins.diceroll.convention.extensions.implementation
+import com.appcoins.diceroll.convention.extensions.ksp
 import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,9 +24,9 @@ class RoomPlugin : Plugin<Project> {
         arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
       }
       dependencies {
-        add("implementation", libs["androidx.room.runtime"])
-        add("implementation", libs["androidx.room.ktx"])
-        add("ksp", libs["androidx.room.compiler"])
+        implementation("androidx.room.runtime")
+        implementation("androidx.room.ktx")
+        ksp("androidx.room.compiler")
       }
     }
   }

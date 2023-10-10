@@ -3,8 +3,7 @@ package com.appcoins.diceroll.convention.plugins
 import com.android.build.gradle.LibraryExtension
 import com.appcoins.diceroll.convention.Config
 import com.appcoins.diceroll.convention.extensions.configureAndroidAndKotlin
-import com.appcoins.diceroll.convention.extensions.get
-import com.appcoins.diceroll.convention.extensions.libs
+import com.appcoins.diceroll.convention.extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -36,7 +35,7 @@ class AndroidLibraryPlugin : Plugin<Project> {
       }
 
       dependencies {
-        add("implementation", libs["kotlin.stdlib"])
+        implementation("kotlin.stdlib")
       }
     }
   }

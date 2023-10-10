@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.feature.ui")
 }
@@ -7,7 +9,7 @@ android {
 }
 
 dependencies {
-  implementation(project(":feature:settings:data"))
-  implementation(project(":core:design"))
-  implementation(project(":core:utils"))
+  projectImplementation(":feature:settings:data")
+  projectImplementation(":core:design")
+  projectImplementation(":core:utils")
 }

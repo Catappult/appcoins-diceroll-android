@@ -1,7 +1,7 @@
 package com.appcoins.diceroll.convention.plugins
 
-import com.appcoins.diceroll.convention.extensions.get
-import com.appcoins.diceroll.convention.extensions.libs
+import com.appcoins.diceroll.convention.extensions.implementation
+import com.appcoins.diceroll.convention.extensions.kapt
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -17,11 +17,11 @@ class HiltPlugin : Plugin<Project> {
         apply("org.jetbrains.kotlin.kapt")
       }
       dependencies {
-        add("implementation", libs["hilt.android"])
-        add("kapt", libs["hilt.compiler"])
-        add("implementation", libs["hilt.interface.extensions"])
-        add("kapt", libs["hilt-interface-extensions-processor"])
-        add("implementation", libs["androidx-compose-hilt-navigation"])
+        implementation("hilt.android")
+        kapt("hilt.compiler")
+        implementation("hilt.interface.extensions")
+        kapt("hilt-interface-extensions-processor")
+        implementation("androidx-compose-hilt-navigation")
       }
     }
   }
