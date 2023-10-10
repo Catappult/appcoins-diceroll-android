@@ -7,15 +7,17 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.getByType
 
-internal val Project.libs: VersionCatalog
+private val Project.libs: VersionCatalog
   get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-internal operator fun VersionCatalog.get(
-  name: String
-): Provider<MinimalExternalModuleDependency> {
-  val optionalDependency = findLibrary(name)
+internal fun Project.findLibrary(alias: String): Provider<MinimalExternalModuleDependency> {
+  val optionalDependency = libs.findLibrary(alias)
   if (optionalDependency.isEmpty) {
-    error("$name is not a valid dependency, check your version catalog")
+    error("$alias is not a valid dependency, check your version catalog")
   }
   return optionalDependency.get()
+}
+
+internal fun Project.version(alias: String): String {
+  return libs.findVersion(alias).get().toString()
 }
