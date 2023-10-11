@@ -36,12 +36,6 @@ class SettingsViewModel @Inject constructor(
       userPrefsDataSource.saveThemeConfig(themeConfig)
     }
   }
-
-  fun updateCacheStrategy(cacheStrategy: CacheStrategy) {
-    viewModelScope.launch {
-      userPrefsDataSource.saveCacheStrategy(cacheStrategy)
-    }
-  }
 }
 
 sealed interface SettingsUiState {

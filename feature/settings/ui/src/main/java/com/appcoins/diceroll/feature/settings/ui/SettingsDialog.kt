@@ -37,7 +37,6 @@ fun SettingsRoute(
     onDismiss = onDismiss,
     settingsUiState = settingsUiState,
     onChangeThemeConfig = viewModel::updateThemeConfig,
-    onChangeCacheStrategy = viewModel::updateCacheStrategy,
   )
 }
 
@@ -46,7 +45,6 @@ fun SettingsDialog(
   settingsUiState: SettingsUiState,
   onDismiss: () -> Unit,
   onChangeThemeConfig: (themeConfig: ThemeConfig) -> Unit,
-  onChangeCacheStrategy: (cacheStrategy: CacheStrategy) -> Unit,
 ) {
   val configuration = LocalConfiguration.current
   AlertDialog(
@@ -60,7 +58,7 @@ fun SettingsDialog(
       )
     },
     text = {
-      Divider()
+      HorizontalDivider()
       Column(Modifier.verticalScroll(rememberScrollState())) {
         when (settingsUiState) {
           Loading -> {
@@ -73,7 +71,6 @@ fun SettingsDialog(
             SettingsPanel(
               userPrefs = settingsUiState.userPrefs,
               onChangeThemeConfig = onChangeThemeConfig,
-              onChangeCacheStrategy = onChangeCacheStrategy,
             )
           }
         }
@@ -95,7 +92,6 @@ fun SettingsDialog(
 private fun SettingsPanel(
   userPrefs: UserPrefs,
   onChangeThemeConfig: (themeConfig: ThemeConfig) -> Unit,
-  onChangeCacheStrategy: (cacheStrategy: CacheStrategy) -> Unit,
 ) {
   SettingsDialogSectionTitle(text = stringResource(R.string.settings_theme))
   Column(Modifier.selectableGroup()) {
@@ -115,19 +111,6 @@ private fun SettingsPanel(
       onClick = { onChangeThemeConfig(ThemeConfig.DARK) },
     )
   }
-//  SettingsDialogSectionTitle(text = stringResource(R.string.cache_strategy))
-//  Column(Modifier.selectableGroup()) {
-//    SettingsChooserRow(
-//      text = stringResource(R.string.cache_strategy_never),
-//      selected = userPrefs.cacheStrategy == CacheStrategy.NEVER,
-//      onClick = { onChangeCacheStrategy(CacheStrategy.NEVER) },
-//    )
-//    SettingsChooserRow(
-//      text = stringResource(R.string.cache_strategy_always),
-//      selected = userPrefs.cacheStrategy == CacheStrategy.ALWAYS,
-//      onClick = { onChangeCacheStrategy(CacheStrategy.ALWAYS) },
-//    )
-//  }
 }
 
 @Composable
@@ -178,7 +161,6 @@ private fun PreviewSettingsDialog() {
         ),
       ),
       onChangeThemeConfig = {},
-      onChangeCacheStrategy = {},
     )
   }
 }

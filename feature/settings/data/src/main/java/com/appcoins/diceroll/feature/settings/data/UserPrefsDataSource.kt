@@ -4,9 +4,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.appcoins.diceroll.core.utils.Dispatchers
 import com.appcoins.diceroll.feature.settings.data.PreferencesKeys.CACHE_STRATEGY
 import com.appcoins.diceroll.feature.settings.data.PreferencesKeys.THEME_CONFIG
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -15,14 +15,13 @@ import javax.inject.Inject
 
 class UserPrefsDataSource @Inject constructor(
   private val preferences: DataStore<Preferences>,
-  private val dispatchers: Dispatchers
 ) {
 
   /**
    * Sets the desired theme config.
    */
   suspend fun saveThemeConfig(themeConfig: ThemeConfig) {
-    withContext(dispatchers.io) {
+    withContext(Dispatchers.IO) {
       preferences.edit { prefs ->
         prefs[THEME_CONFIG] = themeConfig.ordinal
       }
@@ -33,7 +32,7 @@ class UserPrefsDataSource @Inject constructor(
    * Sets the desired cache strategy when fetching info.
    */
   suspend fun saveCacheStrategy(cacheStrategy: CacheStrategy) {
-    withContext(dispatchers.io) {
+    withContext(Dispatchers.IO) {
       preferences.edit { prefs ->
         prefs[CACHE_STRATEGY] = cacheStrategy.ordinal
       }
