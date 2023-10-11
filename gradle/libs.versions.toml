@@ -122,7 +122,6 @@ androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
 androidx-compose = ["androidx-compose-accompanist-systemuicontroller", "androidx-compose-runtime", "androidx-compose-lifecycle-viewModel", "androidx-compose-lifecycle-runtime", "androidx-compose-ui-util", "androidx-compose-ui-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-ui-tooling", "androidx-compose-ui-test", "androidx-compose-material3", "androidx-compose-foundation-layout", "androidx-compose-foundation", "androidx-compose-compiler", "androidx-compose-activity", "androidx-compose-runtime-tracing"]
 coil = ["coil-kt", "coil-kt-compose", "coil-kt-svg"]
 network = ["network-retrofit", "network-retrofit-converter-gson", "network-okhttp", "network-okhttp-loginterceptor", "google-gson"]
-hilt-implementation = ["hilt-android", "hilt-interface-extensions", "androidx-compose-hilt-navigation"]
 kotlin-coroutines = ["kotlin-coroutines", "kotlin-coroutines-test"]
 result = ["kotlin-result-coroutines", "kotlin-result"]
 
