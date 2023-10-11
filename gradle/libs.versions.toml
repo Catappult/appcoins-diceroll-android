@@ -22,11 +22,11 @@ corektx_version = "1.12.0"
 coroutines_version = "1.7.2"
 desugar_version = "2.0.3"
 google_services = "4.3.5"
-gradle_plugin_version = "8.1.1"
+gradle_plugin_version = "8.1.2"
 gson_version = "2.9.0"
 hilt_czerwinski_extensions_version = "1.3.0"
 hilt_version = "2.48"
-hilt_compose_navigation = "1.1.0-alpha01"
+hilt_compose_navigation = "1.1.0-beta01"
 jetbrains_annotations_version = "19.0.0"
 junit_version = "4.13.2"
 kotlin_version = "1.9.0"
@@ -88,9 +88,6 @@ google-gson = { module = "com.google.code.gson:gson", version.ref = "gson_versio
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt_version" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt_version" }
-# hilt-interface-extensions to allow injecting an implementation that has an interface
-hilt-interface-extensions = { module = "it.czerwinski.android.hilt:hilt-extensions", version.ref = "hilt_czerwinski_extensions_version" }
-hilt-interface-extensions-processor = { module = "it.czerwinski.android.hilt:hilt-processor", version.ref = "hilt_czerwinski_extensions_version" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin_version" }
 kotlin-annotation-processor = { module = "org.jetbrains.kotlin:kotlin-annotation-processing-gradle", version.ref = "kotlin_version" }
@@ -125,9 +122,7 @@ androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
 androidx-compose = ["androidx-compose-accompanist-systemuicontroller", "androidx-compose-runtime", "androidx-compose-lifecycle-viewModel", "androidx-compose-lifecycle-runtime", "androidx-compose-ui-util", "androidx-compose-ui-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-ui-tooling", "androidx-compose-ui-test", "androidx-compose-material3", "androidx-compose-foundation-layout", "androidx-compose-foundation", "androidx-compose-compiler", "androidx-compose-activity", "androidx-compose-runtime-tracing"]
 coil = ["coil-kt", "coil-kt-compose", "coil-kt-svg"]
 network = ["network-retrofit", "network-retrofit-converter-gson", "network-okhttp", "network-okhttp-loginterceptor", "google-gson"]
-hilt-implementation = ["hilt-android", "hilt-interface-extensions", "androidx-compose-hilt-navigation"]
 kotlin-coroutines = ["kotlin-coroutines", "kotlin-coroutines-test"]
-hilt-kapt = ["hilt-compiler", "hilt-interface-extensions-processor"]
 result = ["kotlin-result-coroutines", "kotlin-result"]
 
 [plugins]

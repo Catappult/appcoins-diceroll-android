@@ -83,8 +83,6 @@ fun RollGameScreen(
         onOpenPaymentsDialog = onOpenPaymentsDialog,
       )
     }
-
-    else -> {}
   }
 
   when (paymentsOptionsState) {

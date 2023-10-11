@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.appcoins.diceroll.core.utils.Dispatchers
 import com.appcoins.diceroll.feature.roll_game.data.PreferencesKeys.ATTEMPTS_LEFT
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -14,14 +14,13 @@ import javax.inject.Inject
 
 class AttemptsDataSource @Inject constructor(
   private val preferences: DataStore<Preferences>,
-  private val dispatchers: Dispatchers
 ) {
 
   /**
    * Sets the desired attempts left.
    */
   suspend fun saveAttemptsLeft(attemptsLeft: Int) {
-    withContext(dispatchers.io) {
+    withContext(Dispatchers.IO) {
       preferences.edit { prefs ->
         prefs[ATTEMPTS_LEFT] = attemptsLeft
       }
