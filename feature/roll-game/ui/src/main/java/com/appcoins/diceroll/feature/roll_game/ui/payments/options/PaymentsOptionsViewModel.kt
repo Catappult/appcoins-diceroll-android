@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.feature.roll_game.ui
+package com.appcoins.diceroll.feature.roll_game.ui.payments.options
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,29 +17,18 @@ class PaymentsViewModel @Inject constructor(
   private val getAttemptsUseCase: GetAttemptsUseCase,
 ) : ViewModel() {
 
-  internal val uiState: StateFlow<PaymentsUiState> =
+  internal val uiState: StateFlow<PaymentsOptionsState> =
     getAttemptsUseCase()
       .map { attemptsLeft ->
-        PaymentsUiState.Start(attemptsLeft)
+        PaymentsOptionsState.Success(attemptsLeft)
       }
       .stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = PaymentsUiState.Loading,
+        initialValue = PaymentsOptionsState.Loading,
       )
 
   suspend fun resetAttemptsLeft() {
     resetAttemptsUseCase()
   }
-}
-
-sealed interface PaymentsUiState {
-  data object Loading : PaymentsUiState
-  data class Start(
-    val attemptsLeft: Int?
-  ) : PaymentsUiState
-
-  data object Failed : PaymentsUiState
-  data object UserCanceled : PaymentsUiState
-  data object Success : PaymentsUiState
 }
