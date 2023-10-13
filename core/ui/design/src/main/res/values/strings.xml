@@ -23,6 +23,13 @@
   <string name="payments_info">Choose one of the payment options to check the differences between the integrations</string>
   <string name="payments_buy_sdk_button">Buy attempts with SDK</string>
   <string name="payments_buy_osp_button">Buy attempts with OSP</string>
+  <string name="payments_loading">Waiting for the payment to be completed…</string>
+  <string name="payments_user_canceled_title">Payment Canceled</string>
+  <string name="payments_user_canceled_body">During the process, the user canceled</string>
+  <string name="payments_failed_title">Payment Failed</string>
+  <string name="payments_failed_body">The attempts was not given because there was a problem with the payment</string>
+  <string name="payments_success_title">Payment successful</string>
+  <string name="payments_success_body">You have now the maximum number of attempts, use it carefully</string>
 
   <!-- Stats Screen -->
   <string name="stats_win_percentage">Win %</string>
