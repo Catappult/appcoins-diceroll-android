@@ -6,15 +6,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import com.appcoins.diceroll.core.design.DiceRollIcons
-import com.appcoins.diceroll.core.design.DiceRollNavigationBarItem
-import com.appcoins.diceroll.core.design.DiceRollTopAppBar
+import com.appcoins.diceroll.core.ui.design.DiceRollIcons
+import com.appcoins.diceroll.core.ui.widgets.components.DiceRollNavigationBarItem
+import com.appcoins.diceroll.core.ui.widgets.components.DiceRollTopAppBar
 import com.appcoins.diceroll.feature.settings.ui.SettingsRoute
 import com.appcoins.diceroll.navigation.DiceRollNavHost
 import com.appcoins.diceroll.navigation.TopLevelDestination
 import com.appcoins.diceroll.core.utils.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiceRollApp() {
   val appState: DiceRollAppState = rememberDiceRollAppState()
