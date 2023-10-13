@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsState
-import com.appcoins.diceroll.feature.roll_game.ui.payments.result.PaymentsResultState
+import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,6 +37,10 @@ class PaymentsViewModel @Inject constructor(
 
   fun setPaymentResult(paymentsResultState: PaymentsResultState) {
     _paymentResultState.value = paymentsResultState
+  }
+
+  fun resetPaymentResult() {
+    _paymentResultState.value = PaymentsResultState.Initialized
   }
 
   suspend fun resetAttemptsLeft() {

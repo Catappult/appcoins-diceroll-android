@@ -14,6 +14,7 @@ dependencies {
   projectImplementation(":payments:appcoins-sdk")
   projectImplementation(":payments:appcoins-osp")
   projectImplementation(":core:ui:design")
+  projectImplementation(":core:ui:widgets")
   projectImplementation(":core:utils")
   implementation(libs.bundles.coil)
 }

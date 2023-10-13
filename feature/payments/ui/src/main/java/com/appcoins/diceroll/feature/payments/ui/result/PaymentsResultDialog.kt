@@ -6,7 +6,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
-import com.appcoins.diceroll.feature.roll_game.ui.payments.result.PaymentsResultState
 
 @Composable
 fun PaymentsResult(uiState: PaymentsResultState, onPaymentSuccess: suspend () -> Unit) {
