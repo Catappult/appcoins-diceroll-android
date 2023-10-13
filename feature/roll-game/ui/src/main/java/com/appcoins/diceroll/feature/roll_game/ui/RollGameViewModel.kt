@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.SaveAttemptsUseCase
-import com.appcoins.diceroll.feature.roll_game.ui.payments.PaymentsDialogState
-import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsState
+import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
