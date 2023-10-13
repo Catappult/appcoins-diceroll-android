@@ -10,6 +10,6 @@ android {
 
 dependencies {
   projectImplementation(":feature:settings:data")
-  projectImplementation(":core:design")
+  projectImplementation(":core:ui:design")
   projectImplementation(":core:utils")
 }

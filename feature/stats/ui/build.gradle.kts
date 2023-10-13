@@ -11,7 +11,8 @@ android {
 dependencies {
   projectImplementation(":feature:settings:data")
   projectImplementation(":feature:stats:data")
-  projectImplementation(":core:design")
+  projectImplementation(":core:ui:design")
+  projectImplementation(":core:ui:widgets")
   projectImplementation(":core:utils")
   implementation(libs.charts.tehras)
 }
