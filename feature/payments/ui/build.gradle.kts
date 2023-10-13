@@ -5,14 +5,12 @@ plugins {
 }
 
 android {
-  namespace = "com.appcoins.diceroll.feature.roll_game.ui"
+  namespace = "com.appcoins.diceroll.feature.payments.ui"
 }
 
 dependencies {
-  projectImplementation(":feature:settings:data")
-  projectImplementation(":feature:stats:data")
+  compileOnly(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
   projectImplementation(":feature:roll-game:data")
-  projectImplementation(":feature:payments:ui")
   projectImplementation(":payments:appcoins-sdk")
   projectImplementation(":payments:appcoins-osp")
   projectImplementation(":core:ui:design")

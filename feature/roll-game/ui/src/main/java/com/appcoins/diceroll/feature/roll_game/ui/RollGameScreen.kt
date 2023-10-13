@@ -37,11 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.appcoins.diceroll.core.design.theme.DiceRollTheme
+import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
-import com.appcoins.diceroll.feature.roll_game.ui.payments.PaymentsDialogRoute
-import com.appcoins.diceroll.feature.roll_game.ui.payments.PaymentsDialogState
+import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
+import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
