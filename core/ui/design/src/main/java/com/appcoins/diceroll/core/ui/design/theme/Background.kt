@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.core.design.theme
+package com.appcoins.diceroll.core.ui.design.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf

@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.core.design
+package com.appcoins.diceroll.core.ui.design
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
