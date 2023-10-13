@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.SaveAttemptsUseCase
+import com.appcoins.diceroll.feature.roll_game.ui.payments.PaymentsDialogState
 import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
@@ -33,8 +34,8 @@ class RollGameViewModel @Inject constructor(
         initialValue = RollGameState.Loading,
       )
 
-  private val _dialogState = MutableStateFlow<PaymentsOptionsState>(PaymentsOptionsState.Loading)
-  internal val dialogState: StateFlow<PaymentsOptionsState> get() = _dialogState
+  private val _dialogState = MutableStateFlow<PaymentsDialogState>(PaymentsDialogState.Closed)
+  internal val dialogState: StateFlow<PaymentsDialogState> get() = _dialogState
 
   suspend fun saveDiceRoll(diceRoll: DiceRoll) {
     saveDiceRollUseCase(diceRoll)
@@ -45,10 +46,10 @@ class RollGameViewModel @Inject constructor(
   }
 
   fun openPaymentsDialog() {
-    _dialogState.value = PaymentsOptionsState.Opened
+    _dialogState.value = PaymentsDialogState.Opened
   }
 
   fun closePaymentsDialog() {
-    _dialogState.value = PaymentsOptionsState.Closed
+    _dialogState.value = PaymentsDialogState.Closed
   }
 }

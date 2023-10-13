@@ -1,21 +1,10 @@
 package com.appcoins.diceroll.feature.roll_game.ui.payments.options
 
 /**
- * A sealed hierarchy describing the payments options dialog state for the roll game feature.
- * This is used to control the visibility of the dialog.
+ * A sealed hierarchy describing the payments options content state.
+ * This is used to control when to show the available options for the user to pay.
  */
 sealed interface PaymentsOptionsState {
-
-  /**
-   * The dialog is closed or the user dismissed it.
-   */
-  data object Closed : PaymentsOptionsState
-
-  /**
-   * The dialog is opened.
-   */
-  data object Opened : PaymentsOptionsState
-
   /**
    * The dialog is opened and loading its content.
    */

@@ -40,8 +40,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
-import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsRoute
-import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsState
+import com.appcoins.diceroll.feature.roll_game.ui.payments.PaymentsDialogRoute
+import com.appcoins.diceroll.feature.roll_game.ui.payments.PaymentsDialogState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
@@ -66,7 +66,7 @@ internal fun RollGameRoute(
 @Composable
 fun RollGameScreen(
   uiState: RollGameState,
-  paymentsOptionsState: PaymentsOptionsState,
+  paymentsOptionsState: PaymentsDialogState,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
   onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
@@ -86,12 +86,10 @@ fun RollGameScreen(
   }
 
   when (paymentsOptionsState) {
-    PaymentsOptionsState.Closed -> {}
-    PaymentsOptionsState.Opened -> {
-      PaymentsOptionsRoute(onDismiss = onClosePaymentsDialog)
+    PaymentsDialogState.Closed -> {}
+    PaymentsDialogState.Opened -> {
+      PaymentsDialogRoute(onDismiss = onClosePaymentsDialog)
     }
-
-    else -> {}
   }
 }
 
