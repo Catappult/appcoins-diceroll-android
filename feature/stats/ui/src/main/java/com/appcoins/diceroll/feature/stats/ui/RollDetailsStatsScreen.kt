@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
-import com.appcoins.diceroll.core.ui.widgets.Loading
+import com.appcoins.diceroll.core.ui.widgets.LoadingAnimation
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.ui.utils.result_text_loss
 import com.appcoins.diceroll.feature.stats.ui.utils.result_text_win
@@ -41,7 +41,7 @@ fun RollDetailsStatsScreen(
 ) {
   when (uiState) {
     StatsUiState.Loading -> {
-      Loading(R.string.loading)
+      LoadingAnimation(R.string.loading)
     }
     is StatsUiState.Success -> {
       RollDetailsStatsContent(

@@ -10,5 +10,5 @@ android {
 
 dependencies {
   projectImplementation(":core:ui:design")
-  implementation(libs.bundles.androidx.compose)
+  implementation(libs.lottie)
 }

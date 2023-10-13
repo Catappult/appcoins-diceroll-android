@@ -1,51 +1,85 @@
 package com.appcoins.diceroll.feature.payments.ui.result
 
-import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
+import com.appcoins.diceroll.core.ui.design.R
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
+import com.appcoins.diceroll.core.ui.widgets.ErrorAnimation
+import com.appcoins.diceroll.core.ui.widgets.LoadingAnimation
+import com.appcoins.diceroll.core.ui.widgets.SuccessAnimation
 
 @Composable
 fun PaymentsResult(uiState: PaymentsResultState, onPaymentSuccess: suspend () -> Unit) {
   when (uiState) {
     is PaymentsResultState.Initialized -> {}
-    is PaymentsResultState.Loading -> LoadingContent()
-    is PaymentsResultState.UserCanceled -> UserCanceledContent()
-    is PaymentsResultState.Failed -> FailedContent()
+    is PaymentsResultState.Loading -> LoadingAnimation(titleStringResource = R.string.payments_loading)
+    is PaymentsResultState.UserCanceled -> ErrorAnimation(
+      titleStringResource = R.string.payments_user_canceled_title,
+      bodyStringResource = R.string.payments_user_canceled_body
+    )
+
+    is PaymentsResultState.Failed -> ErrorAnimation(
+      titleStringResource = R.string.payments_failed_title,
+      bodyStringResource = R.string.payments_failed_body
+    )
+
     is PaymentsResultState.Success -> SuccessContent(onPaymentSuccess)
   }
 }
 
 @Composable
-fun LoadingContent() {
-  Log.d("RESULT-UI", "PaymentsResult: LoadingContent: ")
-}
-
-@Composable
-fun UserCanceledContent() {
-  Log.d("RESULT-UI", "PaymentsResult: UserCanceledContent: ")
-}
-
-@Composable
-fun FailedContent() {
-  Log.d("RESULT-UI", "PaymentsResult: FailedContent: ")
-}
-
-@Composable
 fun SuccessContent(onPaymentSuccess: suspend () -> Unit) {
-  val scope = rememberCoroutineScope()
-  LaunchedEffect(scope) {
+  LaunchedEffect(rememberCoroutineScope()) {
     onPaymentSuccess()
   }
-  Log.d("RESULT-UI", "PaymentsResult: SuccessContent: ")
+  Column {
+    SuccessAnimation(
+      titleStringResource = R.string.payments_success_title,
+      bodyStringResource = R.string.payments_success_body
+    )
+  }
+}
+
+@Preview
+@Composable
+fun PreviewPaymentsLoadingContent() {
+  DiceRollTheme(darkTheme = true) {
+    LoadingAnimation(titleStringResource = R.string.payments_loading)
+  }
+}
+
+@Preview
+@Composable
+fun PreviewPaymentsUserCanceledContent() {
+  DiceRollTheme(darkTheme = true) {
+    ErrorAnimation(
+      titleStringResource = R.string.payments_user_canceled_title,
+      bodyStringResource = R.string.payments_user_canceled_body
+    )
+  }
+}
+
+@Preview
+@Composable
+fun PreviewPaymentsFailedContent() {
+  DiceRollTheme(darkTheme = true) {
+    ErrorAnimation(
+      titleStringResource = R.string.payments_failed_title,
+      bodyStringResource = R.string.payments_failed_body
+    )
+  }
 }
 
 @Preview
 @Composable
 fun PreviewPaymentsSuccessContent() {
   DiceRollTheme(darkTheme = true) {
-    SuccessContent(onPaymentSuccess = {})
+    SuccessAnimation(
+      titleStringResource = R.string.payments_success_title,
+      bodyStringResource = R.string.payments_success_body
+    )
   }
 }
