@@ -1,39 +1,33 @@
 package com.appcoins.diceroll.feature.roll_game.ui.payments.result
 
 /**
- * A sealed hierarchy describing the payments results dialog state for the roll game feature,
- * as a result of the Payment dialog with whichever integration is used.
- * This is used to control the visibility of the dialog.
+ * A sealed hierarchy describing the result state coming from the integration the user used to pay.
+ * This is used to show an information about what happened with the payment.
  */
 sealed interface PaymentsResultState {
 
   /**
-   * The result dialog is closed or the user dismissed it.
+   * The dialog is opened and the payment integration has not been called yet.
    */
-  data object Closed : PaymentsResultState
+  data object Initialized : PaymentsResultState
 
   /**
-   * The result dialog is opened.
-   */
-  data object Opened : PaymentsResultState
-
-  /**
-   * The result dialog is opened and loading its content.
+   * The dialog is opened and its waiting for the payment to complete.
    */
   data object Loading : PaymentsResultState
 
   /**
-   * The result dialog is opened, but the user exited the payment dialog.
+   * The dialog is opened, but the user exited the payment dialog.
    */
-  data object UserCanceledPayment : PaymentsResultState
+  data object UserCanceled : PaymentsResultState
 
   /**
-   * The result dialog is opened, but the payment was not successful .
+   * The dialog is opened, but the payment was not successful.
    */
-  data object FailedPayment : PaymentsResultState
+  data object Failed : PaymentsResultState
 
   /**
-   * The result dialog is opened and the payment was successful.
+   * The dialog is opened and the payment was successful.
    */
-  data object SuccessfulPayment : PaymentsResultState
+  data object Success : PaymentsResultState
 }

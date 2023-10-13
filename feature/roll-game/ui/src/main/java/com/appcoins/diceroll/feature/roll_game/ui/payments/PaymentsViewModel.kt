@@ -1,10 +1,13 @@
-package com.appcoins.diceroll.feature.roll_game.ui.payments.options
+package com.appcoins.diceroll.feature.roll_game.ui.payments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
+import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsState
+import com.appcoins.diceroll.feature.roll_game.ui.payments.result.PaymentsResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -17,7 +20,7 @@ class PaymentsViewModel @Inject constructor(
   private val getAttemptsUseCase: GetAttemptsUseCase,
 ) : ViewModel() {
 
-  internal val uiState: StateFlow<PaymentsOptionsState> =
+  internal val paymentOptionsState: StateFlow<PaymentsOptionsState> =
     getAttemptsUseCase()
       .map { attemptsLeft ->
         PaymentsOptionsState.Success(attemptsLeft)
@@ -27,6 +30,14 @@ class PaymentsViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = PaymentsOptionsState.Loading,
       )
+
+  private val _paymentResultState =
+    MutableStateFlow<PaymentsResultState>(PaymentsResultState.Initialized)
+  internal val paymentResultState: StateFlow<PaymentsResultState> get() = _paymentResultState
+
+  fun setPaymentResult(paymentsResultState: PaymentsResultState) {
+    _paymentResultState.value = paymentsResultState
+  }
 
   suspend fun resetAttemptsLeft() {
     resetAttemptsUseCase()
