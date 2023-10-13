@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.feature.roll_game.ui.payments.result
+package com.appcoins.diceroll.feature.payments.ui.result
 
 /**
  * A sealed hierarchy describing the result state coming from the integration the user used to pay.

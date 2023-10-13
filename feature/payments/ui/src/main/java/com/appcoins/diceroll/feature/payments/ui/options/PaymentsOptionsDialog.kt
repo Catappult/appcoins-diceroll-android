@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
-import com.appcoins.diceroll.feature.roll_game.ui.payments.result.PaymentsResultState
+import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultState
 import kotlin.random.Random
 
 @Composable

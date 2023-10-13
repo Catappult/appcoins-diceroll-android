@@ -17,17 +17,18 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DiceRollBottomSheet(
   onDismissRequest: () -> Unit,
-  bottomSheetState: SheetState = rememberModalBottomSheetState(false),
+  skipPartiallyExpanded: Boolean = false,
   content: @Composable ColumnScope.() -> Unit
 ) {
   ModalBottomSheet(
     onDismissRequest = onDismissRequest,
-    sheetState = bottomSheetState,
+    sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = skipPartiallyExpanded),
   ) {
     Column(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(bottom = 32.dp)
+        .padding(horizontal = 16.dp)
+        .padding(bottom = 16.dp)
         .imePadding(),
     ) {
       content()

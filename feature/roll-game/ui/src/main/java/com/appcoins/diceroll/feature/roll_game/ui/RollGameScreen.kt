@@ -87,9 +87,7 @@ fun RollGameScreen(
 
   when (paymentsOptionsState) {
     PaymentsDialogState.Closed -> {}
-    PaymentsDialogState.Opened -> {
-      PaymentsDialogRoute(onDismiss = onClosePaymentsDialog)
-    }
+    PaymentsDialogState.Opened -> PaymentsDialogRoute(onDismiss = onClosePaymentsDialog)
   }
 }
 
