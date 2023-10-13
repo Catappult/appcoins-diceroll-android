@@ -2,9 +2,9 @@ package com.appcoins.diceroll.feature.roll_game.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogState
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.SaveAttemptsUseCase
-import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,11 +37,7 @@ class RollGameViewModel @Inject constructor(
   internal val dialogState: StateFlow<PaymentsDialogState> get() = _dialogState
 
   suspend fun saveDiceRoll(diceRoll: DiceRoll) {
-    saveDiceRollUseCase(diceRoll)
-  }
-
-  suspend fun saveAttemptsLeft(attemptsLeft: Int) {
-    saveAttemptsUseCase(attemptsLeft)
+    saveDiceRollUseCase(diceRoll).also { saveAttemptsUseCase(diceRoll.attemptsLeft) }
   }
 
   fun openPaymentsDialog() {
