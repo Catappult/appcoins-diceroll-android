@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.core.utils.extensions
+package com.appcoins.diceroll.core.ui.widgets.extensions
 
 import androidx.compose.ui.Modifier
 

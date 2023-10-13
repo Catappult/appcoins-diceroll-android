@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.core.design
+package com.appcoins.diceroll.core.ui.widgets.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.appcoins.diceroll.core.ui.design.R
 
 /**
  * Top app bar with action, displayed on the right
@@ -31,7 +32,7 @@ fun DiceRollTopAppBar(
     navigationIcon = {
       IconButton(onClick = onNavigationClick) {
         Image(
-          painter = painterResource(id = R.drawable.wallet_icon ),
+          painter = painterResource(id = R.drawable.wallet_icon),
           contentDescription = null,
         )
       }

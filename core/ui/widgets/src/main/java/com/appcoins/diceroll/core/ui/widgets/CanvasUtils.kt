@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.core.utils.widgets
+package com.appcoins.diceroll.core.ui.widgets
 
 import kotlin.math.atan2
 
