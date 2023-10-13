@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.core.design.theme
+package com.appcoins.diceroll.core.ui.design.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

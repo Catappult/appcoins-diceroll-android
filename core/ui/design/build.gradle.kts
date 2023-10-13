@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-  namespace = "com.appcoins.diceroll.core.design"
+  namespace = "com.appcoins.diceroll.core.ui.design"
 }
 
 dependencies {
