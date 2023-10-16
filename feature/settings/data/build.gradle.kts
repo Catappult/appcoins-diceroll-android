@@ -10,5 +10,6 @@ android {
 
 dependencies {
   projectImplementation(":core:utils")
+  projectImplementation(":core:datastore")
   implementation(libs.androidx.datastore.preferences)
 }

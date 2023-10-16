@@ -2,54 +2,53 @@ package com.appcoins.diceroll.feature.roll_game.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
+import com.appcoins.diceroll.feature.roll_game.data.usecases.SaveAttemptsUseCase
+import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
-import com.appcoins.diceroll.feature.stats.data.usecases.GetAttemptsLeftUseCase
 import com.appcoins.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class RollGameViewModel @Inject constructor(
   private val saveDiceRollUseCase: SaveDiceRollUseCase,
-  private val getAttemptsLeftUseCase: GetAttemptsLeftUseCase
+  private val saveAttemptsUseCase: SaveAttemptsUseCase,
+  private val getAttemptsUseCase: GetAttemptsUseCase,
 ) : ViewModel() {
 
-  internal val uiState: StateFlow<RollGameUiState> =
-    getAttemptsLeftUseCase()
+  internal val uiState: StateFlow<RollGameState> =
+    getAttemptsUseCase()
       .map { attemptsLeft ->
-        RollGameUiState.Success(attemptsLeft)
+        RollGameState.Success(attemptsLeft)
       }
       .stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = RollGameUiState.Loading,
+        initialValue = RollGameState.Loading,
       )
 
-  private val _dialogState = MutableStateFlow<PaymentsDialogState?>(null)
-  internal val dialogState: StateFlow<PaymentsDialogState?> get() = _dialogState
+  private val _dialogState = MutableStateFlow<PaymentsOptionsState>(PaymentsOptionsState.Loading)
+  internal val dialogState: StateFlow<PaymentsOptionsState> get() = _dialogState
 
   suspend fun saveDiceRoll(diceRoll: DiceRoll) {
     saveDiceRollUseCase(diceRoll)
   }
 
+  suspend fun saveAttemptsLeft(attemptsLeft: Int) {
+    saveAttemptsUseCase(attemptsLeft)
+  }
+
   fun openPaymentsDialog() {
-    _dialogState.value = PaymentsDialogState.Opened
+    _dialogState.value = PaymentsOptionsState.Opened
   }
 
   fun closePaymentsDialog() {
-    _dialogState.value = PaymentsDialogState.Closed
+    _dialogState.value = PaymentsOptionsState.Closed
   }
-}
-
-sealed interface RollGameUiState {
-  data object Loading : RollGameUiState
-  data class Success(
-    val attemptsLeft: Int?
-  ) : RollGameUiState
-}
-
-sealed interface PaymentsDialogState {
-  data object Opened : PaymentsDialogState
-  data object Closed : PaymentsDialogState
 }

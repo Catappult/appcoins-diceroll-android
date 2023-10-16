@@ -1,6 +1,5 @@
-package com.appcoins.diceroll.feature.roll_game.ui
+package com.appcoins.diceroll.feature.roll_game.ui.payments.options
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,30 +10,49 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaymentsDialog(context: Context, onDismiss: () -> Unit) {
+fun PaymentsOptionsRoute(onDismiss: () -> Unit, viewModel: PaymentsViewModel = hiltViewModel()) {
   ModalBottomSheet(
     onDismissRequest = onDismiss,
     sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
   ) {
-
-    PaymentDialogContent()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    PaymentsOptionsDialog(
+      uiState,
+      viewModel::resetAttemptsLeft
+    )
   }
 }
 
 @Composable
-fun PaymentDialogContent() {
+fun PaymentsOptionsDialog(uiState: PaymentsOptionsState, onSaveAttemptsLeft: suspend () -> Unit) {
+  when (uiState) {
+    is PaymentsOptionsState.Loading -> {}
+    is PaymentsOptionsState.Error -> {}
+    is PaymentsOptionsState.Success -> {
+      PaymentsOptionsDialogContent(onSaveAttemptsLeft)
+    }
+
+    else -> {}
+  }
+}
+
+
+@Composable
+fun PaymentsOptionsDialogContent(onSaveAttemptsLeft: suspend () -> Unit) {
   Column(
     modifier = Modifier
       .fillMaxWidth()
@@ -60,7 +78,7 @@ fun PaymentDialogContent() {
 @Composable
 fun PreviewPaymentsDialog() {
   DiceRollTheme(darkTheme = true) {
-    PaymentDialogContent(
-    )
+    PaymentsOptionsDialogContent(
+      onSaveAttemptsLeft = {})
   }
 }
