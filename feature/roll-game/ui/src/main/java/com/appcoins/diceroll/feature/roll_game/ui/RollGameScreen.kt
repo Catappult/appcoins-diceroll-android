@@ -57,7 +57,6 @@ internal fun RollGameRoute(
     uiState,
     dialogState,
     viewModel::saveDiceRoll,
-    viewModel::saveAttemptsLeft,
     viewModel::openPaymentsDialog,
     viewModel::closePaymentsDialog,
   )
@@ -68,7 +67,6 @@ fun RollGameScreen(
   uiState: RollGameState,
   paymentsOptionsState: PaymentsDialogState,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
   onClosePaymentsDialog: () -> Unit,
 ) {
@@ -79,7 +77,6 @@ fun RollGameScreen(
       RollGameContent(
         attemptsLeft = uiState.attemptsLeft ?: DEFAULT_ATTEMPTS_NUMBER,
         onSaveDiceRoll = onSaveDiceRoll,
-        onSaveAttemptsLeft = onSaveAttemptsLeft,
         onOpenPaymentsDialog = onOpenPaymentsDialog,
       )
     }
@@ -95,7 +92,6 @@ fun RollGameScreen(
 fun RollGameContent(
   attemptsLeft: Int,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
 ) {
   var diceValue by rememberSaveable { mutableIntStateOf(1) }
@@ -173,10 +169,9 @@ fun RollGameContent(
                   rollWin = diceValue == betNumber.toInt(),
                   guessNumber = betNumber.toInt(),
                   resultNumber = diceValue,
-                  attemptsLeft = attempts
+                  attemptsLeft = attemptsLeft
                 )
               )
-              onSaveAttemptsLeft(attempts)
             }
             betNumber = ""
           },
@@ -257,7 +252,6 @@ fun PreviewDiceRollScreen() {
     RollGameContent(
       attemptsLeft = 3,
       onSaveDiceRoll = {},
-      onSaveAttemptsLeft = {},
       {},
     )
   }
