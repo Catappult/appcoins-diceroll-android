@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.appcoins.diceroll.core.design.theme.DiceRollTheme
+import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
 import com.appcoins.diceroll.core.utils.extensions.toPercent
-import com.appcoins.diceroll.core.utils.widgets.Loading
+import com.appcoins.diceroll.core.ui.widgets.LoadingAnimation
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.ui.utils.*
 import com.github.tehras.charts.piechart.PieChart
@@ -45,7 +45,7 @@ fun StatsScreen(
 ) {
   when (uiState) {
     StatsUiState.Loading -> {
-      Loading(R.string.loading)
+      LoadingAnimation(stringResource(id = R.string.loading))
     }
     is StatsUiState.Success -> {
       StatsContent(

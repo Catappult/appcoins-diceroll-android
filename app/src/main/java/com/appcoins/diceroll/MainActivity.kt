@@ -12,7 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.appcoins.diceroll.MainActivityUiState.*
-import com.appcoins.diceroll.core.design.theme.*
+import com.appcoins.diceroll.core.ui.design.theme.*
 import com.appcoins.diceroll.feature.settings.data.ThemeConfig
 import com.appcoins.diceroll.ui.DiceRollApp
 import dagger.hilt.android.AndroidEntryPoint

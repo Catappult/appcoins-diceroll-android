@@ -20,7 +20,8 @@ android {
 
 dependencies {
   implementation(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
-  projectImplementation(":core:design")
+  projectImplementation(":core:ui:design")
+  projectImplementation(":core:ui:widgets")
   projectImplementation(":feature:settings:data")
   projectImplementation(":feature:settings:ui")
   projectImplementation(":feature:stats:ui")

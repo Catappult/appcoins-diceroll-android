@@ -1,7 +1,7 @@
 package com.appcoins.diceroll.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.appcoins.diceroll.core.design.DiceRollIcons
+import com.appcoins.diceroll.core.ui.design.DiceRollIcons
 import com.appcoins.diceroll.core.utils.R
 
 /**

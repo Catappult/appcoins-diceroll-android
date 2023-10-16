@@ -37,11 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.appcoins.diceroll.core.design.theme.DiceRollTheme
+import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
+import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
+import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogState
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
-import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsRoute
-import com.appcoins.diceroll.feature.roll_game.ui.payments.options.PaymentsOptionsState
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
@@ -57,7 +57,6 @@ internal fun RollGameRoute(
     uiState,
     dialogState,
     viewModel::saveDiceRoll,
-    viewModel::saveAttemptsLeft,
     viewModel::openPaymentsDialog,
     viewModel::closePaymentsDialog,
   )
@@ -66,9 +65,8 @@ internal fun RollGameRoute(
 @Composable
 fun RollGameScreen(
   uiState: RollGameState,
-  paymentsOptionsState: PaymentsOptionsState,
+  paymentsOptionsState: PaymentsDialogState,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
   onClosePaymentsDialog: () -> Unit,
 ) {
@@ -79,19 +77,14 @@ fun RollGameScreen(
       RollGameContent(
         attemptsLeft = uiState.attemptsLeft ?: DEFAULT_ATTEMPTS_NUMBER,
         onSaveDiceRoll = onSaveDiceRoll,
-        onSaveAttemptsLeft = onSaveAttemptsLeft,
         onOpenPaymentsDialog = onOpenPaymentsDialog,
       )
     }
   }
 
   when (paymentsOptionsState) {
-    PaymentsOptionsState.Closed -> {}
-    PaymentsOptionsState.Opened -> {
-      PaymentsOptionsRoute(onDismiss = onClosePaymentsDialog)
-    }
-
-    else -> {}
+    PaymentsDialogState.Closed -> {}
+    PaymentsDialogState.Opened -> PaymentsDialogRoute(onDismiss = onClosePaymentsDialog)
   }
 }
 
@@ -99,12 +92,10 @@ fun RollGameScreen(
 fun RollGameContent(
   attemptsLeft: Int,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onSaveAttemptsLeft: suspend (Int) -> Unit,
   onOpenPaymentsDialog: () -> Unit,
 ) {
   var diceValue by rememberSaveable { mutableIntStateOf(1) }
   var resultText by rememberSaveable { mutableStateOf("") }
-  var attempts by rememberSaveable { mutableIntStateOf(attemptsLeft) }
   var betNumber by rememberSaveable { mutableStateOf("") }
   Column(
     modifier = Modifier
@@ -124,7 +115,7 @@ fun RollGameContent(
         fontSize = 12.sp,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
       )
-      Row() {
+      Row {
         Card(
           modifier = Modifier
             .padding(8.dp)
@@ -139,15 +130,36 @@ fun RollGameContent(
         }
         Button(
           onClick = {
-            if (attempts > 0 && betNumber.isNotEmpty()) {
+            if (attemptsLeft > 0 && betNumber.isNotEmpty()) {
               val bet = betNumber
               diceValue = Random.nextInt(1, 7)
               if (bet.toInt() == diceValue) {
                 resultText = "Correct!"
-                attempts = DEFAULT_ATTEMPTS_NUMBER // Reset attempts to the default value
+                runBlocking {
+                  onSaveDiceRoll(
+                    DiceRoll(
+                      id = null,
+                      rollWin = diceValue == betNumber.toInt(),
+                      guessNumber = betNumber.toInt(),
+                      resultNumber = diceValue,
+                      attemptsLeft = DEFAULT_ATTEMPTS_NUMBER
+                    )
+                  )
+                }
               } else {
                 resultText = "Incorrect!"
-                attempts--
+                runBlocking {
+                  onSaveDiceRoll(
+                    DiceRoll(
+                      id = null,
+                      rollWin = diceValue == betNumber.toInt(),
+                      guessNumber = betNumber.toInt(),
+                      resultNumber = diceValue,
+                      attemptsLeft = attemptsLeft - 1
+
+                    )
+                  )
+                }
               }
             }
             runBlocking {
@@ -157,23 +169,22 @@ fun RollGameContent(
                   rollWin = diceValue == betNumber.toInt(),
                   guessNumber = betNumber.toInt(),
                   resultNumber = diceValue,
-                  attemptsLeft = attempts
+                  attemptsLeft = attemptsLeft
                 )
               )
-              onSaveAttemptsLeft(attempts)
             }
             betNumber = ""
           },
           Modifier
             .weight(1f)
             .align(Alignment.CenterVertically),
-          enabled = attempts > 0 && betNumber.isNotEmpty()
+          enabled = attemptsLeft > 0 && betNumber.isNotEmpty()
         ) {
           Text(text = stringResource(id = R.string.roll_game_button))
         }
       }
       Text(
-        text = stringResource(id = R.string.roll_game_attempts_left) + " $attempts",
+        text = stringResource(id = R.string.roll_game_attempts_left) + " $attemptsLeft",
         fontSize = 12.sp,
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         textAlign = TextAlign.Center
@@ -241,7 +252,6 @@ fun PreviewDiceRollScreen() {
     RollGameContent(
       attemptsLeft = 3,
       onSaveDiceRoll = {},
-      onSaveAttemptsLeft = {},
       {},
     )
   }
