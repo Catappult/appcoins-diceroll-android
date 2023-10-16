@@ -2,7 +2,6 @@ package com.appcoins.diceroll.core.ui.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -24,91 +22,57 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun LoadingAnimation(
-  titleStringResource: Int,
-  bodyStringResource: Int? = null,
+  titleMessage: String,
+  bodyMessage: String? = null,
 ) {
-  StateLottieAnimation(
-    content = {
-      Text(
-        text = stringResource(id = titleStringResource),
-        style = MaterialTheme.typography.titleLarge,
-        textAlign = TextAlign.Center,
-      )
-      if (bodyStringResource != null) {
-        Spacer(modifier = Modifier.padding(8.dp))
-        Text(
-          text = stringResource(id = bodyStringResource),
-          style = MaterialTheme.typography.bodyMedium,
-          textAlign = TextAlign.Center,
-        )
-      }
-    }
+  StateAnimation(
+    titleMessage = titleMessage,
+    bodyMessage = bodyMessage,
+    isSuccess = false,
+    isFailed = false
   )
 }
 
 @Composable
 fun SuccessAnimation(
-  titleStringResource: Int,
-  bodyStringResource: Int? = null,
+  titleMessage: String,
+  bodyMessage: String? = null,
 ) {
-  StateLottieAnimation(
+  StateAnimation(
+    titleMessage = titleMessage,
+    bodyMessage = bodyMessage,
     isSuccess = true,
-    content = {
-      Text(
-        text = stringResource(id = titleStringResource),
-        style = MaterialTheme.typography.titleLarge,
-        textAlign = TextAlign.Center,
-      )
-      if (bodyStringResource != null) {
-        Spacer(modifier = Modifier.padding(8.dp))
-        Text(
-          text = stringResource(id = bodyStringResource),
-          style = MaterialTheme.typography.bodyMedium,
-          textAlign = TextAlign.Center,
-        )
-      }
-    }
+    isFailed = false
   )
 }
 
 @Composable
 fun ErrorAnimation(
-  titleStringResource: Int,
-  bodyStringResource: Int? = null,
+  titleMessage: String,
+  bodyMessage: String? = null,
 ) {
-  StateLottieAnimation(
-    isFailed = true,
-    content = {
-      Text(
-        text = stringResource(id = titleStringResource),
-        style = MaterialTheme.typography.titleLarge,
-        textAlign = TextAlign.Center,
-      )
-      if (bodyStringResource != null) {
-        Spacer(modifier = Modifier.padding(8.dp))
-        Text(
-          text = stringResource(id = bodyStringResource),
-          style = MaterialTheme.typography.bodyMedium,
-          textAlign = TextAlign.Center,
-        )
-      }
-    }
+  StateAnimation(
+    titleMessage = titleMessage,
+    bodyMessage = bodyMessage,
+    isSuccess = false,
+    isFailed = true
   )
 }
 
 @Composable
-fun StateLottieAnimation(
+private fun StateAnimation(
   modifier: Modifier = Modifier,
-  isSuccess: Boolean = false,
-  isFailed: Boolean = false,
-  content: @Composable ColumnScope.() -> Unit
+  titleMessage: String,
+  bodyMessage: String? = null,
+  isSuccess: Boolean,
+  isFailed: Boolean,
 ) {
   Column(
     modifier = Modifier
       .verticalScroll(rememberScrollState())
-      .padding(vertical = 32.dp, horizontal = 32.dp),
+      .padding(32.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.SpaceEvenly,
+    verticalArrangement = Arrangement.SpaceEvenly
   ) {
     val clipSpecs = LottieClipSpec.Progress(
       min = if (isFailed) 0.499f else 0.0f,
@@ -124,6 +88,18 @@ fun StateLottieAnimation(
       clipSpec = clipSpecs,
     )
     Spacer(modifier = Modifier.padding(8.dp))
-    content()
+    Text(
+      text = titleMessage,
+      style = MaterialTheme.typography.titleLarge,
+      textAlign = TextAlign.Center
+    )
+    if (bodyMessage != null) {
+      Spacer(modifier = Modifier.padding(8.dp))
+      Text(
+        text = bodyMessage,
+        style = MaterialTheme.typography.bodyMedium,
+        textAlign = TextAlign.Center
+      )
+    }
   }
 }
