@@ -162,7 +162,18 @@ fun RollGameContent(
                 }
               }
             }
-            betNumber = ""
+            runBlocking {
+              onSaveDiceRoll(
+                DiceRoll(
+                  id = null,
+                  rollWin = diceValue == betNumber.toInt(),
+                  guessNumber = betNumber.toInt(),
+                  resultNumber = diceValue,
+                  attemptsLeft = attemptsLeft
+                )
+              )
+            }
+           betNumber = ""
           },
           Modifier
             .weight(1f)
