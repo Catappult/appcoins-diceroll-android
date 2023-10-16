@@ -173,7 +173,7 @@ fun RollGameContent(
                 )
               )
             }
-           betNumber = ""
+            betNumber = ""
           },
           Modifier
             .weight(1f)
