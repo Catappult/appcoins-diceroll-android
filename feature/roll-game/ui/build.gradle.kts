@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-  compileOnly(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
   projectImplementation(":feature:settings:data")
   projectImplementation(":feature:stats:data")
   projectImplementation(":feature:roll-game:data")

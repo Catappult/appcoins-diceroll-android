@@ -1,5 +1,6 @@
 package com.appcoins.diceroll.feature.payments.ui.options
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -17,6 +19,8 @@ import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultState
 import kotlin.random.Random
+import com.appcoins.diceroll.payments.appcoins_sdk.SdkManager
+import com.appcoins.diceroll.payments.appcoins_sdk.SdkManagerImpl
 
 @Composable
 fun PaymentsOptions(
@@ -27,13 +31,16 @@ fun PaymentsOptions(
     is PaymentsOptionsState.Loading -> {}
     is PaymentsOptionsState.Error -> {}
     is PaymentsOptionsState.Success -> {
-      PaymentsOptionsContent(onResultPayment)
+      val context = LocalContext.current as Activity
+      val sdkManager = SdkManagerImpl(context)
+      PaymentsOptionsContent(sdkManager, onResultPayment)
     }
   }
 }
 
 @Composable
 fun PaymentsOptionsContent(
+  sdkManager: SdkManager,
   onResultPayment: (PaymentsResultState) -> Unit
 ) {
   Column(
@@ -48,7 +55,10 @@ fun PaymentsOptionsContent(
       text = stringResource(id = R.string.payments_info),
       fontSize = 12.sp,
     )
-    Button(onClick = { testResultCall(onResultPayment) }) {
+    Button(onClick = {
+      launchBillingSdkFlow(sdkManager)
+      onResultPayment(PaymentsResultState.Loading)
+    }) {
       Text(text = stringResource(id = R.string.payments_buy_sdk_button))
     }
     Button(onClick = { }) {
@@ -56,6 +66,11 @@ fun PaymentsOptionsContent(
     }
   }
 }
+
+fun launchBillingSdkFlow(sdkManager: SdkManager) {
+  sdkManager.startPayment("attempts", "")
+}
+
 
 fun testResultCall(onResultPayment: (PaymentsResultState) -> Unit) {
   when (Random.nextInt(0, 3)) {
@@ -70,6 +85,7 @@ fun testResultCall(onResultPayment: (PaymentsResultState) -> Unit) {
 fun PreviewPaymentsDialog() {
   DiceRollTheme(darkTheme = true) {
     PaymentsOptionsContent(
+      sdkManager = SdkManagerImpl(LocalContext.current as Activity),
       onResultPayment = {}
     )
   }

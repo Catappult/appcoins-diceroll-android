@@ -1,7 +1,6 @@
 package com.appcoins.diceroll
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -51,7 +50,6 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       val darkTheme = shouldUseDarkTheme(uiState)
-      Log.d("CUSTOM_TAG", "MainActivity: onCreate: darkTheme: $darkTheme")
       DiceRollTheme(darkTheme = darkTheme) {
         DiceRollApp()
       }
