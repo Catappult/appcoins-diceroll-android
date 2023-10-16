@@ -40,11 +40,15 @@ class RollGameViewModel @Inject constructor(
     saveDiceRollUseCase(diceRoll).also { saveAttemptsUseCase(diceRoll.attemptsLeft) }
   }
 
+  suspend fun saveAttemptsLeft(attemptsLeft: Int) {
+    saveAttemptsUseCase(attemptsLeft)
+  }
+
   fun openPaymentsDialog() {
-    _dialogState.value = PaymentsDialogState.Opened
+    _dialogState.value = PaymentsOptionsState.Opened
   }
 
   fun closePaymentsDialog() {
-    _dialogState.value = PaymentsDialogState.Closed
+    _dialogState.value = PaymentsOptionsState.Closed
   }
 }
