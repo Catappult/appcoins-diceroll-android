@@ -16,7 +16,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
       with(pluginManager) {
         apply("com.android.library")
         apply("kotlin-android")
-        apply("kotlin-kapt")
         apply<HiltPlugin>()
       }
 

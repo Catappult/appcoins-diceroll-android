@@ -44,8 +44,6 @@ test_ext_version = "1.1.5"
 tehras_charts_version = "0.2.4-alpha"
 viewBindingDelegate = "1.4.7"
 mockk_version = "1.13.3"
-espresso-core = "3.5.1"
-material = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "corektx_version" }
@@ -118,9 +116,6 @@ gradlePlugin-android = { module = "com.android.tools.build:gradle", version.ref 
 gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin_version" }
 gradlePlugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt_version" }
 gradlePlugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
-firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version = "2.9.9" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
