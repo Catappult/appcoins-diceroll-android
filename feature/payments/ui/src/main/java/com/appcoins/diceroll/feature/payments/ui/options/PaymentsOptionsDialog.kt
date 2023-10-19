@@ -2,6 +2,7 @@ package com.appcoins.diceroll.feature.payments.ui.options
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
-import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultState
+import com.appcoins.diceroll.feature.payments.ui.PaymentsIntegration
+import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultUiState
 import com.appcoins.diceroll.payments.appcoins.osp.OspManager
 import com.appcoins.diceroll.payments.appcoins.osp.requireOspManagerEntryPoint
 import com.appcoins.diceroll.payments.appcoins_sdk.SdkManager
@@ -27,22 +29,15 @@ import kotlin.random.Random
 
 @Composable
 fun PaymentsOptions(
-  uiState: PaymentsOptionsState,
-  onResultPayment: (PaymentsResultState) -> Unit
+  onPaymentClick: (PaymentsIntegration) -> Unit,
 ) {
-  when (uiState) {
-    is PaymentsOptionsState.Loading -> {}
-    is PaymentsOptionsState.Error -> {}
-    is PaymentsOptionsState.Success -> {
-      val context = LocalContext.current
-      val sdkManager = SdkManagerImpl(context)
-      PaymentsOptionsContent(
-        context = context,
-        sdkManager = sdkManager,
-        onResultPayment = onResultPayment
-      )
-    }
-  }
+  val context = LocalContext.current
+  val sdkManager = SdkManagerImpl(context)
+  PaymentsOptionsContent(
+    context = context,
+    sdkManager = sdkManager,
+    onResultPayment = onPaymentClick
+  )
 }
 
 @Composable
@@ -50,8 +45,8 @@ fun PaymentsOptionsContent(
   context: Context,
   sdkManager: SdkManager,
   ospManager: OspManager = requireOspManagerEntryPoint().ospManager,
-  onResultPayment: (PaymentsResultState) -> Unit,
-  ) {
+  onResultPayment: (PaymentsIntegration) -> Unit,
+) {
   Column(
     modifier = Modifier
       .fillMaxWidth()
@@ -60,19 +55,20 @@ fun PaymentsOptionsContent(
     verticalArrangement = Arrangement.spacedBy(16.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
+    Log.d("OSP_FLOW", "Compose PaymentsOptionsContent: ")
     Text(
       text = stringResource(id = R.string.payments_info),
       fontSize = 12.sp,
     )
     Button(onClick = {
       launchBillingSdkFlow(sdkManager)
-      onResultPayment(PaymentsResultState.Loading)
+      onResultPayment(PaymentsIntegration.SDK)
     }) {
       Text(text = stringResource(id = R.string.payments_buy_sdk_button))
     }
     Button(onClick = {
       launchBillingOspFlow(ospManager, context)
-      onResultPayment(PaymentsResultState.Loading)
+      onResultPayment(PaymentsIntegration.OSP)
     }) {
       Text(text = stringResource(id = R.string.payments_buy_osp_button))
     }
@@ -84,14 +80,15 @@ fun launchBillingSdkFlow(sdkManager: SdkManager) {
 }
 
 fun launchBillingOspFlow(ospManager: OspManager, context: Context) {
+  Log.d("OSP_FLOW", "Compose launchBillingOspFlow: ")
   ospManager.launchOsp(context as Activity, "attempts")
 }
 
-fun testResultCall(onResultPayment: (PaymentsResultState) -> Unit) {
+fun testResultCall(onResultPayment: (PaymentsResultUiState) -> Unit) {
   when (Random.nextInt(0, 3)) {
-    0 -> onResultPayment(PaymentsResultState.Success)
-    1 -> onResultPayment(PaymentsResultState.Failed)
-    2 -> onResultPayment(PaymentsResultState.UserCanceled)
+    0 -> onResultPayment(PaymentsResultUiState.Success)
+    1 -> onResultPayment(PaymentsResultUiState.Failed)
+    2 -> onResultPayment(PaymentsResultUiState.UserCanceled)
   }
 }
 

@@ -13,21 +13,24 @@ import com.appcoins.diceroll.core.ui.widgets.LoadingAnimation
 import com.appcoins.diceroll.core.ui.widgets.SuccessAnimation
 
 @Composable
-fun PaymentsResult(uiState: PaymentsResultState, onPaymentSuccess: suspend () -> Unit) {
+fun PaymentsResult(
+  uiState: PaymentsResultUiState,
+  onPaymentSuccess: suspend () -> Unit
+) {
   when (uiState) {
-    is PaymentsResultState.Initialized -> {}
-    is PaymentsResultState.Loading -> LoadingAnimation(titleMessage = stringResource(id = R.string.payments_loading))
-    is PaymentsResultState.UserCanceled -> ErrorAnimation(
+    is PaymentsResultUiState.Initialized -> {}
+    is PaymentsResultUiState.Loading -> LoadingAnimation(bodyMessage = stringResource(id = R.string.payments_loading))
+    is PaymentsResultUiState.UserCanceled -> ErrorAnimation(
       titleMessage = stringResource(R.string.payments_user_canceled_title),
       bodyMessage = stringResource(R.string.payments_user_canceled_body)
     )
 
-    is PaymentsResultState.Failed -> ErrorAnimation(
+    is PaymentsResultUiState.Failed -> ErrorAnimation(
       titleMessage = stringResource(R.string.payments_failed_title),
       bodyMessage = stringResource(R.string.payments_failed_body)
     )
 
-    is PaymentsResultState.Success -> SuccessContent(onPaymentSuccess)
+    is PaymentsResultUiState.Success -> SuccessContent(onPaymentSuccess)
   }
 }
 
@@ -48,7 +51,7 @@ fun SuccessContent(onPaymentSuccess: suspend () -> Unit) {
 @Composable
 fun PreviewPaymentsLoadingContent() {
   DiceRollTheme(darkTheme = true) {
-    LoadingAnimation(titleMessage = stringResource(R.string.payments_loading))
+    LoadingAnimation(bodyMessage = stringResource(R.string.payments_loading))
   }
 }
 

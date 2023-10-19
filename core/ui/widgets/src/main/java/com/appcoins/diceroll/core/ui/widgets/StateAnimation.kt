@@ -22,7 +22,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun LoadingAnimation(
-  titleMessage: String,
+  titleMessage: String? = null,
   bodyMessage: String? = null,
 ) {
   StateAnimation(
@@ -35,7 +35,7 @@ fun LoadingAnimation(
 
 @Composable
 fun SuccessAnimation(
-  titleMessage: String,
+  titleMessage: String? = null,
   bodyMessage: String? = null,
 ) {
   StateAnimation(
@@ -48,7 +48,7 @@ fun SuccessAnimation(
 
 @Composable
 fun ErrorAnimation(
-  titleMessage: String,
+  titleMessage: String? = null,
   bodyMessage: String? = null,
 ) {
   StateAnimation(
@@ -62,7 +62,7 @@ fun ErrorAnimation(
 @Composable
 private fun StateAnimation(
   modifier: Modifier = Modifier,
-  titleMessage: String,
+  titleMessage: String? = null,
   bodyMessage: String? = null,
   isSuccess: Boolean,
   isFailed: Boolean,
@@ -88,11 +88,13 @@ private fun StateAnimation(
       clipSpec = clipSpecs,
     )
     Spacer(modifier = Modifier.padding(8.dp))
-    Text(
-      text = titleMessage,
-      style = MaterialTheme.typography.titleLarge,
-      textAlign = TextAlign.Center
-    )
+    if (titleMessage != null) {
+      Text(
+        text = titleMessage,
+        style = MaterialTheme.typography.titleLarge,
+        textAlign = TextAlign.Center
+      )
+    }
     if (bodyMessage != null) {
       Spacer(modifier = Modifier.padding(8.dp))
       Text(
