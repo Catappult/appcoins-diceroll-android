@@ -30,4 +30,5 @@ dependencies {
   projectImplementation(":payments:appcoins-osp")
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
+  implementation(libs.bundles.androidx.compose.accompanist)
 }
