@@ -1,20 +1,22 @@
 package com.appcoins.diceroll.payments.appcoins.osp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import com.appcoins.diceroll.core.utils.walletPackage
+import com.appcoins.diceroll.payments.appcoins.osp.repository.OspRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class OspManager @Inject constructor(val ospRepository: OspRepository) {
+class OspManager @Inject constructor(private val ospRepository: OspRepository) {
 
-  fun launchOsp(activity: Activity, product: String) {
+  fun launchOsp(context: Context, product: String) {
     Log.d("OSP_FLOW", "OspManager: invoke: product = $product")
 
     val scope = CoroutineScope(Dispatchers.IO)
@@ -26,18 +28,18 @@ class OspManager @Inject constructor(val ospRepository: OspRepository) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(ospUrl)
 
-        if (isAppCoinsWalletInstalled(activity)) {
+        if (isAppCoinsWalletInstalled(context)) {
           intent.setPackage(walletPackage)
         }
-        activity.startActivityForResult(intent, 10003)
+        (context as Activity).startActivityForResult(intent, 10003)
       }
     } catch (e: Exception) {
       e.printStackTrace()
     }
   }
 
-  private fun isAppCoinsWalletInstalled(activity: Activity): Boolean {
-    val packageManager = activity.applicationContext.packageManager
+  private fun isAppCoinsWalletInstalled(context: Context): Boolean {
+    val packageManager = (context as Activity).applicationContext.packageManager
     val intentForCheck = Intent(Intent.ACTION_VIEW)
     if (intentForCheck.resolveActivity(packageManager) != null) {
       try {
