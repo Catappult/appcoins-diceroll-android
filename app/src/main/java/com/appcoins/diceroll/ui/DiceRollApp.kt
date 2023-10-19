@@ -13,7 +13,9 @@ import com.appcoins.diceroll.feature.settings.ui.SettingsRoute
 import com.appcoins.diceroll.navigation.DiceRollNavHost
 import com.appcoins.diceroll.navigation.TopLevelDestination
 import com.appcoins.diceroll.core.utils.R
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 
+@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun DiceRollApp() {
   val appState: DiceRollAppState = rememberDiceRollAppState()
@@ -40,6 +42,7 @@ fun DiceRollApp() {
   ) { scaffoldPadding ->
     DiceRollNavHost(
       appState.navController,
+      appState.bottomSheetNavigator,
       scaffoldPadding = scaffoldPadding,
     )
   }
