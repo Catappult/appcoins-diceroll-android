@@ -26,6 +26,7 @@ dependencies {
   projectImplementation(":feature:settings:ui")
   projectImplementation(":feature:stats:ui")
   projectImplementation(":feature:roll-game:ui")
+  projectImplementation(":payments:appcoins-osp")
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
 }

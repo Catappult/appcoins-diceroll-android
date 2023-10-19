@@ -12,11 +12,6 @@ android {
   buildFeatures {
     buildConfig = true
   }
-  repositories {
-    flatDir {
-      dirs("libs")
-    }
-  }
 }
 
 dependencies {

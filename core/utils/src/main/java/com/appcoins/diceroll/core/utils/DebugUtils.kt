@@ -1,4 +1,3 @@
 package com.appcoins.diceroll.core.utils
 
-object Hosts {
-}
+const val CUSTOM_TAG = "DiceRoll-DEBUG"

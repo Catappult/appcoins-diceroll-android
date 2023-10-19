@@ -8,6 +8,7 @@ import com.appcoins.sdk.billing.Purchase
 import com.appcoins.sdk.billing.PurchasesUpdatedListener
 import com.appcoins.sdk.billing.ResponseCode
 import com.appcoins.sdk.billing.helpers.CatapultBillingAppCoinsFactory
+import javax.inject.Singleton
 
 /**
  * Manages the AppCoins SDK integration for in-app billing.
@@ -21,6 +22,7 @@ import com.appcoins.sdk.billing.helpers.CatapultBillingAppCoinsFactory
  * in order to simplify the call for it.
  *
  */
+@Singleton
 class SdkManagerImpl(override val context: Context) : SdkManager {
   private val base64EncodedPublicKey: String = BuildConfig.CATAPPULT_PUBLIC_KEY
 
