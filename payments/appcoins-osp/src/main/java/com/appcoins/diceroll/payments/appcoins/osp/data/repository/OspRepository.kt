@@ -1,8 +1,7 @@
-package com.appcoins.diceroll.payments.appcoins.osp.repository
+package com.appcoins.diceroll.payments.appcoins.osp.data.repository
 
 import com.appcoins.diceroll.core.network.api.OspApi
-import com.appcoins.diceroll.core.network.model.OspCallbackResultResponse
-import com.appcoins.diceroll.core.network.model.OspCallbackStateResponse
+import com.appcoins.diceroll.payments.appcoins.osp.data.OspCallbackResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

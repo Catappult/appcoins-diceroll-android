@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.payments.appcoins.osp.repository
+package com.appcoins.diceroll.payments.appcoins.osp.data
 
 data class OspCallbackResult(
   val result: OspCallbackState

@@ -7,8 +7,8 @@ import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultUiState
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
-import com.appcoins.diceroll.payments.appcoins.osp.repository.ObserveOspCallbackUseCase
-import com.appcoins.diceroll.payments.appcoins.osp.repository.OspCallbackState
+import com.appcoins.diceroll.payments.appcoins.osp.data.usecases.ObserveOspCallbackUseCase
+import com.appcoins.diceroll.payments.appcoins.osp.data.OspCallbackState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

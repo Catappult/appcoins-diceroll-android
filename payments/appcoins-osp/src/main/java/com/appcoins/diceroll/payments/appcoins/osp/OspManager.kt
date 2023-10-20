@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import com.appcoins.diceroll.core.utils.walletPackage
-import com.appcoins.diceroll.payments.appcoins.osp.repository.OspRepository
+import com.appcoins.diceroll.payments.appcoins.osp.data.repository.OspRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

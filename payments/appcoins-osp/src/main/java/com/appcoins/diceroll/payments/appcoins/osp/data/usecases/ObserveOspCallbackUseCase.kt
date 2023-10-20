@@ -1,5 +1,7 @@
-package com.appcoins.diceroll.payments.appcoins.osp.repository
+package com.appcoins.diceroll.payments.appcoins.osp.data.usecases
 
+import com.appcoins.diceroll.payments.appcoins.osp.data.OspCallbackResult
+import com.appcoins.diceroll.payments.appcoins.osp.data.repository.OspRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
