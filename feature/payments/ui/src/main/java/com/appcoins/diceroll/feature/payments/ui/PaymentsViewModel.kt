@@ -32,9 +32,9 @@ class PaymentsViewModel @Inject constructor(
     getAttemptsUseCase()
       .map { attemptsLeft ->
         if (attemptsLeft == DEFAULT_ATTEMPTS_NUMBER)
-          PaymentsOptionsUiState.Error
-        else
           PaymentsOptionsUiState.NotAvailable
+        else
+          PaymentsOptionsUiState.Available
       }
       .onEach { _paymentOptionsState.value = it }
       .launchIn(viewModelScope)
