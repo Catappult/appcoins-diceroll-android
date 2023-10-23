@@ -8,7 +8,7 @@ import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.roll_game.data.usecases.GetAttemptsUseCase
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
 import com.appcoins.diceroll.payments.appcoins.osp.data.usecases.ObserveOspCallbackUseCase
-import com.appcoins.diceroll.payments.appcoins.osp.data.OspCallbackState
+import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -50,7 +50,7 @@ class PaymentsViewModel @Inject constructor(
     _paymentResultState.value = PaymentsResultUiState.Loading
     when (paymentsIntegration) {
       is PaymentsIntegration.OSP -> {
-        observeOspCallback()
+        observeOspCallback(paymentsIntegration.orderReference)
       }
 
       is PaymentsIntegration.SDK -> {
@@ -59,8 +59,8 @@ class PaymentsViewModel @Inject constructor(
     }
   }
 
-  private fun observeOspCallback() {
-    observeOspCallbackUseCase()
+  private fun observeOspCallback(orderReference: String) {
+    observeOspCallbackUseCase(orderReference = orderReference)
       .map { ospResult ->
         when (ospResult.result) {
           OspCallbackState.COMPLETED -> {

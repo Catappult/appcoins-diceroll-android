@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.util.Log
 import com.appcoins.diceroll.core.utils.walletPackage
 import com.appcoins.diceroll.payments.appcoins.osp.data.repository.OspRepository
 import kotlinx.coroutines.CoroutineScope
@@ -16,25 +15,42 @@ import javax.inject.Inject
 
 class OspManager @Inject constructor(private val ospRepository: OspRepository) {
 
-  fun launchOsp(context: Context, product: String) {
-    Log.d("OSP_FLOW", "OspManager: invoke: product = $product")
-
-    val scope = CoroutineScope(Dispatchers.IO)
-
-    try {
-      scope.launch {
-        val ospUrl = ospRepository.getOspUrl(product)
-        Log.d("OSP_FLOW", "OspManager: invoke: ospUrl = $ospUrl")
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(ospUrl)
-
-        if (isAppCoinsWalletInstalled(context)) {
-          intent.setPackage(walletPackage)
+  fun startPayment(context: Context, product: String, callback: OspLaunchCallback) {
+    CoroutineScope(Dispatchers.IO).launch {
+      ospRepository.getOspUrl(product)
+        .onSuccess { ospUrl ->
+          openPaymentActivity(
+            ospUrl = ospUrl.url,
+            ospOrderReference = ospUrl.orderReference.orEmpty(),
+            context = context,
+            callback = callback
+          )
         }
-        (context as Activity).startActivityForResult(intent, 10003)
+        .onFailure {
+          callback.onError("Error: ${it.message}")
+        }
+    }
+  }
+
+
+  private fun openPaymentActivity(
+    ospUrl: String,
+    ospOrderReference: String,
+    context: Context,
+    callback: OspLaunchCallback
+  ) {
+    try {
+      val intent = Intent(Intent.ACTION_VIEW)
+      intent.data = Uri.parse(ospUrl)
+
+      if (isAppCoinsWalletInstalled(context)) {
+        intent.setPackage(walletPackage)
       }
+      (context as Activity).startActivity(intent)
+      callback.onSuccess(orderReference = ospOrderReference)
+
     } catch (e: Exception) {
-      e.printStackTrace()
+      callback.onError("Error: ${e.message}")
     }
   }
 

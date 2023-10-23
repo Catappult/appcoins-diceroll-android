@@ -13,5 +13,5 @@ sealed interface PaymentsIntegration {
   /**
    * The integration is with One Step Payment url.
    */
-  data object OSP : PaymentsIntegration
+  data class OSP (val orderReference: String): PaymentsIntegration
 }
