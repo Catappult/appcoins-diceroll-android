@@ -23,7 +23,7 @@ sealed interface PaymentsOptionsUiState {
   /**
    * The dialog is opened and the payment option is not available.
    */
-  data object Available : PaymentsOptionsUiState
+  data class Available(val itemId: String) : PaymentsOptionsUiState
 
   /**
    * The dialog is opened and payment option was selected.

@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.appcoins.diceroll.feature.payments.ui.navigation.navigateToPaymentsDialog
 import com.appcoins.diceroll.feature.payments.ui.navigation.paymentsDialog
+import com.appcoins.diceroll.feature.payments.ui.toSku
 import com.appcoins.diceroll.feature.roll_game.ui.navigation.rollGameNavigationRoute
 import com.appcoins.diceroll.feature.roll_game.ui.navigation.rollGameScreen
 import com.appcoins.diceroll.feature.stats.ui.navigation.navigateToRollDetailsStatsScreen
@@ -36,8 +37,10 @@ fun DiceRollNavHost(
       exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
       popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
     ) {
-      rollGameScreen(onBuyClick = {
-        navController.navigateToPaymentsDialog()
+      rollGameScreen(onBuyClick = { item ->
+        navController.navigateToPaymentsDialog(item.toSku()) {
+          launchSingleTop = true
+        }
       })
       paymentsDialog(onDismiss = {
         navController.popBackStack()

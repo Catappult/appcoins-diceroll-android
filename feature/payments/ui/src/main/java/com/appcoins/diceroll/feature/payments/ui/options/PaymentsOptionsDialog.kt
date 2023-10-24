@@ -27,6 +27,7 @@ import com.appcoins.diceroll.payments.appcoins_sdk.SdkManagerImpl
 
 @Composable
 fun PaymentsOptions(
+  itemId: String,
   onPaymentClick: (PaymentsIntegration) -> Unit,
 ) {
   val context = LocalContext.current
@@ -34,6 +35,7 @@ fun PaymentsOptions(
   PaymentsOptionsContent(
     context = context,
     sdkManager = sdkManager,
+    itemId = itemId,
     onResultPayment = onPaymentClick
   )
 }
@@ -43,6 +45,7 @@ fun PaymentsOptionsContent(
   context: Context,
   sdkManager: SdkManager,
   ospManager: OspManager = requireOspManagerEntryPoint().ospManager,
+  itemId: String,
   onResultPayment: (PaymentsIntegration) -> Unit,
 ) {
   Column(
@@ -58,12 +61,12 @@ fun PaymentsOptionsContent(
       fontSize = 12.sp,
     )
     Button(onClick = {
-      launchBillingSdkFlow(sdkManager, onResultPayment)
+      launchBillingSdkFlow(sdkManager, itemId, onResultPayment)
     }) {
       Text(text = stringResource(id = R.string.payments_buy_sdk_button))
     }
     Button(onClick = {
-      launchBillingOspFlow(ospManager, onResultPayment, context)
+      launchBillingOspFlow(ospManager, itemId, onResultPayment, context)
     }) {
       Text(text = stringResource(id = R.string.payments_buy_osp_button))
     }
@@ -72,14 +75,16 @@ fun PaymentsOptionsContent(
 
 fun launchBillingSdkFlow(
   sdkManager: SdkManager,
+  itemId: String,
   onResultPayment: (PaymentsIntegration) -> Unit,
 ) {
-  sdkManager.startPayment("attempts", "")
+  sdkManager.startPayment(itemId, "")
   onResultPayment(PaymentsIntegration.SDK)
 }
 
 fun launchBillingOspFlow(
   ospManager: OspManager,
+  itemId: String,
   onResultPayment: (PaymentsIntegration) -> Unit,
   context: Context,
 ) {
@@ -92,7 +97,7 @@ fun launchBillingOspFlow(
       onResultPayment(PaymentsIntegration.OSP(error))
     }
   }
-  ospManager.startPayment(context as Activity, "attempts", ospCallback)
+  ospManager.startPayment(context as Activity, itemId, ospCallback)
 }
 
 @Preview
@@ -102,6 +107,7 @@ fun PreviewPaymentsDialog() {
     PaymentsOptionsContent(
       context = LocalContext.current,
       sdkManager = SdkManagerImpl(LocalContext.current as Activity),
+      itemId = "attempts",
       onResultPayment = {}
     )
   }

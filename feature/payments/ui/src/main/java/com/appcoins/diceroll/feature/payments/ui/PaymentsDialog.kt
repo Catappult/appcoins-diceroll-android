@@ -9,27 +9,41 @@ import com.appcoins.diceroll.core.ui.design.R
 import com.appcoins.diceroll.core.ui.widgets.ErrorAnimation
 import com.appcoins.diceroll.core.ui.widgets.LoadingAnimation
 import com.appcoins.diceroll.core.ui.widgets.components.DiceRollBottomSheet
+import com.appcoins.diceroll.feature.payments.ui.navigation.itemIdArg
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptions
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResult
 
 @Composable
-fun PaymentsDialogRoute(onDismiss: () -> Unit, viewModel: PaymentsViewModel = hiltViewModel()) {
+fun PaymentsDialogRoute(
+  onDismiss: () -> Unit,
+  itemId: String,
+  viewModel: PaymentsViewModel = hiltViewModel()
+) {
+  viewModel.savedStateHandle[itemIdArg] = itemId
   val paymentOptionsState by viewModel.paymentOptionsState.collectAsStateWithLifecycle()
   val paymentsResultState by viewModel.paymentResultState.collectAsStateWithLifecycle()
   DiceRollBottomSheet(onDismiss) {
     when (paymentOptionsState) {
-      is PaymentsOptionsUiState.Loading,
-      is PaymentsOptionsUiState.Error -> {
+      is PaymentsOptionsUiState.Loading -> {
         LoadingAnimation()
       }
-      is PaymentsOptionsUiState.NotAvailable -> {
+
+      is PaymentsOptionsUiState.Error -> {
         ErrorAnimation(
-          bodyMessage = stringResource(R.string.payments_info_error_body)
+          bodyMessage = stringResource(R.string.payments_sku_error_body)
         )
       }
+
+      is PaymentsOptionsUiState.NotAvailable -> {
+        ErrorAnimation(
+          bodyMessage = stringResource(R.string.payments_attempts_error_body)
+        )
+      }
+
       is PaymentsOptionsUiState.Available -> {
         PaymentsOptions(
+          itemId = (paymentOptionsState as PaymentsOptionsUiState.Available).itemId,
           onPaymentClick = viewModel::setPaymentResult,
         )
       }

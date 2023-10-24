@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
+import com.appcoins.diceroll.feature.payments.ui.Item
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
@@ -47,7 +48,7 @@ import com.appcoins.diceroll.feature.roll_game.ui.R as GameR
 
 @Composable
 internal fun RollGameRoute(
-  onBuyClick: () -> Unit,
+  onBuyClick: (Item) -> Unit,
   viewModel: RollGameViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -61,7 +62,7 @@ internal fun RollGameRoute(
 @Composable
 fun RollGameScreen(
   uiState: RollGameState,
-  onBuyClick: () -> Unit,
+  onBuyClick: (Item) -> Unit,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
 ) {
   when (uiState) {
@@ -81,7 +82,7 @@ fun RollGameScreen(
 fun RollGameContent(
   attemptsLeft: Int,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onBuyClick: () -> Unit,
+  onBuyClick: (Item) -> Unit,
 ) {
   var diceValue by rememberSaveable { mutableIntStateOf(1) }
   var resultText by rememberSaveable { mutableStateOf("") }
@@ -169,7 +170,7 @@ fun RollGameContent(
       )
     }
 
-    Button(onClick = { onBuyClick() }) {
+    Button(onClick = { onBuyClick(Item.Attempts(attemptsLeft)) }) {
       Text(text = stringResource(id = R.string.roll_game_buy_button))
     }
   }

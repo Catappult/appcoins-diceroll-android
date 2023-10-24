@@ -21,7 +21,8 @@
 
   <!-- Payments Screen -->
   <string name="payments_info">Choose one of the payment options to check the differences between the integrations</string>
-  <string name="payments_info_error_body">You already have the maximum number of attempts available</string>
+  <string name="payments_sku_error_body">The payment item is not available to buy</string>
+  <string name="payments_attempts_error_body">You already have the maximum number of attempts available</string>
   <string name="payments_buy_sdk_button">Buy attempts with SDK</string>
   <string name="payments_buy_osp_button">Buy attempts with OSP</string>
   <string name="payments_loading">Waiting for the payment to be completed…</string>

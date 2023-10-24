@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.appcoins.diceroll.feature.payments.ui.Item
 import com.appcoins.diceroll.feature.roll_game.ui.RollGameRoute
 
 
@@ -14,7 +15,7 @@ fun NavController.navigateToRollGame(navOptions: NavOptions? = null) {
 
 }
 
-fun NavGraphBuilder.rollGameScreen(onBuyClick: () -> Unit) {
+fun NavGraphBuilder.rollGameScreen(onBuyClick: (Item) -> Unit) {
   composable(route = rollGameNavigationRoute) {
     RollGameRoute(onBuyClick)
   }

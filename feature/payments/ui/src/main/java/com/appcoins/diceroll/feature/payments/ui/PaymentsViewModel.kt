@@ -1,5 +1,6 @@
 package com.appcoins.diceroll.feature.payments.ui
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
@@ -22,7 +23,10 @@ class PaymentsViewModel @Inject constructor(
   private val resetAttemptsUseCase: ResetAttemptsUseCase,
   private val getAttemptsUseCase: GetAttemptsUseCase,
   private val observeOspCallbackUseCase: ObserveOspCallbackUseCase,
+  val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+  private val itemId = savedStateHandle.get<String>("itemId")
 
   private val _paymentOptionsState =
     MutableStateFlow<PaymentsOptionsUiState>(PaymentsOptionsUiState.Loading)
@@ -31,10 +35,11 @@ class PaymentsViewModel @Inject constructor(
   init {
     getAttemptsUseCase()
       .map { attemptsLeft ->
-        if (attemptsLeft == DEFAULT_ATTEMPTS_NUMBER)
-          PaymentsOptionsUiState.NotAvailable
-        else
-          PaymentsOptionsUiState.Available
+        when {
+          itemId == null -> PaymentsOptionsUiState.Error
+          attemptsLeft == DEFAULT_ATTEMPTS_NUMBER -> PaymentsOptionsUiState.NotAvailable
+          else -> PaymentsOptionsUiState.Available(itemId)
+        }
       }
       .onEach { _paymentOptionsState.value = it }
       .launchIn(viewModelScope)
