@@ -7,14 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.appcoins.diceroll.feature.payments.ui.navigation.navigateToPaymentsDialog
-import com.appcoins.diceroll.feature.payments.ui.navigation.paymentsDialog
-import com.appcoins.diceroll.feature.payments.ui.toSku
-import com.appcoins.diceroll.feature.roll_game.ui.navigation.rollGameNavigationRoute
-import com.appcoins.diceroll.feature.roll_game.ui.navigation.rollGameScreen
-import com.appcoins.diceroll.feature.stats.ui.navigation.navigateToRollDetailsStatsScreen
-import com.appcoins.diceroll.feature.stats.ui.navigation.rollDetailsStatsScreen
-import com.appcoins.diceroll.feature.stats.ui.navigation.statsScreen
+import com.appcoins.diceroll.core.navigation.destinations.Destinations
+import com.appcoins.diceroll.navigation.graph.rollGameGraph
+import com.appcoins.diceroll.navigation.graph.settingsGraph
+import com.appcoins.diceroll.navigation.graph.statsGraph
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
@@ -24,31 +20,22 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 fun DiceRollNavHost(
   navController: NavHostController,
   bottomSheetNavigator: BottomSheetNavigator,
-  startDestination: String = rollGameNavigationRoute,
+  startDestination: Destinations = Destinations.Screen.RollGame,
   scaffoldPadding: PaddingValues
 ) {
   ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
     NavHost(
       navController = navController,
-      startDestination = startDestination,
+      startDestination = startDestination.route,
       modifier = Modifier.padding(scaffoldPadding),
       enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
       popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
       exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
       popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
     ) {
-      rollGameScreen(onBuyClick = { item ->
-        navController.navigateToPaymentsDialog(item.toSku()) {
-          launchSingleTop = true
-        }
-      })
-      paymentsDialog(onDismiss = {
-        navController.popBackStack()
-      })
-      statsScreen(onDetailsClick = {
-        navController.navigateToRollDetailsStatsScreen()
-      })
-      rollDetailsStatsScreen()
+      settingsGraph(navController)
+      statsGraph(navController)
+      rollGameGraph(navController)
     }
   }
 }
