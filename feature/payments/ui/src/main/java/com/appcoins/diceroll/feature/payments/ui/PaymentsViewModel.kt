@@ -3,6 +3,7 @@ package com.appcoins.diceroll.feature.payments.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultUiState
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
@@ -26,7 +27,7 @@ class PaymentsViewModel @Inject constructor(
   val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-  private val itemId = savedStateHandle.get<String>("itemId")
+  private val itemId = savedStateHandle.get<String>(DestinationArgs.ItemId)
 
   private val _paymentOptionsState =
     MutableStateFlow<PaymentsOptionsUiState>(PaymentsOptionsUiState.Loading)
