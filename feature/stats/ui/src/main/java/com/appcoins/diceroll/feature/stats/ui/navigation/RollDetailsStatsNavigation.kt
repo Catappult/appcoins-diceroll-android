@@ -2,19 +2,21 @@ package com.appcoins.diceroll.feature.stats.ui.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
+import com.appcoins.diceroll.core.navigation.destinations.Destinations
+import com.appcoins.diceroll.core.navigation.buildScreen
+import com.appcoins.diceroll.core.navigation.navigateToDestination
 import com.appcoins.diceroll.feature.stats.ui.RollDetailsStatsRoute
 
-const val rollDetailsStatsNavigationRoute = "roll_details_stats_route"
-
-fun NavController.navigateToRollDetailsStatsScreen(navOptions: NavOptions? = null) {
-  this.navigate(rollDetailsStatsNavigationRoute, navOptions)
-
+fun NavController.navigateToRollDetailsStatsScreen() {
+  this.navigateToDestination(
+    destination = Destinations.Screen.StatsRollDetails,
+  )
 }
 
 fun NavGraphBuilder.rollDetailsStatsScreen() {
-  composable(route = rollDetailsStatsNavigationRoute) {
+  this.buildScreen(
+    destination = Destinations.Screen.StatsRollDetails,
+  ) {
     RollDetailsStatsRoute()
   }
 }

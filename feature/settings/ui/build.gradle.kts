@@ -12,4 +12,5 @@ dependencies {
   projectImplementation(":feature:settings:data")
   projectImplementation(":core:ui:design")
   projectImplementation(":core:utils")
+  projectImplementation(":core:navigation")
 }

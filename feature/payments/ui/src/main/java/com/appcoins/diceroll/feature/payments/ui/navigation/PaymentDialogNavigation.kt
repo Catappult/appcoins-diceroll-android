@@ -2,34 +2,33 @@ package com.appcoins.diceroll.feature.payments.ui.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
+import androidx.navigation.navOptions
+import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
+import com.appcoins.diceroll.core.navigation.destinations.Destinations
+import com.appcoins.diceroll.core.navigation.buildScreen
+import com.appcoins.diceroll.core.navigation.navigateToDestination
 import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
-import java.net.URLEncoder
 
-const val paymentsNavigationRoute = "payments_dialog_route"
-internal const val itemIdArg = "itemId"
 
 fun NavController.navigateToPaymentsDialog(
   itemId: String,
-  navOptions: NavOptionsBuilder.() -> Unit
 ) {
-  val encodedId = URLEncoder.encode(itemId, Charsets.UTF_8.name())
-  this.navigate("$paymentsNavigationRoute/$encodedId", navOptions)
+  this.navigateToDestination(
+    destination = Destinations.BottomSheet.Payments,
+    destinationArgs = listOf(itemId),
+    navOptions = navOptions {
+      launchSingleTop = true
+    }
+  )
 }
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.paymentsDialog(onDismiss: () -> Unit) {
-  bottomSheet(
-    route = "$paymentsNavigationRoute/{$itemIdArg}",
-    arguments = listOf(
-      navArgument(itemIdArg) { type = NavType.StringType },
-    ),
-  ) { backStackEntry ->
-    backStackEntry.arguments?.getString(itemIdArg)?.let {
+  this.buildScreen(
+    destination = Destinations.BottomSheet.Payments,
+    destinationArgs = listOf(DestinationArgs.ItemId),
+  ) { args ->
+    args[DestinationArgs.ItemId]?.let {
       PaymentsDialogRoute(onDismiss, it)
     }
   }
