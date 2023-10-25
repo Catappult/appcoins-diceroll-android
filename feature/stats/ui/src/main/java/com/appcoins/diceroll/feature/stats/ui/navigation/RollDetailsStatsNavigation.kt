@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.appcoins.diceroll.feature.stats.ui.RollDetailsStatsRoute
-import com.appcoins.diceroll.feature.stats.ui.StatsRoute
 
 const val rollDetailsStatsNavigationRoute = "roll_details_stats_route"
 

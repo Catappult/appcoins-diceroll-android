@@ -12,21 +12,29 @@ import com.appcoins.diceroll.feature.roll_game.ui.navigation.rollGameNavigationR
 import com.appcoins.diceroll.feature.stats.ui.navigation.navigateToStatsScreen
 import com.appcoins.diceroll.feature.stats.ui.navigation.statsNavigationRoute
 import com.appcoins.diceroll.navigation.TopLevelDestination
+import com.google.accompanist.navigation.material.BottomSheetNavigator
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 
+
+@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun rememberDiceRollAppState(
-  navController: NavHostController = rememberNavController(),
+  bottomSheetNavigator: BottomSheetNavigator = rememberBottomSheetNavigator(),
+  navController: NavHostController = rememberNavController(bottomSheetNavigator)
 ): DiceRollAppState {
   return remember(navController) {
     DiceRollAppState(
-      navController
+      navController,
+      bottomSheetNavigator,
     )
   }
 }
 
 @Stable
-class DiceRollAppState(
+class DiceRollAppState @OptIn(ExperimentalMaterialNavigationApi::class) constructor(
   val navController: NavHostController,
+  val bottomSheetNavigator: BottomSheetNavigator,
 ) {
   val currentDestination: NavDestination?
     @Composable get() = navController
@@ -55,23 +63,23 @@ class DiceRollAppState(
    * @param topLevelDestination: The destination the app needs to navigate to.
    */
   fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
-      val topLevelNavOptions = navOptions {
-        // Pop up to the start destination of the graph to
-        // avoid building up a large stack of destinations
-        // on the back stack as users select items
-        popUpTo(navController.graph.findStartDestination().id) {
-          saveState = true
-        }
-        // Avoid multiple copies of the same destination when
-        // reselecting the same item
-        launchSingleTop = true
-        // Restore state when reselecting a previously selected item
-        restoreState = true
+    val topLevelNavOptions = navOptions {
+      // Pop up to the start destination of the graph to
+      // avoid building up a large stack of destinations
+      // on the back stack as users select items
+      popUpTo(navController.graph.findStartDestination().id) {
+        saveState = true
       }
-      when (topLevelDestination) {
-        TopLevelDestination.GAME -> navController.navigateToRollGame(topLevelNavOptions)
-        TopLevelDestination.STATS -> navController.navigateToStatsScreen(topLevelNavOptions)
-      }
+      // Avoid multiple copies of the same destination when
+      // reselecting the same item
+      launchSingleTop = true
+      // Restore state when reselecting a previously selected item
+      restoreState = true
+    }
+    when (topLevelDestination) {
+      TopLevelDestination.GAME -> navController.navigateToRollGame(topLevelNavOptions)
+      TopLevelDestination.STATS -> navController.navigateToStatsScreen(topLevelNavOptions)
+    }
   }
 
   fun setShowSettingsDialog(shouldShow: Boolean) {

@@ -2,9 +2,7 @@ package com.appcoins.diceroll.convention.extensions
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 /**
  * Configure Compose-specific options
@@ -26,6 +24,7 @@ internal fun Project.configureAndroidCompose(
       implementation("androidx-compose-compiler")
       implementation("androidx-compose-foundation")
       implementation("androidx-compose-accompanist-systemuicontroller")
+      implementation("androidx-compose-accompanist-navigation-material")
       implementation("androidx-compose-material3")
     }
   }

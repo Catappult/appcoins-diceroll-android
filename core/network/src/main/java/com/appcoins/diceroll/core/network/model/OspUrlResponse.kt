@@ -1,5 +1,8 @@
 package com.appcoins.diceroll.core.network.model
 
-data class OspUrlResponse (
-  val url: String
+import com.google.gson.annotations.SerializedName
+
+data class OspUrlResponse(
+  val url: String,
+  @SerializedName("order_reference") val orderReference: String?
 )

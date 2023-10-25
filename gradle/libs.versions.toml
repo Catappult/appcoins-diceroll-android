@@ -39,7 +39,7 @@ okhttp_version = "4.11.0"
 play_services_vision_version = "19.0.0"
 retrofit_version = "2.9.0"
 support_annotations = "28.0.0"
-system_ui_controller_version = "0.30.1"
+accompanist_version = "0.32.0"
 test_ext_version = "1.1.5"
 tehras_charts_version = "0.2.4-alpha"
 viewBindingDelegate = "1.4.7"
@@ -59,7 +59,8 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx_lifecycle_ktx_version" }
 androidx-compose-lifecycle-viewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx_lifecycle_ktx_version" }
 androidx-compose-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt_compose_navigation" }
-androidx-compose-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "system_ui_controller_version" }
+androidx-compose-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist_version" }
+androidx-compose-accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist_version" }
 androidx-compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx_compose_constraintlayout" }
 
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx_compose_bom" }
@@ -119,7 +120,8 @@ gradlePlugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.g
 
 [bundles]
 androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
-androidx-compose = ["androidx-compose-accompanist-systemuicontroller", "androidx-compose-runtime", "androidx-compose-lifecycle-viewModel", "androidx-compose-lifecycle-runtime", "androidx-compose-ui-util", "androidx-compose-ui-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-ui-tooling", "androidx-compose-ui-test", "androidx-compose-material3", "androidx-compose-foundation-layout", "androidx-compose-foundation", "androidx-compose-compiler", "androidx-compose-activity", "androidx-compose-runtime-tracing"]
+androidx-compose = ["androidx-compose-runtime", "androidx-compose-lifecycle-viewModel", "androidx-compose-lifecycle-runtime", "androidx-compose-ui-util", "androidx-compose-ui-ui", "androidx-compose-ui-tooling-preview", "androidx-compose-ui-tooling", "androidx-compose-ui-test", "androidx-compose-material3", "androidx-compose-foundation-layout", "androidx-compose-foundation", "androidx-compose-compiler", "androidx-compose-activity", "androidx-compose-runtime-tracing"]
+androidx-compose-accompanist = ["androidx-compose-accompanist-systemuicontroller", "androidx-compose-accompanist-navigation-material"]
 coil = ["coil-kt", "coil-kt-compose", "coil-kt-svg"]
 network = ["network-retrofit", "network-retrofit-converter-gson", "network-okhttp", "network-okhttp-loginterceptor", "google-gson"]
 kotlin-coroutines = ["kotlin-coroutines", "kotlin-coroutines-test"]

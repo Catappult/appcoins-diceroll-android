@@ -39,8 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
 import com.appcoins.diceroll.core.utils.R
-import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
-import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogState
+import com.appcoins.diceroll.feature.payments.ui.Item
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import kotlinx.coroutines.runBlocking
@@ -49,26 +48,22 @@ import com.appcoins.diceroll.feature.roll_game.ui.R as GameR
 
 @Composable
 internal fun RollGameRoute(
+  onBuyClick: (Item) -> Unit,
   viewModel: RollGameViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-  val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
   RollGameScreen(
     uiState,
-    dialogState,
+    onBuyClick,
     viewModel::saveDiceRoll,
-    viewModel::openPaymentsDialog,
-    viewModel::closePaymentsDialog,
   )
 }
 
 @Composable
 fun RollGameScreen(
   uiState: RollGameState,
-  paymentsOptionsState: PaymentsDialogState,
+  onBuyClick: (Item) -> Unit,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onOpenPaymentsDialog: () -> Unit,
-  onClosePaymentsDialog: () -> Unit,
 ) {
   when (uiState) {
     is RollGameState.Loading -> {}
@@ -77,14 +72,9 @@ fun RollGameScreen(
       RollGameContent(
         attemptsLeft = uiState.attemptsLeft ?: DEFAULT_ATTEMPTS_NUMBER,
         onSaveDiceRoll = onSaveDiceRoll,
-        onOpenPaymentsDialog = onOpenPaymentsDialog,
+        onBuyClick = onBuyClick,
       )
     }
-  }
-
-  when (paymentsOptionsState) {
-    PaymentsDialogState.Closed -> {}
-    PaymentsDialogState.Opened -> PaymentsDialogRoute(onDismiss = onClosePaymentsDialog)
   }
 }
 
@@ -92,7 +82,7 @@ fun RollGameScreen(
 fun RollGameContent(
   attemptsLeft: Int,
   onSaveDiceRoll: suspend (diceRoll: DiceRoll) -> Unit,
-  onOpenPaymentsDialog: () -> Unit,
+  onBuyClick: (Item) -> Unit,
 ) {
   var diceValue by rememberSaveable { mutableIntStateOf(1) }
   var resultText by rememberSaveable { mutableStateOf("") }
@@ -162,17 +152,6 @@ fun RollGameContent(
                 }
               }
             }
-            runBlocking {
-              onSaveDiceRoll(
-                DiceRoll(
-                  id = null,
-                  rollWin = diceValue == betNumber.toInt(),
-                  guessNumber = betNumber.toInt(),
-                  resultNumber = diceValue,
-                  attemptsLeft = attemptsLeft
-                )
-              )
-            }
             betNumber = ""
           },
           Modifier
@@ -191,7 +170,7 @@ fun RollGameContent(
       )
     }
 
-    Button(onClick = { onOpenPaymentsDialog() }) {
+    Button(onClick = { onBuyClick(Item.Attempts(attemptsLeft)) }) {
       Text(text = stringResource(id = R.string.roll_game_buy_button))
     }
   }
@@ -252,7 +231,7 @@ fun PreviewDiceRollScreen() {
     RollGameContent(
       attemptsLeft = 3,
       onSaveDiceRoll = {},
-      {},
+      onBuyClick = {},
     )
   }
 }
