@@ -3,12 +3,14 @@ package com.appcoins.diceroll.core.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.appcoins.diceroll.core.navigation.destinations.Destinations
 import com.appcoins.diceroll.core.navigation.destinations.toNavigationType
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -37,11 +39,13 @@ fun NavController.navigateToDestination(
  *
  * @param destination The destination to build the screen for, providing the type of screen.
  * @param destinationArgs The list of optional destination arguments.
+ * @param destinationDeeplinks The list of optional destination DeepLinks.
  * @param destinationComposable The Composable content to be displayed on the screen.
  */
 fun NavGraphBuilder.buildScreen(
   destination: Destinations,
   destinationArgs: List<String> = emptyList(),
+  destinationDeeplinks: List<String> = emptyList(),
   destinationComposable: @Composable (Map<String, String>) -> Unit,
 ) {
   val finalRoute = finalRoute(destination.route, destinationArgs, shouldNavigate = false)
@@ -52,17 +56,38 @@ fun NavGraphBuilder.buildScreen(
     }
   }
 
+  val destinationDeeplinksList = destinationDeeplinks.map {
+    navDeepLink {
+      uriPattern = it
+    }
+  }
+
   when (destination.toNavigationType()) {
     NavigationType.Composable -> {
-      composableHandler(finalRoute, destinationComposable, destinationArgsList)
+      composableHandler(
+        finalRoute,
+        destinationComposable,
+        destinationArgsList,
+        destinationDeeplinksList
+      )
     }
 
     NavigationType.Dialog -> {
-      dialogHandler(finalRoute, destinationComposable, destinationArgsList)
+      dialogHandler(
+        finalRoute,
+        destinationComposable,
+        destinationArgsList,
+        destinationDeeplinksList
+      )
     }
 
     NavigationType.BottomSheet -> {
-      bottomSheetHandler(finalRoute, destinationComposable, destinationArgsList)
+      bottomSheetHandler(
+        finalRoute,
+        destinationComposable,
+        destinationArgsList,
+        destinationDeeplinksList
+      )
     }
   }
 }
@@ -87,14 +112,16 @@ private fun finalRoute(
 private fun NavGraphBuilder.composableHandler(
   route: String,
   content: @Composable (Map<String, String>) -> Unit,
-  destinationArgsList: List<NamedNavArgument>,
+  destinationArgs: List<NamedNavArgument>,
+  destinationDeeplinks: List<NavDeepLink>,
 ) {
   composable(
     route = route,
-    arguments = destinationArgsList,
+    arguments = destinationArgs,
+    deepLinks = destinationDeeplinks,
   ) { backStackEntry ->
     val argValues =
-      destinationArgsList.associate { it.name to backStackEntry.arguments?.getString(it.name) }
+      destinationArgs.associate { it.name to backStackEntry.arguments?.getString(it.name) }
     content(argValues.filterValues { it != null }.mapValues { it.value!! })
   }
 }
@@ -102,14 +129,16 @@ private fun NavGraphBuilder.composableHandler(
 private fun NavGraphBuilder.dialogHandler(
   route: String,
   content: @Composable (Map<String, String>) -> Unit,
-  destinationArgsList: List<NamedNavArgument>,
+  destinationArgs: List<NamedNavArgument>,
+  destinationDeeplinks: List<NavDeepLink>,
 ) {
   dialog(
     route = route,
-    arguments = destinationArgsList,
+    arguments = destinationArgs,
+    deepLinks = destinationDeeplinks,
   ) { backStackEntry ->
     val argValues =
-      destinationArgsList.associate { it.name to backStackEntry.arguments?.getString(it.name) }
+      destinationArgs.associate { it.name to backStackEntry.arguments?.getString(it.name) }
     content(argValues.filterValues { it != null }.mapValues { it.value!! })
   }
 }
@@ -118,14 +147,16 @@ private fun NavGraphBuilder.dialogHandler(
 private fun NavGraphBuilder.bottomSheetHandler(
   route: String,
   content: @Composable (Map<String, String>) -> Unit,
-  destinationArgsList: List<NamedNavArgument>,
+  destinationArgs: List<NamedNavArgument>,
+  destinationDeeplinks: List<NavDeepLink>,
 ) {
   bottomSheet(
     route = route,
-    arguments = destinationArgsList,
+    arguments = destinationArgs,
+    deepLinks = destinationDeeplinks,
   ) { backStackEntry ->
     val argValues =
-      destinationArgsList.associate { it.name to backStackEntry.arguments?.getString(it.name) }
+      destinationArgs.associate { it.name to backStackEntry.arguments?.getString(it.name) }
     content(argValues.filterValues { it != null }.mapValues { it.value!! })
   }
 }
