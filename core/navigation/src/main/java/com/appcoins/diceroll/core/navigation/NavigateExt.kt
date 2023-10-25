@@ -14,7 +14,13 @@ import com.appcoins.diceroll.core.navigation.destinations.toNavigationType
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
 
-
+/**
+ * Navigates to the specified destination using the given route and navigation options.
+ *
+ * @param destination The destination to navigate to, providing the type of screen.
+ * @param destinationArgs The list of optional destination arguments.
+ * @param navOptions The navigation options for this navigation.
+ */
 fun NavController.navigateToDestination(
   destination: Destinations,
   destinationArgs: List<String> = emptyList(),
@@ -23,6 +29,16 @@ fun NavController.navigateToDestination(
   this.navigate(finalRoute(destination.route, destinationArgs, shouldNavigate = true), navOptions)
 }
 
+/**
+ * Builds a screen for the specified destination, taking into consideration the type of screen that
+ * should be created, either a [Destinations.Screen], a [Destinations.Dialog] or
+ * a [Destinations.BottomSheet], by passing the destination object, with optional arguments and
+ * deeplink, and with the provided Composable content.
+ *
+ * @param destination The destination to build the screen for, providing the type of screen.
+ * @param destinationArgs The list of optional destination arguments.
+ * @param destinationComposable The Composable content to be displayed on the screen.
+ */
 fun NavGraphBuilder.buildScreen(
   destination: Destinations,
   destinationArgs: List<String> = emptyList(),
