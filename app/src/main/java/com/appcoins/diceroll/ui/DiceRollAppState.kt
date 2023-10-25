@@ -45,12 +45,6 @@ class DiceRollAppState @OptIn(ExperimentalMaterialNavigationApi::class) construc
       else -> null
     }
 
-  var shouldShowSettingsDialog by mutableStateOf(false)
-    private set
-
-  /**
-   * Map of top level destinations to be used in the TopBar and BottomBar
-   */
   val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
   /**
@@ -78,9 +72,5 @@ class DiceRollAppState @OptIn(ExperimentalMaterialNavigationApi::class) construc
       TopLevelDestination.GAME -> navController.navigateToRollGame(topLevelNavOptions)
       TopLevelDestination.STATS -> navController.navigateToStatsScreen(topLevelNavOptions)
     }
-  }
-
-  fun setShowSettingsDialog(shouldShow: Boolean) {
-    shouldShowSettingsDialog = shouldShow
   }
 }
