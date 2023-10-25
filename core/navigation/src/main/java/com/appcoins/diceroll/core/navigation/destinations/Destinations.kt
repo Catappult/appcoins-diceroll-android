@@ -1,7 +1,5 @@
 package com.appcoins.diceroll.core.navigation.destinations
 
-import com.appcoins.diceroll.core.navigation.NavigationType
-
 sealed class Destinations(open val route: String) {
   sealed class Screen(override val route: String) : Destinations(route) {
     data object RollGame : Screen("roll_game_screen")
@@ -24,4 +22,10 @@ fun Destinations.toNavigationType(): NavigationType {
     is Destinations.BottomSheet -> NavigationType.BottomSheet
     is Destinations.Dialog -> NavigationType.Dialog
   }
+}
+
+sealed interface NavigationType {
+  data object Composable : NavigationType
+  data object Dialog : NavigationType
+  data object BottomSheet : NavigationType
 }

@@ -11,5 +11,6 @@ android {
 dependencies {
   projectImplementation(":core:utils")
   projectImplementation(":core:ui:design")
+  implementation(libs.bundles.androidx.compose)
   implementation(libs.bundles.androidx.compose.accompanist)
 }
