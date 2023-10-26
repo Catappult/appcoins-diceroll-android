@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.appcoins.diceroll.core.navigation.destinations.Destinations
-import com.appcoins.diceroll.core.navigation.buildScreen
+import com.appcoins.diceroll.core.navigation.buildDestinationRoute
 import com.appcoins.diceroll.core.navigation.navigateToDestination
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.ui.StatsRoute
@@ -16,8 +16,8 @@ fun NavController.navigateToStatsScreen(navOptions: NavOptions) {
   )
 }
 
-fun NavGraphBuilder.statsScreen(onDetailsClick: (List<DiceRoll>) -> Unit) {
-  this.buildScreen(
+fun NavGraphBuilder.statsRoute(onDetailsClick: (List<DiceRoll>) -> Unit) {
+  this.buildDestinationRoute(
     destination = Destinations.Screen.Stats,
   ) {
     StatsRoute(onDetailsClick)

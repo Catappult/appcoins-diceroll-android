@@ -23,12 +23,7 @@ fun DiceRollTopAppBar(
   onActionClick: () -> Unit = {},
 ) {
   CenterAlignedTopAppBar(
-    title = {
-      Text(
-        text = stringResource(id = titleRes),
-        color = MaterialTheme.colorScheme.primaryContainer
-      )
-    },
+    title = { Text(text = stringResource(id = titleRes)) },
     navigationIcon = {
       IconButton(onClick = onNavigationClick) {
         Image(
@@ -42,7 +37,6 @@ fun DiceRollTopAppBar(
         Icon(
           imageVector = actionIcon,
           contentDescription = actionIconContentDescription,
-          tint = MaterialTheme.colorScheme.primaryContainer,
         )
       }
     },

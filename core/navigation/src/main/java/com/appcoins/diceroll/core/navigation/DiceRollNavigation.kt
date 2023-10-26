@@ -39,7 +39,7 @@ fun NavController.navigateToDestination(
  * applicable to the type [Destinations.Screen] and will be ignored for the other types.
  * @param destinationComposable The Composable content to be displayed on the screen.
  */
-fun NavGraphBuilder.buildScreen(
+fun NavGraphBuilder.buildDestinationRoute(
   destination: Destinations,
   destinationArgs: List<String> = emptyList(),
   destinationDeeplinks: List<String> = emptyList(),

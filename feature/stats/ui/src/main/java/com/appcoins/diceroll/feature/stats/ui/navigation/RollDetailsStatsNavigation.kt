@@ -3,7 +3,7 @@ package com.appcoins.diceroll.feature.stats.ui.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.appcoins.diceroll.core.navigation.destinations.Destinations
-import com.appcoins.diceroll.core.navigation.buildScreen
+import com.appcoins.diceroll.core.navigation.buildDestinationRoute
 import com.appcoins.diceroll.core.navigation.navigateToDestination
 import com.appcoins.diceroll.feature.stats.ui.RollDetailsStatsRoute
 
@@ -13,8 +13,8 @@ fun NavController.navigateToRollDetailsStatsScreen() {
   )
 }
 
-fun NavGraphBuilder.rollDetailsStatsScreen() {
-  this.buildScreen(
+fun NavGraphBuilder.rollDetailsStatsRoute() {
+  this.buildDestinationRoute(
     destination = Destinations.Screen.StatsRollDetails,
   ) {
     RollDetailsStatsRoute()

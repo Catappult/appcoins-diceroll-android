@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navOptions
 import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
 import com.appcoins.diceroll.core.navigation.destinations.Destinations
-import com.appcoins.diceroll.core.navigation.buildScreen
+import com.appcoins.diceroll.core.navigation.buildDestinationRoute
 import com.appcoins.diceroll.core.navigation.navigateToDestination
 import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
 
@@ -33,8 +33,8 @@ fun NavController.navigateToPaymentsDialog(
  * @see <a href="https://issuetracker.google.com/issues/148523779">Issue Tracker</a>
  *
  */
-fun NavGraphBuilder.paymentsDialog(onDismiss: () -> Unit) {
-  this.buildScreen(
+fun NavGraphBuilder.paymentsRoute(onDismiss: () -> Unit) {
+  this.buildDestinationRoute(
     destination = Destinations.BottomSheet.Payments,
     destinationArgs = listOf(DestinationArgs.ItemId),
   ) { args ->

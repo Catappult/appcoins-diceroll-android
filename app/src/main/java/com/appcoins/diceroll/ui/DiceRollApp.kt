@@ -54,18 +54,12 @@ fun DiceRollBottomBar(
     containerColor = MaterialTheme.colorScheme.background,
   ) {
     destinations.forEach { destination ->
-      val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
       DiceRollNavigationBarItem(
-        selected = selected,
+        selected = currentDestination.isTopLevelDestinationInHierarchy(destination),
         onClick = { onNavigateToDestination(destination) },
         icon = {
-          val icon = if (selected) {
-            destination.selectedIcon
-          } else {
-            destination.unselectedIcon
-          }
           Icon(
-            imageVector = icon,
+            imageVector = destination.icon,
             contentDescription = null,
           )
         },

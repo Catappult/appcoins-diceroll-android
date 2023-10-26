@@ -1,6 +1,5 @@
 package com.appcoins.diceroll.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -28,10 +27,6 @@ fun DiceRollNavHost(
       navController = navController,
       startDestination = startDestination.route,
       modifier = Modifier.padding(scaffoldPadding),
-      enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
-      popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
-      exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) },
-      popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) },
     ) {
       settingsGraph(navController)
       statsGraph(navController)
