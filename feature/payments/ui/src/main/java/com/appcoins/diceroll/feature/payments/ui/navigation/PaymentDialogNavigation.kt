@@ -2,34 +2,43 @@ package com.appcoins.diceroll.feature.payments.ui.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
+import androidx.navigation.navOptions
+import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
+import com.appcoins.diceroll.core.navigation.destinations.Destinations
+import com.appcoins.diceroll.core.navigation.buildDestinationRoute
+import com.appcoins.diceroll.core.navigation.navigateToDestination
 import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
-import java.net.URLEncoder
 
-const val paymentsNavigationRoute = "payments_dialog_route"
-internal const val itemIdArg = "itemId"
 
 fun NavController.navigateToPaymentsDialog(
   itemId: String,
-  navOptions: NavOptionsBuilder.() -> Unit
 ) {
-  val encodedId = URLEncoder.encode(itemId, Charsets.UTF_8.name())
-  this.navigate("$paymentsNavigationRoute/$encodedId", navOptions)
+  this.navigateToDestination(
+    destination = Destinations.BottomSheet.Payments,
+    destinationArgs = listOf(itemId),
+    navOptions = navOptions {
+      launchSingleTop = true
+    }
+  )
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
-fun NavGraphBuilder.paymentsDialog(onDismiss: () -> Unit) {
-  bottomSheet(
-    route = "$paymentsNavigationRoute/{$itemIdArg}",
-    arguments = listOf(
-      navArgument(itemIdArg) { type = NavType.StringType },
-    ),
-  ) { backStackEntry ->
-    backStackEntry.arguments?.getString(itemIdArg)?.let {
+/**
+ * Payment dialog route, that receives a [itemId] that is the SKU for the item to buy.
+ * This item could be the Item instead of the string but its not recommended to use complex data
+ * when navigating, according to the official android documentation.
+ * Doing so creates problems, such as the route not being able to be parsed by the navigation
+ * since it would need either a Parcelable or a Serializable and that issue wont be fixed as seen
+ * in the issue tracker below.
+ *
+ * @see <a href="https://issuetracker.google.com/issues/148523779">Issue Tracker</a>
+ *
+ */
+fun NavGraphBuilder.paymentsRoute(onDismiss: () -> Unit) {
+  this.buildDestinationRoute(
+    destination = Destinations.BottomSheet.Payments,
+    destinationArgs = listOf(DestinationArgs.ItemId),
+  ) { args ->
+    args[DestinationArgs.ItemId]?.let {
       PaymentsDialogRoute(onDismiss, it)
     }
   }

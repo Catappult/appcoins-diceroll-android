@@ -5,11 +5,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
 import com.appcoins.diceroll.core.ui.design.R
 import com.appcoins.diceroll.core.ui.widgets.ErrorAnimation
 import com.appcoins.diceroll.core.ui.widgets.LoadingAnimation
 import com.appcoins.diceroll.core.ui.widgets.components.DiceRollBottomSheet
-import com.appcoins.diceroll.feature.payments.ui.navigation.itemIdArg
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptions
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResult
@@ -20,7 +20,7 @@ fun PaymentsDialogRoute(
   itemId: String,
   viewModel: PaymentsViewModel = hiltViewModel()
 ) {
-  viewModel.savedStateHandle[itemIdArg] = itemId
+  viewModel.savedStateHandle[DestinationArgs.ItemId] = itemId
   val paymentOptionsState by viewModel.paymentOptionsState.collectAsStateWithLifecycle()
   val paymentsResultState by viewModel.paymentResultState.collectAsStateWithLifecycle()
   DiceRollBottomSheet(onDismiss) {

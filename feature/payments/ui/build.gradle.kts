@@ -16,5 +16,6 @@ dependencies {
   projectImplementation(":core:ui:design")
   projectImplementation(":core:ui:widgets")
   projectImplementation(":core:utils")
+  projectImplementation(":core:navigation")
   implementation(libs.bundles.coil)
 }

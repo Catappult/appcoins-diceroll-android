@@ -9,27 +9,22 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.appcoins.diceroll.core.ui.design.DiceRollIcons
 import com.appcoins.diceroll.core.ui.widgets.components.DiceRollNavigationBarItem
 import com.appcoins.diceroll.core.ui.widgets.components.DiceRollTopAppBar
-import com.appcoins.diceroll.feature.settings.ui.SettingsRoute
 import com.appcoins.diceroll.navigation.DiceRollNavHost
 import com.appcoins.diceroll.navigation.TopLevelDestination
 import com.appcoins.diceroll.core.utils.R
+import com.appcoins.diceroll.feature.settings.ui.navigation.navigateToSettings
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 fun DiceRollApp() {
   val appState: DiceRollAppState = rememberDiceRollAppState()
-  if (appState.shouldShowSettingsDialog) {
-    SettingsRoute(
-      onDismiss = { appState.setShowSettingsDialog(false) },
-    )
-  }
   Scaffold(
     topBar = {
       DiceRollTopAppBar(
         titleRes = appState.currentTopLevelDestination?.titleTextId ?: R.string.top_bar_title,
         actionIcon = DiceRollIcons.settings,
-        onActionClick = { appState.setShowSettingsDialog(true) },
+        onActionClick = { appState.navController.navigateToSettings() },
       )
     },
     bottomBar = {
@@ -59,18 +54,12 @@ fun DiceRollBottomBar(
     containerColor = MaterialTheme.colorScheme.background,
   ) {
     destinations.forEach { destination ->
-      val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
       DiceRollNavigationBarItem(
-        selected = selected,
+        selected = currentDestination.isTopLevelDestinationInHierarchy(destination),
         onClick = { onNavigateToDestination(destination) },
         icon = {
-          val icon = if (selected) {
-            destination.selectedIcon
-          } else {
-            destination.unselectedIcon
-          }
           Icon(
-            imageVector = icon,
+            imageVector = destination.icon,
             contentDescription = null,
           )
         },

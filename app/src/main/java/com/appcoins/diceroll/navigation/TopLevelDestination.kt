@@ -10,20 +10,17 @@ import com.appcoins.diceroll.core.utils.R
  * next within a single destination will be handled directly in composables.
  */
 enum class TopLevelDestination(
-  val selectedIcon: ImageVector,
-  val unselectedIcon: ImageVector,
+  val icon: ImageVector,
   val iconTextId: Int,
   val titleTextId: Int,
 ) {
   GAME(
-    selectedIcon = DiceRollIcons.game,
-    unselectedIcon = DiceRollIcons.game,
+    icon = DiceRollIcons.game,
     iconTextId = R.string.roll_game_title,
     titleTextId = R.string.top_bar_title,
   ),
   STATS(
-    selectedIcon = DiceRollIcons.stats,
-    unselectedIcon = DiceRollIcons.stats,
+    icon = DiceRollIcons.stats,
     iconTextId = R.string.stats_title,
     titleTextId = R.string.top_bar_title,
   ),
