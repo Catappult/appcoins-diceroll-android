@@ -18,9 +18,11 @@ import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResult
 fun PaymentsDialogRoute(
   onDismiss: () -> Unit,
   itemId: String,
+  attempts : String,
   viewModel: PaymentsViewModel = hiltViewModel()
 ) {
   viewModel.savedStateHandle[DestinationArgs.ItemId] = itemId
+  viewModel.savedStateHandle[DestinationArgs.AttemptsLeft] = attempts
   val paymentOptionsState by viewModel.paymentOptionsState.collectAsStateWithLifecycle()
   val paymentsResultState by viewModel.paymentResultState.collectAsStateWithLifecycle()
   DiceRollBottomSheet(onDismiss) {
