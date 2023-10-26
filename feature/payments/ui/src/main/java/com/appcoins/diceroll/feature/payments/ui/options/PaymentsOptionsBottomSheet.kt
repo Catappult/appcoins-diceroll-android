@@ -102,7 +102,7 @@ fun launchBillingOspFlow(
 
 @Preview
 @Composable
-fun PreviewPaymentsDialog() {
+fun PreviewPaymentsOptionsContent() {
   DiceRollTheme(darkTheme = true) {
     PaymentsOptionsContent(
       context = LocalContext.current,

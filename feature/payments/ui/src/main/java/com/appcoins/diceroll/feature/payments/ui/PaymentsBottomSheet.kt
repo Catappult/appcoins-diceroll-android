@@ -15,7 +15,7 @@ import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResult
 
 @Composable
-fun PaymentsDialogRoute(
+fun PaymentsBottomSheetRoute(
   onDismiss: () -> Unit,
   itemId: String,
   attempts : String,

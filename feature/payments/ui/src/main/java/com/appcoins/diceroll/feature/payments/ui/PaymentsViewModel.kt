@@ -38,9 +38,11 @@ class PaymentsViewModel @Inject constructor(
       itemId == null || attempts == null -> {
         _paymentOptionsState.value = PaymentsOptionsUiState.Error
       }
+
       attempts == DEFAULT_ATTEMPTS_NUMBER.toString() -> {
         _paymentOptionsState.value = PaymentsOptionsUiState.NotAvailable
       }
+
       else -> {
         _paymentOptionsState.value = PaymentsOptionsUiState.Available(itemId)
       }
