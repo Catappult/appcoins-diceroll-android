@@ -1,5 +1,6 @@
 package com.appcoins.diceroll
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.appcoins.diceroll.MainActivityUiState.*
 import com.appcoins.diceroll.core.ui.design.theme.*
+import com.appcoins.diceroll.feature.payments.ui.PaymentsViewModel
 import com.appcoins.diceroll.feature.settings.data.ThemeConfig
 import com.appcoins.diceroll.ui.DiceRollApp
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +25,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
   private val viewModel: MainActivityViewModel by viewModels()
+  private val paymentsViewModel: PaymentsViewModel by viewModels()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     val splashScreen = installSplashScreen()
@@ -53,6 +56,13 @@ class MainActivity : ComponentActivity() {
       DiceRollTheme(darkTheme = darkTheme) {
         DiceRollApp()
       }
+    }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    lifecycleScope.launch {
+      paymentsViewModel.onActivityResult(requestCode, resultCode, data)
     }
   }
 }
