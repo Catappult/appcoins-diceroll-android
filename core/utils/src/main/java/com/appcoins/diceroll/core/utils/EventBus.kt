@@ -1,6 +1,5 @@
 package com.appcoins.diceroll.core.utils
 
-import android.util.Log
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -33,7 +32,6 @@ object EventBus {
    * @param event The event to be published.
    */
   suspend fun publish(event: Any) {
-    Log.d(CUSTOM_TAG, "EventBus: publish: event $event")
     eventChannel.send(event)
   }
 
@@ -44,8 +42,9 @@ object EventBus {
    * @return A Flow of events of the specified type [T].
    */
   inline fun <reified T> listen(): Flow<T> {
-    Log.d(CUSTOM_TAG, "EventBus: listen: T ${T::class.java}")
-    return eventChannel.consumeAsFlow().filterIsInstance<T>()
+    return eventChannel
+      .consumeAsFlow()
+      .filterIsInstance<T>()
       .onCompletion {
         eventChannel = createEventChannel()
       }
