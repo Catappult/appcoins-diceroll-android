@@ -53,7 +53,7 @@ fun PaymentsBottomSheetRoute(
       is PaymentsOptionsUiState.OptionSelected -> {
         PaymentsResult(
           paymentsResultState,
-          viewModel::resetAttemptsLeft
+          viewModel::resetAttemptsLeft,
         )
       }
     }

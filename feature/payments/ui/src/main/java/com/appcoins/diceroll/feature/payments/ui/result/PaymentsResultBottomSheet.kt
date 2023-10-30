@@ -15,7 +15,7 @@ import com.appcoins.diceroll.core.ui.widgets.SuccessAnimation
 @Composable
 fun PaymentsResult(
   uiState: PaymentsResultUiState,
-  onPaymentSuccess: suspend () -> Unit
+  onPaymentSuccess: suspend () -> Unit,
 ) {
   when (uiState) {
     is PaymentsResultUiState.Initialized -> {}

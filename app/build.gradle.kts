@@ -30,6 +30,7 @@ dependencies {
   projectImplementation(":feature:roll-game:ui")
   projectImplementation(":feature:payments:ui")
   projectImplementation(":payments:appcoins-osp")
+  projectImplementation(":payments:appcoins-sdk")
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
   implementation(libs.bundles.androidx.compose.accompanist)

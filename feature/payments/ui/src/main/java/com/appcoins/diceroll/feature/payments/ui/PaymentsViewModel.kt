@@ -1,18 +1,17 @@
 package com.appcoins.diceroll.feature.payments.ui
 
-import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
-import com.appcoins.diceroll.core.utils.CUSTOM_TAG
+import com.appcoins.diceroll.core.utils.EventBus
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultUiState
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackState
 import com.appcoins.diceroll.payments.appcoins.osp.data.usecases.PollOspCallbackUseCase
+import com.appcoins.diceroll.payments.appcoins_sdk.SdkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -65,7 +64,9 @@ class PaymentsViewModel @Inject constructor(
         observeOspCallback(paymentsIntegration.orderReference)
       }
 
-      is PaymentsIntegration.SDK -> {}
+      is PaymentsIntegration.SDK -> {
+        observeSdkResult()
+      }
     }
   }
 
@@ -86,16 +87,14 @@ class PaymentsViewModel @Inject constructor(
       .produceIn(viewModelScope)
   }
 
-  fun onActivityResult(requestCode: Int, resultCode: Int? = null, data: Intent? = null) {
-    Log.d(
-      CUSTOM_TAG,
-      "PaymentsViewModel: onActivityResult: requestCode: $requestCode, resultCode: $resultCode, data: $data"
-    )
+  private fun observeSdkResult() {
     viewModelScope.launch {
-      when (resultCode) {
-        -1 -> _paymentResultState.value = PaymentsResultUiState.Success
-        0 -> _paymentResultState.value = PaymentsResultUiState.UserCanceled
-        else -> _paymentResultState.value = PaymentsResultUiState.Failed
+      EventBus.listen<SdkResult>().collect {
+        when (it.resultCode) {
+          -1 -> _paymentResultState.value = PaymentsResultUiState.Success
+          0 -> _paymentResultState.value = PaymentsResultUiState.UserCanceled
+          else -> _paymentResultState.value = PaymentsResultUiState.Failed
+        }
       }
     }
   }
