@@ -18,8 +18,8 @@ import com.appcoins.diceroll.feature.settings.data.ThemeConfig
 import com.appcoins.diceroll.payments.appcoins_sdk.SdkResult
 import com.appcoins.diceroll.ui.DiceRollApp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -59,8 +59,9 @@ class MainActivity : ComponentActivity() {
     }
   }
 
+  @Deprecated(message = "ActivityResultContracts should be used instead")
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
+    @Suppress("DEPRECATION") super.onActivityResult(requestCode, resultCode, data)
     lifecycleScope.launch {
       EventBus.publish(SdkResult(requestCode, resultCode, data))
     }
