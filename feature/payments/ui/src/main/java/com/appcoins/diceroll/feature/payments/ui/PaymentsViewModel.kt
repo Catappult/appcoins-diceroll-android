@@ -90,11 +90,12 @@ class PaymentsViewModel @Inject constructor(
   private fun observeSdkResult() {
     viewModelScope.launch {
       EventBus.listen<SdkResult>().collect {
-        when (it.resultCode) {
-          -1 -> _paymentResultState.value = PaymentsResultUiState.Success
-          0 -> _paymentResultState.value = PaymentsResultUiState.UserCanceled
-          else -> _paymentResultState.value = PaymentsResultUiState.Failed
+        val paymentState = when (it.resultCode) {
+          SdkResult.RESULT_OK -> PaymentsResultUiState.Success
+          SdkResult.RESULT_CANCELED -> PaymentsResultUiState.UserCanceled
+          else -> PaymentsResultUiState.Failed
         }
+        _paymentResultState.value = paymentState
       }
     }
   }
