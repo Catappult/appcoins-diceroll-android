@@ -19,6 +19,7 @@ object EventBus {
 
   /**
    * Creates a new event channel with a CONFLATED buffer type.
+   * This means that the channel will only keep the last event published, not all of them.
    *
    * @return A new channel for handling events with a CONFLATED buffer type.
    */
