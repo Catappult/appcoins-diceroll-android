@@ -1,1 +1,1 @@
-# appcoins-diceroll-sample
+# appcoins-diceroll-android
