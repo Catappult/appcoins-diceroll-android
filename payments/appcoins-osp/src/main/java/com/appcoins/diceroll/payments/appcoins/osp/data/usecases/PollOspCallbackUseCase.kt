@@ -8,6 +8,7 @@ import com.appcoins.diceroll.payments.appcoins.osp.data.repository.OspRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.transformWhile
@@ -23,12 +24,15 @@ class PollOspCallbackUseCase @Inject constructor(
     return ospRepository.observeCallbackResult(orderReference = orderReference)
       .transformWhile { value ->
         emit(value)
-        delay(5.seconds)
+        delay(10.seconds)
         !isEndStatus(value.status)
       }
-      .retry(retries = 6) { cause ->
+      .retry(retries = 3) { cause ->
         delay(10.seconds)
         shouldRetry(cause)
+      }
+      .catch {
+        emit(OspCallbackResult(OspCallbackState.FAILED))
       }
       .flowOn(Dispatchers.IO)
   }
