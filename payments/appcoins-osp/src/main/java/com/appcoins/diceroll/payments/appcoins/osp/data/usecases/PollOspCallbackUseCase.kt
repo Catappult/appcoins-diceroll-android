@@ -25,7 +25,7 @@ class PollOspCallbackUseCase @Inject constructor(
       .transformWhile { value ->
         emit(value)
         delay(10.seconds)
-        !isEndStatus(value.status)
+        !value.status.isEndStatus()
       }
       .retry(retries = 3) { cause ->
         delay(10.seconds)
@@ -44,9 +44,9 @@ class PollOspCallbackUseCase @Inject constructor(
     return false
   }
 
-  private fun isEndStatus(status: OspCallbackState): Boolean {
-    return status == OspCallbackState.COMPLETED ||
-        status == OspCallbackState.FAILED ||
-        status == OspCallbackState.CANCELED
+  private fun OspCallbackState.isEndStatus(): Boolean {
+    return this == OspCallbackState.COMPLETED ||
+        this == OspCallbackState.FAILED ||
+        this == OspCallbackState.CANCELED
   }
 }

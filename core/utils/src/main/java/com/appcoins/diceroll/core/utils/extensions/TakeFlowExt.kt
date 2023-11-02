@@ -3,38 +3,10 @@ package com.appcoins.diceroll.core.utils.extensions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.launch
 import kotlin.time.Duration
-
-
-fun <T> Flow<T>.emitEvery(interval: Duration): Flow<T> = flow {
-  while (true) {
-    collect { value ->
-      emit(value)
-      delay(interval)
-    }
-  }
-}
-
-fun <T> Flow<T>.repeatUntil(predicate: suspend (value: T, attempt: Long) -> Boolean): Flow<T> =
-  flow {
-    var attempt = 0L
-    var shallRepeat: Boolean
-    do {
-      shallRepeat = false
-      val value = this@repeatUntil.singleOrNull()
-      if (value != null) {
-        if (!predicate(value, attempt)) {
-          shallRepeat = true
-          attempt++
-        } else {
-          emit(value)
-        }
-      }
-    } while (shallRepeat)
-  }
-
 
 fun <T, R> Flow<T>.repeatUntil(
   map: suspend (T) -> R,
@@ -55,4 +27,16 @@ fun <T, R> Flow<T>.repeatUntil(
       retryCollect(item, attempt = 1L)
     }
   }
+}
+
+fun <T> Flow<T>.takeUntilTimeout(interval: Duration) = channelFlow {
+  val collector = launch {
+    collect {
+      send(it)
+    }
+    close()
+  }
+  delay(interval)
+  collector.cancel()
+  close(Throwable("Timed out waiting for $interval"))
 }

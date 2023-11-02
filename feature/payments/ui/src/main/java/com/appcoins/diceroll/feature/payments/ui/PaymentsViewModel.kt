@@ -5,21 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
 import com.appcoins.diceroll.core.utils.EventBus
+import com.appcoins.diceroll.core.utils.extensions.takeUntilTimeout
 import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResultUiState
 import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
-import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackResult
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackState
 import com.appcoins.diceroll.payments.appcoins.osp.data.usecases.PollOspCallbackUseCase
 import com.appcoins.diceroll.payments.appcoins_sdk.SdkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.produceIn
 import kotlinx.coroutines.launch
@@ -76,26 +74,22 @@ class PaymentsViewModel @Inject constructor(
   }
 
   private fun observeOspCallback(orderReference: Result<String>) {
-    val timeoutFlow = flow<PaymentsResultUiState> {
-      delay(10.minutes)
-      emit(PaymentsResultUiState.Failed)
-    }
-
     orderReference.fold(
       onSuccess = { reference ->
-        merge(pollOspCallbackUseCase(reference), timeoutFlow)
+        pollOspCallbackUseCase(reference)
           .map { callbackResult ->
-            when ((callbackResult as OspCallbackResult).status) {
-              OspCallbackState.COMPLETED -> {
-                PaymentsResultUiState.Success
-              }
-
+            when (callbackResult.status) {
+              OspCallbackState.COMPLETED -> PaymentsResultUiState.Success
               OspCallbackState.CANCELED -> PaymentsResultUiState.UserCanceled
               OspCallbackState.FAILED -> PaymentsResultUiState.Failed
               OspCallbackState.PENDING -> PaymentsResultUiState.Loading
             }
           }
           .onEach { paymentResultUiState -> _paymentResultState.value = paymentResultUiState }
+          .takeUntilTimeout(10.minutes)
+          .catch {
+            _paymentResultState.value = PaymentsResultUiState.Failed
+          }
           .produceIn(viewModelScope)
       },
       onFailure = {
