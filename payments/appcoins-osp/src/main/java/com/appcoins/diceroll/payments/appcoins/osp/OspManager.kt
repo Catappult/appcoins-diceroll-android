@@ -27,11 +27,10 @@ class OspManager @Inject constructor(private val ospRepository: OspRepository) {
           )
         }
         .onFailure {
-          callback.onError("Error: ${it.message}")
+          callback.onError(error = Result.failure(it))
         }
     }
   }
-
 
   private fun openPaymentActivity(
     ospUrl: String,
@@ -39,7 +38,7 @@ class OspManager @Inject constructor(private val ospRepository: OspRepository) {
     context: Context,
     callback: OspLaunchCallback
   ) {
-    try {
+    runCatching {
       val intent = Intent(Intent.ACTION_VIEW)
       intent.data = Uri.parse(ospUrl)
 
@@ -47,24 +46,16 @@ class OspManager @Inject constructor(private val ospRepository: OspRepository) {
         intent.setPackage(walletPackage)
       }
       (context as Activity).startActivity(intent)
-      callback.onSuccess(orderReference = ospOrderReference)
-
-    } catch (e: Exception) {
-      callback.onError("Error: ${e.message}")
+      callback.onSuccess(orderReference = Result.success(ospOrderReference))
+    }.onFailure {
+      callback.onError(error = Result.failure(it))
     }
   }
 
   private fun isAppCoinsWalletInstalled(context: Context): Boolean {
-    val packageManager = (context as Activity).applicationContext.packageManager
-    val intentForCheck = Intent(Intent.ACTION_VIEW)
-    if (intentForCheck.resolveActivity(packageManager) != null) {
-      try {
-        packageManager.getPackageInfo(walletPackage, PackageManager.GET_ACTIVITIES)
-        return true
-      } catch (e: PackageManager.NameNotFoundException) {
-      }
-    }
-
-    return false
+    val packageManager = (context as Activity).packageManager
+    return runCatching {
+      packageManager.getPackageInfo(walletPackage, PackageManager.GET_ACTIVITIES)
+    }.isSuccess
   }
 }

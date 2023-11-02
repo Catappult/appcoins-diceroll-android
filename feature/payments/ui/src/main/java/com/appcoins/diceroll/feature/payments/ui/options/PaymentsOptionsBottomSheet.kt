@@ -89,11 +89,11 @@ fun launchBillingOspFlow(
   context: Context,
 ) {
   val ospCallback = object : OspLaunchCallback {
-    override fun onSuccess(orderReference: String) {
+    override fun onSuccess(orderReference: Result<String>) {
       onResultPayment(PaymentsIntegration.OSP(orderReference))
     }
 
-    override fun onError(error: String) {
+    override fun onError(error: Result<String>) {
       onResultPayment(PaymentsIntegration.OSP(error))
     }
   }
@@ -102,7 +102,7 @@ fun launchBillingOspFlow(
 
 @Preview
 @Composable
-fun PreviewPaymentsDialog() {
+fun PreviewPaymentsOptionsContent() {
   DiceRollTheme(darkTheme = true) {
     PaymentsOptionsContent(
       context = LocalContext.current,

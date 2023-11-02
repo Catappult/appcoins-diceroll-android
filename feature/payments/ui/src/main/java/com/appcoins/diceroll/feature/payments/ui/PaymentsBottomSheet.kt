@@ -15,12 +15,14 @@ import com.appcoins.diceroll.feature.payments.ui.options.PaymentsOptionsUiState
 import com.appcoins.diceroll.feature.payments.ui.result.PaymentsResult
 
 @Composable
-fun PaymentsDialogRoute(
+fun PaymentsBottomSheetRoute(
   onDismiss: () -> Unit,
   itemId: String,
+  attempts : String,
   viewModel: PaymentsViewModel = hiltViewModel()
 ) {
   viewModel.savedStateHandle[DestinationArgs.ItemId] = itemId
+  viewModel.savedStateHandle[DestinationArgs.AttemptsLeft] = attempts
   val paymentOptionsState by viewModel.paymentOptionsState.collectAsStateWithLifecycle()
   val paymentsResultState by viewModel.paymentResultState.collectAsStateWithLifecycle()
   DiceRollBottomSheet(onDismiss) {
@@ -51,7 +53,7 @@ fun PaymentsDialogRoute(
       is PaymentsOptionsUiState.OptionSelected -> {
         PaymentsResult(
           paymentsResultState,
-          viewModel::resetAttemptsLeft
+          viewModel::resetAttemptsLeft,
         )
       }
     }

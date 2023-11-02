@@ -1,7 +1,7 @@
 package com.appcoins.diceroll.payments.appcoins.osp.data.model
 
 data class OspCallbackResult(
-  val result: OspCallbackState,
+  val status: OspCallbackState,
 )
 
 enum class OspCallbackState {

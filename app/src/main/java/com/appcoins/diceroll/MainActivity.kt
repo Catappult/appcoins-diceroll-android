@@ -1,5 +1,6 @@
 package com.appcoins.diceroll
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,11 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.appcoins.diceroll.MainActivityUiState.*
 import com.appcoins.diceroll.core.ui.design.theme.*
+import com.appcoins.diceroll.core.utils.EventBus
 import com.appcoins.diceroll.feature.settings.data.ThemeConfig
+import com.appcoins.diceroll.payments.appcoins_sdk.SdkResult
 import com.appcoins.diceroll.ui.DiceRollApp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -53,6 +56,14 @@ class MainActivity : ComponentActivity() {
       DiceRollTheme(darkTheme = darkTheme) {
         DiceRollApp()
       }
+    }
+  }
+
+  @Deprecated(message = "ActivityResultContracts should be used instead")
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    @Suppress("DEPRECATION") super.onActivityResult(requestCode, resultCode, data)
+    lifecycleScope.launch {
+      EventBus.publish(SdkResult(requestCode, resultCode, data))
     }
   }
 }

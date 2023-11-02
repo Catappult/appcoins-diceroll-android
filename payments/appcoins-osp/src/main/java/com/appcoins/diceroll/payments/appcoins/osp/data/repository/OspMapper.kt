@@ -1,7 +1,6 @@
 package com.appcoins.diceroll.payments.appcoins.osp.data.repository
 
 import com.appcoins.diceroll.core.network.model.OspCallbackResultResponse
-import com.appcoins.diceroll.core.network.model.OspCallbackStateResponse
 import com.appcoins.diceroll.core.network.model.OspUrlResponse
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackResult
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackState
@@ -16,15 +15,16 @@ fun OspUrlResponse.toOspUrl(): OspUrl {
 
 fun OspCallbackResultResponse.toOspCallbackResult(): OspCallbackResult {
   return OspCallbackResult(
-    result = this.result.toOspCallbackState()
+    status = this.status.toOspCallbackState()
   )
 }
 
-fun OspCallbackStateResponse.toOspCallbackState(): OspCallbackState {
+fun String.toOspCallbackState(): OspCallbackState {
   return when (this) {
-    OspCallbackStateResponse.COMPLETED -> OspCallbackState.COMPLETED
-    OspCallbackStateResponse.FAILED -> OspCallbackState.FAILED
-    OspCallbackStateResponse.CANCELED -> OspCallbackState.CANCELED
-    OspCallbackStateResponse.PENDING -> OspCallbackState.PENDING
+    "COMPLETED" -> OspCallbackState.COMPLETED
+    "FAILED" -> OspCallbackState.FAILED
+    "CANCELED" -> OspCallbackState.CANCELED
+    "PENDING" -> OspCallbackState.PENDING
+    else -> OspCallbackState.FAILED
   }
 }

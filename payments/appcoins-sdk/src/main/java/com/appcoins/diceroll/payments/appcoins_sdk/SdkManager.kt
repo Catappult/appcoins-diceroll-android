@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.appcoins.sdk.billing.AppcoinsBillingClient
 import com.appcoins.sdk.billing.BillingFlowParams
+import com.appcoins.sdk.billing.Purchase
 import com.appcoins.sdk.billing.PurchasesUpdatedListener
 import com.appcoins.sdk.billing.ResponseCode
 import com.appcoins.sdk.billing.SkuDetailsParams
@@ -12,6 +13,9 @@ import com.appcoins.sdk.billing.listeners.AppCoinsBillingStateListener
 import com.appcoins.sdk.billing.listeners.ConsumeResponseListener
 import com.appcoins.sdk.billing.listeners.SkuDetailsResponseListener
 import com.appcoins.sdk.billing.types.SkuType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Manages the AppCoins SDK integration for in-app billing.
@@ -28,7 +32,6 @@ import com.appcoins.sdk.billing.types.SkuType
 interface SdkManager {
 
   val context: Context
-  val logTAG: String get() = "SdkManager"
 
   /**
    * The AppCoins billing client instance.
@@ -51,18 +54,24 @@ interface SdkManager {
           when (responseCode) {
             ResponseCode.OK.value -> {
               queryPurchases()
-              queryInapps()
-              Log.d(logTAG, "AppCoins SDK Setup successful. Querying inventory.")
+              queryInapps(ArrayList(listOf("attempts")))
+              Log.d(
+                logTAG,
+                "AppCoinsBillingStateListener: AppCoins SDK Setup successful. Querying inventory."
+              )
             }
 
             else -> {
-              Log.d(logTAG, "Problem setting up AppCoins SDK: ${responseCode.toResponseCode()}")
+              Log.d(
+                logTAG,
+                "AppCoinsBillingStateListener: Problem setting up AppCoins SDK: ${responseCode.toResponseCode()}"
+              )
             }
           }
         }
 
         override fun onBillingServiceDisconnected() {
-          Log.d(logTAG, "AppCoins SDK Disconnected")
+          Log.d(logTAG, "AppCoinsBillingStateListener: AppCoins SDK Disconnected")
         }
       }
 
@@ -80,6 +89,19 @@ interface SdkManager {
    * @param purchases The list of Purchase objects with the purchase data
    */
   val purchasesUpdatedListener: PurchasesUpdatedListener
+    get() = PurchasesUpdatedListener { responseCode: Int, purchases: List<Purchase> ->
+      when (responseCode) {
+        ResponseCode.OK.value -> {
+          for (purchase in purchases) {
+            cab.consumeAsync(purchase.token, consumeResponseListener)
+          }
+        }
+
+        else -> {
+          Log.d(logTAG, "PurchasesUpdatedListener: response ${responseCode.toResponseCode()}")
+        }
+      }
+    }
 
   /**
    * Listener for handling consume purchase responses.
@@ -95,7 +117,10 @@ interface SdkManager {
   val consumeResponseListener: ConsumeResponseListener
     get() =
       ConsumeResponseListener { responseCode, purchaseToken ->
-        Log.d(logTAG, "Consumption finished. Purchase: $purchaseToken, result: $responseCode")
+        Log.d(
+          logTAG,
+          "ConsumeResponseListener: Consumption finished. Purchase: $purchaseToken, result: $responseCode"
+        )
       }
 
   /**
@@ -113,9 +138,11 @@ interface SdkManager {
   val skuDetailsResponseListener: SkuDetailsResponseListener
     get() =
       SkuDetailsResponseListener { responseCode, skuDetailsList ->
-        Log.d(logTAG, "Received skus ${responseCode.toResponseCode()} $skuDetailsList")
         for (sku in skuDetailsList) {
-          Log.d(logTAG, "Sku details: $sku")
+          Log.d(
+            logTAG,
+            "SkuDetailsResponseListener: item response ${responseCode.toResponseCode()}, sku $sku"
+          )
           // You can add these details to a list in order to update
           // UI or use it in any other way
         }
@@ -129,12 +156,11 @@ interface SdkManager {
     }
   }
 
-  private fun queryInapps() {
-    val skuList: ArrayList<String> = ArrayList(listOf("attempts"))
+  private fun queryInapps(skuList: List<String>) {
     cab.querySkuDetailsAsync(
       SkuDetailsParams().apply {
         itemType = SkuType.inapp.toString()
-        moreItemSkus = skuList // Fill with the skus of items
+        moreItemSkus = skuList
       },
       skuDetailsResponseListener
     )
@@ -158,9 +184,12 @@ interface SdkManager {
       "BDS"
     )
 
-    Thread {
-      val responseCode = cab.launchBillingFlow(context as Activity, billingFlowParams)
-      Log.d(logTAG, "Payment started with response code: ${responseCode.toResponseCode()}")
-    }.start()
+    CoroutineScope(Job()).launch {
+      cab.launchBillingFlow(context as Activity, billingFlowParams)
+    }
+  }
+
+  companion object {
+    const val logTAG: String = "SdkManager"
   }
 }

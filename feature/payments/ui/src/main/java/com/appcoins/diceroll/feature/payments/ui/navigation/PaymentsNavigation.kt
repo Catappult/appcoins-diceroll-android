@@ -7,15 +7,17 @@ import com.appcoins.diceroll.core.navigation.destinations.DestinationArgs
 import com.appcoins.diceroll.core.navigation.destinations.Destinations
 import com.appcoins.diceroll.core.navigation.buildDestinationRoute
 import com.appcoins.diceroll.core.navigation.navigateToDestination
-import com.appcoins.diceroll.feature.payments.ui.PaymentsDialogRoute
+import com.appcoins.diceroll.core.utils.extensions.ifLet
+import com.appcoins.diceroll.feature.payments.ui.PaymentsBottomSheetRoute
 
 
-fun NavController.navigateToPaymentsDialog(
+fun NavController.navigateToPaymentsBottomSheet(
   itemId: String,
+  attempts : String,
 ) {
   this.navigateToDestination(
     destination = Destinations.BottomSheet.Payments,
-    destinationArgs = listOf(itemId),
+    destinationArgs = listOf(itemId, attempts),
     navOptions = navOptions {
       launchSingleTop = true
     }
@@ -36,10 +38,10 @@ fun NavController.navigateToPaymentsDialog(
 fun NavGraphBuilder.paymentsRoute(onDismiss: () -> Unit) {
   this.buildDestinationRoute(
     destination = Destinations.BottomSheet.Payments,
-    destinationArgs = listOf(DestinationArgs.ItemId),
+    destinationArgs = listOf(DestinationArgs.ItemId, DestinationArgs.AttemptsLeft),
   ) { args ->
-    args[DestinationArgs.ItemId]?.let {
-      PaymentsDialogRoute(onDismiss, it)
+    ifLet(args[DestinationArgs.ItemId], args[DestinationArgs.AttemptsLeft]) { (itemId, attempts) ->
+      PaymentsBottomSheetRoute(onDismiss, itemId, attempts)
     }
   }
 }
