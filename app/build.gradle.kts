@@ -8,13 +8,8 @@ android {
   namespace = "com.appcoins.diceroll"
   defaultConfig {
     applicationId = "com.appcoins.diceroll"
-    versionCode = 2
-    versionName = "0.1.0"
-  }
-  buildTypes {
-    getByName("release") {
-      signingConfig = signingConfigs.getByName("debug")
-    }
+    versionCode = 3
+    versionName = "0.2.0"
   }
 }
 

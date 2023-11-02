@@ -28,6 +28,15 @@ class AndroidAppPlugin : Plugin<Project> {
           multiDexEnabled = true
         }
 
+        signingConfigs {
+          register("release") {
+            storeFile = project.property("BDS_WALLET_STORE_FILE")?.let { file(it) }
+            storePassword = project.property("BDS_WALLET_STORE_PASSWORD").toString()
+            keyAlias = project.property("BDS_WALLET_KEY_ALIAS").toString()
+            keyPassword = project.property("BDS_WALLET_KEY_PASSWORD").toString()
+          }
+        }
+
         buildTypes {
           debug {
             isMinifyEnabled = false
@@ -37,16 +46,8 @@ class AndroidAppPlugin : Plugin<Project> {
 
           release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-          }
-        }
-
-        signingConfigs {
-          register("release") {
-            storeFile = project.property("BDS_WALLET_STORE_FILE")?.let { file(it) }
-            storePassword = project.property("BDS_WALLET_STORE_PASSWORD").toString()
-            keyAlias = project.property("BDS_WALLET_KEY_ALIAS").toString()
-            keyPassword = project.property("BDS_WALLET_KEY_PASSWORD").toString()
           }
         }
 
