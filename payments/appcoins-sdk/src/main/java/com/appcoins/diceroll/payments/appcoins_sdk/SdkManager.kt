@@ -13,6 +13,9 @@ import com.appcoins.sdk.billing.listeners.AppCoinsBillingStateListener
 import com.appcoins.sdk.billing.listeners.ConsumeResponseListener
 import com.appcoins.sdk.billing.listeners.SkuDetailsResponseListener
 import com.appcoins.sdk.billing.types.SkuType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Manages the AppCoins SDK integration for in-app billing.
@@ -52,12 +55,15 @@ interface SdkManager {
             ResponseCode.OK.value -> {
               queryPurchases()
               queryInapps(ArrayList(listOf("attempts")))
-              Log.d(Companion.logTAG, "AppCoinsBillingStateListener: AppCoins SDK Setup successful. Querying inventory.")
+              Log.d(
+                logTAG,
+                "AppCoinsBillingStateListener: AppCoins SDK Setup successful. Querying inventory."
+              )
             }
 
             else -> {
               Log.d(
-                Companion.logTAG,
+                logTAG,
                 "AppCoinsBillingStateListener: Problem setting up AppCoins SDK: ${responseCode.toResponseCode()}"
               )
             }
@@ -65,7 +71,7 @@ interface SdkManager {
         }
 
         override fun onBillingServiceDisconnected() {
-          Log.d(Companion.logTAG, "AppCoinsBillingStateListener: AppCoins SDK Disconnected")
+          Log.d(logTAG, "AppCoinsBillingStateListener: AppCoins SDK Disconnected")
         }
       }
 
@@ -133,7 +139,10 @@ interface SdkManager {
     get() =
       SkuDetailsResponseListener { responseCode, skuDetailsList ->
         for (sku in skuDetailsList) {
-          Log.d(logTAG, "SkuDetailsResponseListener: item response ${responseCode.toResponseCode()}, sku $sku")
+          Log.d(
+            logTAG,
+            "SkuDetailsResponseListener: item response ${responseCode.toResponseCode()}, sku $sku"
+          )
           // You can add these details to a list in order to update
           // UI or use it in any other way
         }
@@ -166,7 +175,7 @@ interface SdkManager {
    * This will launch the Google Play billing flow. The result will be delivered
    * via the PurchasesUpdatedListener callback.
    */
-  fun startPayment(sku: String, developerPayload: String): Result<Int> {
+  fun startPayment(sku: String, developerPayload: String) {
     val billingFlowParams = BillingFlowParams(
       sku,
       SkuType.inapp.toString(),
@@ -175,12 +184,8 @@ interface SdkManager {
       "BDS"
     )
 
-    return runCatching {
+    CoroutineScope(Job()).launch {
       cab.launchBillingFlow(context as Activity, billingFlowParams)
-    }.onSuccess {
-      Log.d(logTAG, "StartPayment: Payment started with response code: ${it.toResponseCode()}")
-    }.onFailure {
-      Log.e(logTAG, "StartPayment: Error starting payment: ${it.message}")
     }
   }
 
