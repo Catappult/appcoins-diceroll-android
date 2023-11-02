@@ -19,14 +19,7 @@ class OspRepository @Inject constructor(
       withContext(Dispatchers.IO) {
         ospApi.getOspUrl(product = product).toOspUrl()
       }
-    }.fold(
-      onSuccess = {
-        Result.success(it)
-      },
-      onFailure = {
-        Result.failure(it)
-      }
-    )
+    }
   }
 
   fun observeCallbackResult(orderReference: String): Flow<OspCallbackResult> {
