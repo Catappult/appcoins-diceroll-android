@@ -1,8 +1,7 @@
 package com.appcoins.diceroll.core.utils
 
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.onCompletion
 
@@ -12,18 +11,18 @@ import kotlinx.coroutines.flow.onCompletion
 object EventBus {
 
   /**
-   * The channel used for publishing and listening to events. It is recreated upon completion.
+   * The SharedFlow used for publishing and listening to events. It is recreated upon completion.
    */
-  var eventChannel = Channel<Any>()
+  var eventFlow = MutableSharedFlow<Any>()
 
   /**
-   * Creates a new event channel with a CONFLATED buffer type.
-   * This means that the channel will only keep the last event published, not all of them.
+   * Creates a new event SharedFlow with a replay` with the default buffer values.
    *
-   * @return A new channel for handling events with a CONFLATED buffer type.
+   * @return A new SharedFlow for handling events
+   *
    */
-  fun createEventChannel(): Channel<Any> {
-    return Channel(Channel.CONFLATED)
+  fun createEventChannel(): MutableSharedFlow<Any> {
+    return MutableSharedFlow()
   }
 
   /**
@@ -32,7 +31,7 @@ object EventBus {
    * @param event The event to be published.
    */
   suspend fun publish(event: Any) {
-    eventChannel.send(event)
+    eventFlow.emit(event)
   }
 
   /**
@@ -42,11 +41,10 @@ object EventBus {
    * @return A Flow of events of the specified type [T].
    */
   inline fun <reified T> listen(): Flow<T> {
-    return eventChannel
-      .consumeAsFlow()
+    return eventFlow
       .filterIsInstance<T>()
       .onCompletion {
-        eventChannel = createEventChannel()
+        eventFlow = createEventChannel()
       }
   }
 }
