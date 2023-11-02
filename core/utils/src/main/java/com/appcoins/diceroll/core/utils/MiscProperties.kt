@@ -1,5 +1,6 @@
 package com.appcoins.diceroll.core.utils
 
-val ospUrl = "https://4a9a-79-169-205-117.ngrok.io/"
+val ospUrl = "https://f4ff-94-63-62-155.ngrok-free.app"
+
 val walletPackage = "com.appcoins.wallet"
 val diceRollPackage = "com.appcoins.diceroll"
