@@ -32,7 +32,7 @@ This sample app attempts to use modern android development techniques as a valid
 * Uses `Convention Plugins` up all modules and simplfy boilerplate in module creation and dependency management.
 * Uses `Jetpack Compose` for the entire UI, with Single Activity
 * Uses various `Jetpack` libraries for navigation, splash, accompanist, etc
-* Uses `Kotlin Courotines` for the entiry app
+* Uses `Kotlin Courotines` for the entire app
 * Uses `Kotlin Result` for improved and forced error handling
 * Uses `Retrofit` for network calls, with a custom adapter
 * Uses `Hilt` for dependency injection
