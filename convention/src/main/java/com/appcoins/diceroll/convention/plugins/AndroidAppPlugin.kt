@@ -28,15 +28,6 @@ class AndroidAppPlugin : Plugin<Project> {
           multiDexEnabled = true
         }
 
-        signingConfigs {
-          register("release") {
-            storeFile = project.property("BDS_WALLET_STORE_FILE")?.let { file(it) }
-            storePassword = project.property("BDS_WALLET_STORE_PASSWORD").toString()
-            keyAlias = project.property("BDS_WALLET_KEY_ALIAS").toString()
-            keyPassword = project.property("BDS_WALLET_KEY_PASSWORD").toString()
-          }
-        }
-
         buildTypes {
           debug {
             isMinifyEnabled = false
@@ -46,7 +37,10 @@ class AndroidAppPlugin : Plugin<Project> {
 
           release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("release")
+            // To publish to the Play Store, we need to set the signing config with a private
+            // signing key, but in order to allow anyone who clones the code to run the release
+            // variant, we use the debug signing key.
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
           }
         }
