@@ -15,7 +15,6 @@ android {
 }
 
 dependencies {
-  compileOnly(fileTree(mapOf("dir" to "libs", "include" to "*.aar")))
   projectImplementation(":core:utils")
-//  implementation(libs.catappult.billing)
+  implementation(libs.catappult.billing)
 }
