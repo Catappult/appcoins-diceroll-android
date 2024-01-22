@@ -8,12 +8,20 @@ android {
   namespace = "com.appcoins.diceroll"
   defaultConfig {
     applicationId = "com.appcoins.diceroll"
-    versionCode = 4
-    versionName = "0.2.1"
+    versionCode = 6
+    versionName = "0.3.1"
   }
 }
 
 dependencies {
+  releaseImplementation(libs.catappult.billing)
+
+  debugImplementation("com.indicative.client.android:Indicative-Android:1.1.0")
+  debugImplementation(files("libs/android-appcoins-billing-debug.aar"))
+  debugImplementation(files("libs/appcoins-billing-debug.aar"))
+  debugImplementation(files("libs/appcoins-adyen-debug.aar"))
+  debugImplementation(files("libs/communication-debug.aar"))
+
   projectImplementation(":core:ui:design")
   projectImplementation(":core:ui:widgets")
   projectImplementation(":core:utils")
@@ -28,5 +36,4 @@ dependencies {
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
   implementation(libs.bundles.androidx.compose.accompanist)
-  implementation(libs.catappult.billing)
 }

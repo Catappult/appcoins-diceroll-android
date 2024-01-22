@@ -6,8 +6,22 @@ plugins {
 
 android {
   namespace = "com.appcoins.diceroll.payments.appcoins_sdk"
-  defaultConfig {
-    buildConfigField("String", "CATAPPULT_PUBLIC_KEY", project.property("CATAPPULT_PUBLIC_KEY").toString())
+  buildTypes {
+    debug {
+      buildConfigField(
+        "String",
+        "CATAPPULT_PUBLIC_KEY",
+        project.property("CATAPPULT_PUBLIC_KEY_DEV").toString()
+      )
+
+    }
+    release {
+      buildConfigField(
+        "String",
+        "CATAPPULT_PUBLIC_KEY",
+        project.property("CATAPPULT_PUBLIC_KEY").toString()
+      )
+    }
   }
   buildFeatures {
     buildConfig = true
@@ -16,5 +30,10 @@ android {
 
 dependencies {
   projectImplementation(":core:utils")
-  implementation(libs.catappult.billing)
+  releaseCompileOnly(libs.catappult.billing)
+
+  debugCompileOnly(files("libs/android-appcoins-billing-debug.aar"))
+  debugCompileOnly(files("libs/appcoins-billing-debug.aar"))
+  debugCompileOnly(files("libs/appcoins-adyen-debug.aar"))
+  debugCompileOnly(files("libs/communication-debug.aar"))
 }
