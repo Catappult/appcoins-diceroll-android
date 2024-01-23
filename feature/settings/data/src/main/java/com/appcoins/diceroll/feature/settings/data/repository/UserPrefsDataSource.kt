@@ -1,11 +1,14 @@
-package com.appcoins.diceroll.feature.settings.data
+package com.appcoins.diceroll.feature.settings.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.appcoins.diceroll.feature.settings.data.PreferencesKeys.CACHE_STRATEGY
-import com.appcoins.diceroll.feature.settings.data.PreferencesKeys.THEME_CONFIG
+import com.appcoins.diceroll.feature.settings.data.model.CacheStrategy
+import com.appcoins.diceroll.feature.settings.data.model.ThemeConfig
+import com.appcoins.diceroll.feature.settings.data.model.UserPrefs
+import com.appcoins.diceroll.feature.settings.data.repository.PreferencesKeys.CACHE_STRATEGY
+import com.appcoins.diceroll.feature.settings.data.repository.PreferencesKeys.THEME_CONFIG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged

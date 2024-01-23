@@ -1,4 +1,4 @@
-package com.appcoins.diceroll.feature.settings.data
+package com.appcoins.diceroll.feature.settings.data.model
 
 data class UserPrefs(
   val themeConfig: ThemeConfig = ThemeConfig.FOLLOW_SYSTEM,

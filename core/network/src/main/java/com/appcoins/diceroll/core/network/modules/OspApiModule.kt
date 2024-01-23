@@ -1,15 +1,14 @@
-package com.appcoins.diceroll.core.network
+package com.appcoins.diceroll.core.network.modules
 
 import com.appcoins.diceroll.core.network.annotations.HttpClient
-import com.appcoins.diceroll.core.network.annotations.RetrofitClient
-import com.appcoins.diceroll.core.network.api.OspApi
+import com.appcoins.diceroll.core.network.annotations.OspRetrofitClient
+import com.appcoins.diceroll.core.network.modules.api.OspApi
 import com.appcoins.diceroll.core.utils.ospUrl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -20,16 +19,7 @@ class OspApiModule {
 
   @Singleton
   @Provides
-  @HttpClient
-  fun provideOkHttpClient(): OkHttpClient {
-    return OkHttpClient.Builder()
-      .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-      .build()
-  }
-
-  @Singleton
-  @Provides
-  @RetrofitClient
+  @OspRetrofitClient
   fun provideDiceRollRetrofit(@HttpClient client: OkHttpClient): Retrofit {
     return Retrofit.Builder()
       .baseUrl(ospUrl)
@@ -40,7 +30,7 @@ class OspApiModule {
 
   @Singleton
   @Provides
-  fun provideOspApi(@RetrofitClient retrofit: Retrofit): OspApi {
+  fun provideOspApi(@OspRetrofitClient retrofit: Retrofit): OspApi {
     return retrofit.create(OspApi::class.java)
   }
 }
