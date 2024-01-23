@@ -56,4 +56,6 @@
   <string name="cache_strategy">Use cache</string>
   <string name="cache_strategy_always">Always</string>
   <string name="cache_strategy_never">Never</string>
+  <string name="check_for_updates_title">We are always trying to improve our app, check if there are any updates available for you.</string>
+  <string name="check_for_updates_button">Check for updates</string>
 </resources>
