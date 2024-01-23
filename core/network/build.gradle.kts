@@ -1,3 +1,5 @@
+import com.appcoins.diceroll.convention.extensions.projectImplementation
+
 plugins {
   id("diceroll.android.library")
 }
@@ -7,6 +9,6 @@ android {
 }
 
 dependencies {
-  implementation(project(":core:utils"))
+  projectImplementation(":core:utils")
   implementation(libs.bundles.network)
 }
