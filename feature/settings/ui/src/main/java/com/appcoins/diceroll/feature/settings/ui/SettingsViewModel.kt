@@ -42,7 +42,7 @@ class SettingsViewModel @Inject constructor(
 
   var shouldLaunchDeeplink = mutableStateOf(true)
 
-  fun getUpdateDeeplink(appPackage: String, storePackage: String) {
+  fun getUpdateDeeplink(appPackage: String, storePackage: String?) {
     Log.d(CUSTOM_TAG, "SettingsViewModel: getUpdateDeeplink: appPackage -> $appPackage, storePackage -> $storePackage")
     viewModelScope.launch {
       storeDeeplinkRepository.getStoreDeeplinkUrl(appPackage, storePackage)

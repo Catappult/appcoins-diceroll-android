@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class StoreDeeplinkRepository @Inject constructor(private val storeDeeplinkApi: StoreDeeplinkApi) {
 
-  suspend fun getStoreDeeplinkUrl(appPackage: String, storePackage: String): Result<StoreDeeplink> {
+  suspend fun getStoreDeeplinkUrl(appPackage: String, storePackage: String?): Result<StoreDeeplink> {
     return runCatching {
       withContext(Dispatchers.IO) {
         storeDeeplinkApi.getDeeplinkUrl(appPackage = appPackage, storePackage = storePackage).toStoreDeeplink()

@@ -135,13 +135,11 @@ fun SettingsDialog(
 
 private fun checkForInstaller(
   context: Context,
-  getUpdateDeeplink: (appPackage: String, storePackage: String) -> Unit,
+  getUpdateDeeplink: (appPackage: String, storePackage: String?) -> Unit,
   shouldLaunchDeeplink: MutableState<Boolean>
 ) {
-  context.packageManager.getInstallerInfo()?.let {
-    shouldLaunchDeeplink.value = true
-    getUpdateDeeplink(diceRollPackage, it)
-  }
+  shouldLaunchDeeplink.value = true
+  getUpdateDeeplink(diceRollPackage, context.packageManager.getInstallerInfo())
 }
 
 @Composable
