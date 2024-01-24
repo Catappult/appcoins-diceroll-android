@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.appcoins.diceroll.core.utils.CUSTOM_TAG
 import com.appcoins.diceroll.feature.settings.data.model.ThemeConfig
 import com.appcoins.diceroll.feature.settings.data.model.UserPrefs
 import com.appcoins.diceroll.feature.settings.data.repository.StoreDeeplinkRepository
@@ -43,15 +42,12 @@ class SettingsViewModel @Inject constructor(
   var shouldLaunchDeeplink = mutableStateOf(true)
 
   fun getUpdateDeeplink(appPackage: String, storePackage: String?) {
-    Log.d(CUSTOM_TAG, "SettingsViewModel: getUpdateDeeplink: appPackage -> $appPackage, storePackage -> $storePackage")
     viewModelScope.launch {
       storeDeeplinkRepository.getStoreDeeplinkUrl(appPackage, storePackage)
         .onSuccess { storeDeeplink ->
-          Log.d(CUSTOM_TAG, "SettingsViewModel: getUpdateDeeplink: Success with url -> ${storeDeeplink.url}")
           _storeDeeplinkState.value = StoreDeeplinkUiState.Success(storeDeeplink.url)
         }
         .onFailure {
-          Log.d(CUSTOM_TAG, "SettingsViewModel: getUpdateDeeplink: Error with message -> ${it.message} ")
           _storeDeeplinkState.value = StoreDeeplinkUiState.Error
         }
     }
