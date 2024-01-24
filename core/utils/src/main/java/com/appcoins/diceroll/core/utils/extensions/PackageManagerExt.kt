@@ -6,10 +6,12 @@ import com.appcoins.diceroll.core.utils.diceRollPackage
 
 fun PackageManager.getInstallerInfo(): String? {
   return try {
-    val installerPackageName = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-      this.getInstallSourceInfo(diceRollPackage).installingPackageName
-    else
-      this.getInstallerPackageName(diceRollPackage)
+    val installerPackageName = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      getInstallSourceInfo(diceRollPackage).installingPackageName
+    } else {
+      @Suppress("DEPRECATION")
+      getInstallerPackageName(diceRollPackage)
+    }
 
     installerPackageName?.takeIf { isAppInstalled(it) }
   } catch (e: Exception) {
