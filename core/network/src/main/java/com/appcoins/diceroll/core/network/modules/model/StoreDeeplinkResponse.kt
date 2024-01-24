@@ -1,5 +1,7 @@
 package com.appcoins.diceroll.core.network.modules.model
 
+import com.google.gson.annotations.SerializedName
+
 data class StoreDeeplinkResponse(
-  val url: String,
+  @SerializedName("deeplink") val url: String,
 )

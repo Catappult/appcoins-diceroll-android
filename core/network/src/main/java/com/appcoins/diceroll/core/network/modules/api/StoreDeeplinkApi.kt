@@ -10,6 +10,6 @@ interface StoreDeeplinkApi {
   @GET("deeplink/{app-package}")
   suspend fun getDeeplinkUrl(
     @Path("app-package") appPackage: String,
-    @Query("store-package") storePackage: String?,
+    @Query("store") storePackage: String?,
   ): StoreDeeplinkResponse
 }
