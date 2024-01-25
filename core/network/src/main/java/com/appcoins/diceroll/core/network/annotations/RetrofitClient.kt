@@ -10,4 +10,14 @@ import javax.inject.Qualifier
   AnnotationTarget.FUNCTION,
   AnnotationTarget.VALUE_PARAMETER
 )
-annotation class RetrofitClient
+annotation class OspRetrofitClient
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+@Target(
+  AnnotationTarget.CLASS,
+  AnnotationTarget.FIELD,
+  AnnotationTarget.FUNCTION,
+  AnnotationTarget.VALUE_PARAMETER
+)
+annotation class StoreDeeplinkRetrofitClient

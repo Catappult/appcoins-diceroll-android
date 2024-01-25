@@ -2,11 +2,8 @@ package com.appcoins.diceroll.feature.stats.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.appcoins.diceroll.feature.settings.data.UserPrefs
-import com.appcoins.diceroll.feature.settings.data.UserPrefsDataSource
 import com.appcoins.diceroll.feature.stats.data.model.DiceRoll
 import com.appcoins.diceroll.feature.stats.data.usecases.GetDiceRollsUseCase
-import com.appcoins.diceroll.feature.stats.data.usecases.SaveDiceRollUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

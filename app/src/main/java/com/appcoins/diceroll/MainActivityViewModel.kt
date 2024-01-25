@@ -2,8 +2,8 @@ package com.appcoins.diceroll
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.appcoins.diceroll.feature.settings.data.UserPrefs
-import com.appcoins.diceroll.feature.settings.data.UserPrefsDataSource
+import com.appcoins.diceroll.feature.settings.data.model.UserPrefs
+import com.appcoins.diceroll.feature.settings.data.repository.UserPrefsDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

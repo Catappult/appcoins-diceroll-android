@@ -1,7 +1,7 @@
 package com.appcoins.diceroll.payments.appcoins.osp.data.repository
 
-import com.appcoins.diceroll.core.network.model.OspCallbackResultResponse
-import com.appcoins.diceroll.core.network.model.OspUrlResponse
+import com.appcoins.diceroll.core.network.modules.model.OspCallbackResultResponse
+import com.appcoins.diceroll.core.network.modules.model.OspUrlResponse
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackResult
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackState
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspUrl

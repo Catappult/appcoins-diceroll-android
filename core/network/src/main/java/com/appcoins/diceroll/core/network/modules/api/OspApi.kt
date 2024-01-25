@@ -1,7 +1,7 @@
-package com.appcoins.diceroll.core.network.api
+package com.appcoins.diceroll.core.network.modules.api
 
-import com.appcoins.diceroll.core.network.model.OspCallbackResultResponse
-import com.appcoins.diceroll.core.network.model.OspUrlResponse
+import com.appcoins.diceroll.core.network.modules.model.OspCallbackResultResponse
+import com.appcoins.diceroll.core.network.modules.model.OspUrlResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
