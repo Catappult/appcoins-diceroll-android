@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.appcoins.diceroll",
+  "variantName": "appcoinsRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 7,
+      "versionName": "0.4.0",
+      "outputFile": "DiceRoll_v0.4.0_7_appcoins_release.apk"
+    }
+  ],
+  "elementType": "File"
+}
