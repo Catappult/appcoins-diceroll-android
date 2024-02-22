@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import com.appcoins.diceroll.core.utils.gamesHubPackage
 import com.appcoins.diceroll.core.utils.walletPackage
 import com.appcoins.diceroll.payments.appcoins.osp.data.repository.OspRepository
 import kotlinx.coroutines.CoroutineScope
@@ -39,11 +40,11 @@ class OspManager @Inject constructor(private val ospRepository: OspRepository) {
     callback: OspLaunchCallback
   ) {
     runCatching {
-      val intent = Intent(Intent.ACTION_VIEW)
-      intent.data = Uri.parse(ospUrl)
-
-      if (isAppCoinsWalletInstalled(context)) {
-        intent.setPackage(walletPackage)
+      val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(ospUrl)
+        getSupportedServicePackage(context)?.let { packageName ->
+          setPackage(packageName)
+        }
       }
       (context as Activity).startActivity(intent)
       callback.onSuccess(orderReference = Result.success(ospOrderReference))
@@ -52,10 +53,13 @@ class OspManager @Inject constructor(private val ospRepository: OspRepository) {
     }
   }
 
-  private fun isAppCoinsWalletInstalled(context: Context): Boolean {
-    val packageManager = (context as Activity).packageManager
-    return runCatching {
-      packageManager.getPackageInfo(walletPackage, PackageManager.GET_ACTIVITIES)
-    }.isSuccess
+  private fun getSupportedServicePackage(context: Context): String? {
+    val packageManager = context.packageManager
+    val packagesToCheck = listOf(walletPackage, gamesHubPackage)
+    return packagesToCheck.firstOrNull { packageName ->
+      runCatching {
+        packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+      }.isSuccess
+    }
   }
 }
