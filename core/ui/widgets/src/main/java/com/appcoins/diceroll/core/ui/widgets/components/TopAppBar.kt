@@ -27,7 +27,7 @@ fun DiceRollTopAppBar(
     navigationIcon = {
       IconButton(onClick = onNavigationClick) {
         Image(
-          painter = painterResource(id = R.drawable.wallet_icon),
+          painter = painterResource(id = R.drawable.diceroll_icon),
           contentDescription = null,
         )
       }
