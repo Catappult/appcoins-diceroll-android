@@ -5,7 +5,8 @@
         <intent>
             <action android:name="android.intent.action.VIEW" />
         </intent>
-        <package android:name="com.appcoins.wallet" />
-        <package android:name="com.dti.folderlauncher" />
+        <package android:name="com.appcoins.wallet.dev" />
+        <package android:name="com.dti.hub.stg" />
+        <package android:name="com.dti.hub.dev" />
     </queries>
 </manifest>
