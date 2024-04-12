@@ -3,6 +3,7 @@ dependencyResolutionManagement {
         google()
         gradlePluginPortal() // so that external plugins can be resolved in dependencies section
         mavenCentral()
+        mavenLocal()
     }
     // Sharing the root project version catalog
     versionCatalogs {
