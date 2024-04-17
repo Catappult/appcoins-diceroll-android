@@ -25,7 +25,6 @@ dependencies {
   releaseImplementation(libs.catappult.appcoins.lifecycle)
   releaseImplementation(libs.catappult.appcoins)
 
-  debugImplementation("com.indicative.client.android:Indicative-Android:1.1.0")
   debugImplementation(files("libs/android-appcoins-billing-debug.aar"))
   debugImplementation(files("libs/appcoins-billing-debug.aar"))
   debugImplementation(files("libs/appcoins-adyen-debug.aar"))

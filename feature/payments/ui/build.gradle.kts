@@ -18,4 +18,5 @@ dependencies {
   projectImplementation(":core:utils")
   projectImplementation(":core:navigation")
   implementation(libs.bundles.coil)
+  releaseImplementation(libs.catappult.android.appcoins.billing)
 }
