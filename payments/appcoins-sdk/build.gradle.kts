@@ -30,15 +30,7 @@ android {
 
 dependencies {
   projectImplementation(":core:utils")
-  releaseImplementation(libs.catappult.appcoins.billing)
-  releaseImplementation(libs.catappult.android.appcoins.billing)
-  releaseImplementation(libs.catappult.appcoins.adyen)
-  releaseImplementation(libs.catappult.appcoins.core)
-  releaseImplementation(libs.catappult.appcoins.contract.proxy)
-  releaseImplementation(libs.catappult.appcoins.ads)
-  releaseImplementation(libs.catappult.communication)
-  releaseImplementation(libs.catappult.appcoins.lifecycle)
-  releaseImplementation(libs.catappult.appcoins)
+  releaseCompileOnly(libs.catappult.billing)
 
   debugCompileOnly(files("libs/android-appcoins-billing-debug.aar"))
   debugCompileOnly(files("libs/appcoins-billing-debug.aar"))

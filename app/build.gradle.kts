@@ -10,21 +10,13 @@ android {
     applicationId = "com.appcoins.diceroll"
     versionCode = 10
     versionName = "0.4.3"
-    multiDexEnabled = true
   }
 }
 
 dependencies {
-  releaseImplementation(libs.catappult.appcoins.billing)
-  releaseImplementation(libs.catappult.android.appcoins.billing)
-  releaseImplementation(libs.catappult.appcoins.adyen)
-  releaseImplementation(libs.catappult.appcoins.core)
-  releaseImplementation(libs.catappult.appcoins.contract.proxy)
-  releaseImplementation(libs.catappult.appcoins.ads)
-  releaseImplementation(libs.catappult.communication)
-  releaseImplementation(libs.catappult.appcoins.lifecycle)
-  releaseImplementation(libs.catappult.appcoins)
+  releaseImplementation(libs.catappult.billing)
 
+  debugImplementation("com.indicative.client.android:Indicative-Android:1.1.0")
   debugImplementation(files("libs/android-appcoins-billing-debug.aar"))
   debugImplementation(files("libs/appcoins-billing-debug.aar"))
   debugImplementation(files("libs/appcoins-adyen-debug.aar"))
@@ -44,5 +36,4 @@ dependencies {
   implementation(libs.androidx.splashscreen)
   implementation(libs.bundles.androidx.compose)
   implementation(libs.bundles.androidx.compose.accompanist)
-  implementation(libs.indicative)
 }

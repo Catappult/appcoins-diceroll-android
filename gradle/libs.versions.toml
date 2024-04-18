@@ -16,7 +16,7 @@ androidx_preference_version = "1.2.0"
 androidx_room_version = "2.6.0-beta01"
 androidx_splashscreen = "1.0.1"
 build_tools_version = "30.0.3"
-catappult_billing_version = "0.7.2.0-Snapshot-888"
+catappult_billing_version = "0.7.3.0"
 coil_version = "2.3.0"
 corektx_version = "1.12.0"
 coroutines_version = "1.7.2"
@@ -27,7 +27,6 @@ gson_version = "2.9.0"
 hilt_czerwinski_extensions_version = "1.3.0"
 hilt_version = "2.48"
 hilt_compose_navigation = "1.1.0-beta01"
-indicative_version = "1.1.0"
 jetbrains_annotations_version = "19.0.0"
 junit_version = "4.13.2"
 kotlin_version = "1.9.0"
@@ -105,15 +104,7 @@ coil-kt-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil_version" }
 lottie = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie_version" }
 charts_tehras = { module = "com.github.tehras:charts", version.ref = "tehras_charts_version" }
 android-support-annotations = { module = "com.android.support:support-annotations", version.ref = "support_annotations" }
-catappult-appcoins-billing = { module = "io.catappult:appcoins-billing", version.ref = "catappult_billing_version" }
-catappult-android-appcoins-billing = { module = "io.catappult:android-appcoins-billing", version.ref = "catappult_billing_version" }
-catappult-appcoins-adyen = { module = "io.catappult:appcoins-adyen", version.ref = "catappult_billing_version" }
-catappult-appcoins-core = { module = "io.catappult:appcoins-core", version.ref = "catappult_billing_version" }
-catappult-appcoins-contract-proxy = { module = "io.catappult:appcoins-contract-proxy", version.ref = "catappult_billing_version" }
-catappult-appcoins-ads = { module = "io.catappult:appcoins-ads", version.ref = "catappult_billing_version" }
-catappult-communication = { module = "io.catappult:communication", version.ref = "catappult_billing_version" }
-catappult-appcoins-lifecycle = { module = "io.catappult:appcoins-lifecycle", version.ref = "catappult_billing_version" }
-catappult-appcoins = { module = "io.catappult:appcoins", version.ref = "catappult_billing_version" }
+catappult-billing = { module = "io.catappult:android-appcoins-billing", version.ref = "catappult_billing_version" }
 
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations_version" }
 android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_version" }
@@ -126,8 +117,6 @@ gradlePlugin-android = { module = "com.android.tools.build:gradle", version.ref 
 gradlePlugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin_version" }
 gradlePlugin-hilt = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt_version" }
 gradlePlugin-ksp = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
-
-indicative = { module = "com.indicative.client.android:Indicative-Android", version.ref = "indicative_version"}
 
 [bundles]
 androidx-room = ["androidx-room-runtime", "androidx-room-ktx"]
