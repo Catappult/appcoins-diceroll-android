@@ -11,6 +11,8 @@ import com.appcoins.sdk.billing.ResponseCode
 import com.appcoins.sdk.billing.SkuDetailsParams
 import com.appcoins.sdk.billing.listeners.AppCoinsBillingStateListener
 import com.appcoins.sdk.billing.listeners.ConsumeResponseListener
+import com.appcoins.sdk.billing.listeners.PurchaseResponse
+import com.appcoins.sdk.billing.listeners.PurchaseResponseStream
 import com.appcoins.sdk.billing.listeners.SkuDetailsResponseListener
 import com.appcoins.sdk.billing.types.SkuType
 import kotlinx.coroutines.CoroutineScope
@@ -90,6 +92,7 @@ interface SdkManager {
    */
   val purchasesUpdatedListener: PurchasesUpdatedListener
     get() = PurchasesUpdatedListener { responseCode: Int, purchases: List<Purchase> ->
+      PurchaseResponseStream.getInstance().emit(PurchaseResponse(responseCode, purchases))
       when (responseCode) {
         ResponseCode.OK.value -> {
           for (purchase in purchases) {

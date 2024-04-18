@@ -4,7 +4,6 @@ import android.content.Context
 import com.appcoins.diceroll.core.utils.EventBus
 import com.appcoins.sdk.billing.AppcoinsBillingClient
 import com.appcoins.sdk.billing.helpers.CatapultBillingAppCoinsFactory
-import com.appcoins.sdk.billing.listeners.SDKWebResponseStream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -41,11 +40,6 @@ class SdkManagerImpl(override val context: Context) : SdkManager {
     CoroutineScope(Job()).launch {
       EventBus.listen<SdkResult>().collect {
         cab.onActivityResult(it.requestCode, it.resultCode, it.data)
-      }
-    }
-    CoroutineScope(Job()).launch {
-      SDKWebResponseStream.getInstance().collectFromNow {
-        cab.onIntentResult(it.resultCode, it.data)
       }
     }
   }
