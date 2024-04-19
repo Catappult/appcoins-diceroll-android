@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.appcoins.diceroll.MainActivityUiState.*
 import com.appcoins.diceroll.core.ui.design.theme.*
-import com.appcoins.diceroll.core.utils.EventBus
+import com.appcoins.diceroll.core.utils.ActivityResultStream
 import com.appcoins.diceroll.feature.settings.data.model.ThemeConfig
 import com.appcoins.diceroll.payments.appcoins_sdk.SdkResult
 import com.appcoins.diceroll.ui.DiceRollApp
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     @Suppress("DEPRECATION") super.onActivityResult(requestCode, resultCode, data)
     lifecycleScope.launch {
-      EventBus.publish(SdkResult(requestCode, resultCode, data))
+      ActivityResultStream.publish(SdkResult(requestCode, resultCode, data))
     }
   }
 }

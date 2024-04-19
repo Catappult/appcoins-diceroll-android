@@ -3,6 +3,7 @@ package com.appcoins.diceroll.payments.appcoins_sdk
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import com.appcoins.diceroll.core.utils.PurchaseResultStream
 import com.appcoins.sdk.billing.AppcoinsBillingClient
 import com.appcoins.sdk.billing.BillingFlowParams
 import com.appcoins.sdk.billing.Purchase
@@ -12,7 +13,6 @@ import com.appcoins.sdk.billing.SkuDetailsParams
 import com.appcoins.sdk.billing.listeners.AppCoinsBillingStateListener
 import com.appcoins.sdk.billing.listeners.ConsumeResponseListener
 import com.appcoins.sdk.billing.listeners.PurchaseResponse
-import com.appcoins.sdk.billing.listeners.PurchaseResponseStream
 import com.appcoins.sdk.billing.listeners.SkuDetailsResponseListener
 import com.appcoins.sdk.billing.types.SkuType
 import kotlinx.coroutines.CoroutineScope
@@ -92,7 +92,9 @@ interface SdkManager {
    */
   val purchasesUpdatedListener: PurchasesUpdatedListener
     get() = PurchasesUpdatedListener { responseCode: Int, purchases: List<Purchase> ->
-      PurchaseResponseStream.getInstance().emit(PurchaseResponse(responseCode, purchases))
+      CoroutineScope(Job()).launch {
+        PurchaseResultStream.publish(PurchaseResponse(responseCode, purchases))
+      }
       when (responseCode) {
         ResponseCode.OK.value -> {
           for (purchase in purchases) {
