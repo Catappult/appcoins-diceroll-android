@@ -36,4 +36,6 @@ dependencies {
   debugCompileOnly(files("libs/appcoins-billing-debug.aar"))
   debugCompileOnly(files("libs/appcoins-adyen-debug.aar"))
   debugCompileOnly(files("libs/communication-debug.aar"))
+
+  implementation(libs.java.web.sockets)
 }
