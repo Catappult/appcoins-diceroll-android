@@ -16,6 +16,7 @@ import com.appcoins.sdk.billing.listeners.PurchaseResponse
 import com.appcoins.sdk.billing.listeners.SkuDetailsResponseListener
 import com.appcoins.sdk.billing.types.SkuType
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -154,10 +155,12 @@ interface SdkManager {
       }
 
   private fun queryPurchases() {
-    val purchasesResult = cab.queryPurchases(SkuType.inapp.toString())
-    val purchases = purchasesResult.purchases
-    for (purchase in purchases) {
-      cab.consumeAsync(purchase.token, consumeResponseListener)
+    CoroutineScope(Dispatchers.IO).launch {
+      val purchasesResult = cab.queryPurchases(SkuType.inapp.toString())
+      val purchases = purchasesResult.purchases
+      for (purchase in purchases) {
+        cab.consumeAsync(purchase.token, consumeResponseListener)
+      }
     }
   }
 
