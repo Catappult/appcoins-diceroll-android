@@ -1,7 +1,8 @@
 package com.appcoins.diceroll.payments.appcoins_sdk
 
 import android.content.Context
-import com.appcoins.diceroll.core.utils.EventBus
+import com.appcoins.diceroll.core.utils.ActivityResultStream
+import com.appcoins.diceroll.core.utils.listen
 import com.appcoins.sdk.billing.AppcoinsBillingClient
 import com.appcoins.sdk.billing.helpers.CatapultBillingAppCoinsFactory
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +39,7 @@ class SdkManagerImpl(override val context: Context) : SdkManager {
 
   private fun sdkResultHandle() {
     CoroutineScope(Job()).launch {
-      EventBus.listen<SdkResult>().collect {
+      ActivityResultStream.listen<SdkResult>().collect {
         cab.onActivityResult(it.requestCode, it.resultCode, it.data)
       }
     }

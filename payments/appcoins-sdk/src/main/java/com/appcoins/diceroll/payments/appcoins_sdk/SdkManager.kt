@@ -3,6 +3,7 @@ package com.appcoins.diceroll.payments.appcoins_sdk
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import com.appcoins.diceroll.core.utils.PurchaseResultStream
 import com.appcoins.sdk.billing.AppcoinsBillingClient
 import com.appcoins.sdk.billing.BillingFlowParams
 import com.appcoins.sdk.billing.Purchase
@@ -11,9 +12,11 @@ import com.appcoins.sdk.billing.ResponseCode
 import com.appcoins.sdk.billing.SkuDetailsParams
 import com.appcoins.sdk.billing.listeners.AppCoinsBillingStateListener
 import com.appcoins.sdk.billing.listeners.ConsumeResponseListener
+import com.appcoins.sdk.billing.listeners.PurchaseResponse
 import com.appcoins.sdk.billing.listeners.SkuDetailsResponseListener
 import com.appcoins.sdk.billing.types.SkuType
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -90,6 +93,9 @@ interface SdkManager {
    */
   val purchasesUpdatedListener: PurchasesUpdatedListener
     get() = PurchasesUpdatedListener { responseCode: Int, purchases: List<Purchase> ->
+      CoroutineScope(Job()).launch {
+        PurchaseResultStream.publish(PurchaseResponse(responseCode, purchases))
+      }
       when (responseCode) {
         ResponseCode.OK.value -> {
           for (purchase in purchases) {
@@ -149,10 +155,12 @@ interface SdkManager {
       }
 
   private fun queryPurchases() {
-    val purchasesResult = cab.queryPurchases(SkuType.inapp.toString())
-    val purchases = purchasesResult.purchases
-    for (purchase in purchases) {
-      cab.consumeAsync(purchase.token, consumeResponseListener)
+    CoroutineScope(Dispatchers.IO).launch {
+      val purchasesResult = cab.queryPurchases(SkuType.inapp.toString())
+      val purchases = purchasesResult.purchases
+      for (purchase in purchases) {
+        cab.consumeAsync(purchase.token, consumeResponseListener)
+      }
     }
   }
 

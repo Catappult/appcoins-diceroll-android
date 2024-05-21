@@ -30,10 +30,5 @@ android {
 
 dependencies {
   projectImplementation(":core:utils")
-  releaseCompileOnly(libs.catappult.billing)
-
-  debugCompileOnly(files("libs/android-appcoins-billing-debug.aar"))
-  debugCompileOnly(files("libs/appcoins-billing-debug.aar"))
-  debugCompileOnly(files("libs/appcoins-adyen-debug.aar"))
-  debugCompileOnly(files("libs/communication-debug.aar"))
+  implementation(libs.catappult.android.appcoins.billing)
 }

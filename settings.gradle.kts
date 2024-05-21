@@ -2,9 +2,14 @@ pluginManagement {
   repositories {
     google()
     mavenCentral()
+    mavenLocal()
     gradlePluginPortal()
     flatDir {
       dirs("libs")
+    }
+    maven {
+      name = "Sonatype-Snapshots"
+      url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
     }
   }
 }
@@ -20,7 +25,12 @@ dependencyResolutionManagement {
   repositories {
     google()
     mavenCentral()
-    maven { url = uri("https://jitpack.io") }  }
+    mavenLocal()
+    maven { url = uri("https://jitpack.io") }
+    maven {
+      name = "Sonatype-Snapshots"
+      url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
+    }  }
 }
 
 val (projects, modules) = rootDir.projectsAndModules()
