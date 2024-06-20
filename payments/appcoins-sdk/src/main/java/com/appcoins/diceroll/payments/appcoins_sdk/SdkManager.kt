@@ -33,9 +33,6 @@ import kotlinx.coroutines.launch
  *
  */
 interface SdkManager {
-
-  val context: Context
-
   /**
    * The AppCoins billing client instance.
    */
@@ -183,7 +180,7 @@ interface SdkManager {
    * This will launch the Google Play billing flow. The result will be delivered
    * via the PurchasesUpdatedListener callback.
    */
-  fun startPayment(sku: String, developerPayload: String) {
+  fun startPayment(context: Context, sku: String, developerPayload: String) {
     val billingFlowParams = BillingFlowParams(
       sku,
       SkuType.inapp.toString(),
