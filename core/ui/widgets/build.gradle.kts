@@ -6,6 +6,18 @@ plugins {
 
 android {
   namespace = "com.appcoins.diceroll.core.ui.widgets"
+
+  buildFeatures {
+    buildConfig = true
+  }
+
+  defaultConfig {
+    buildConfigField(
+      "String",
+      "SDK_BILLING_LIBRARY_VERSION",
+      "\"${libs.catappult.android.appcoins.billing.get().version}\""
+    )
+  }
 }
 
 dependencies {

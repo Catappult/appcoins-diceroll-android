@@ -59,7 +59,8 @@ fun PaymentsOptionsContent(
     Button(onClick = {
       launchBillingSdkFlow(context, itemId, onResultPayment)
     }) {
-      Text(text = stringResource(id = R.string.payments_buy_sdk_button))
+      Text(text = stringResource(id = R.string.payments_buy_sdk_button)
+              + (getAttemptsPrice()?.let { "\n${it}" } ?: ""))
     }
     Button(onClick = {
       launchBillingOspFlow(ospManager, itemId, onResultPayment, context)
@@ -95,6 +96,9 @@ fun launchBillingOspFlow(
   }
   ospManager.startPayment(context as Activity, itemId, ospCallback)
 }
+
+private fun getAttemptsPrice() : String? =
+  SdkManagerImpl.attemptsPrice
 
 @Preview
 @Composable

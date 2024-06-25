@@ -38,6 +38,8 @@ interface SdkManager {
    */
   val cab: AppcoinsBillingClient
 
+  var attemptsPrice : String?
+
   /**
    * Listener for AppCoins billing client state changes.
    *
@@ -146,6 +148,9 @@ interface SdkManager {
             logTAG,
             "SkuDetailsResponseListener: item response ${responseCode.toResponseCode()}, sku $sku"
           )
+          if (sku.sku == "attempts") {
+              attemptsPrice = sku.price
+          }
           // You can add these details to a list in order to update
           // UI or use it in any other way
         }

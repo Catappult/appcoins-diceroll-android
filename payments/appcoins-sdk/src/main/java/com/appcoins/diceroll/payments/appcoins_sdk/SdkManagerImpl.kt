@@ -25,6 +25,8 @@ object SdkManagerImpl : SdkManager {
 
     override lateinit var cab: AppcoinsBillingClient
 
+    override var attemptsPrice : String? = null
+
     private val base64EncodedPublicKey = BuildConfig.CATAPPULT_PUBLIC_KEY
 
     fun setupSdkConnection(context: Context) {

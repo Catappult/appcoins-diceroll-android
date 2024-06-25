@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.appcoins.diceroll.core.ui.widgets.BuildConfig
 import com.appcoins.diceroll.core.utils.R
 import com.appcoins.diceroll.feature.settings.data.model.ThemeConfig
 import com.appcoins.diceroll.feature.settings.data.model.UserPrefs
@@ -70,6 +71,7 @@ fun SettingsDialog(
     text = {
       HorizontalDivider()
       Column(Modifier.verticalScroll(rememberScrollState())) {
+        ShowSDKInformation()
         ShowUpdateInformation()
         when (settingsUiState) {
           Loading -> {
@@ -97,6 +99,15 @@ fun SettingsDialog(
           .clickable { onDismiss() },
       )
     },
+  )
+}
+
+@Composable
+fun ShowSDKInformation() {
+  Text(
+    text = stringResource(id = com.appcoins.diceroll.core.ui.design.R.string.sdk_version_title) +
+            BuildConfig.SDK_BILLING_LIBRARY_VERSION,
+    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
   )
 }
 
