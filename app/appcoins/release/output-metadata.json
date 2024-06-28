@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 11,
-      "versionName": "0.4.4",
-      "outputFile": "DiceRoll_v0.4.4_11_appcoins_release.apk"
+      "versionCode": 13,
+      "versionName": "0.4.6",
+      "outputFile": "DiceRoll_v0.4.6_13_appcoins_release.apk"
     }
   ],
   "elementType": "File"

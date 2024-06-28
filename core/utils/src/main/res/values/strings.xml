@@ -21,6 +21,7 @@
 
   <!-- Payments Screen -->
   <string name="payments_info">Choose one of the payment options to check the differences between the integrations</string>
+  <string name="payments_sdk_initializing">SDK connecting to Billing Service</string>
   <string name="payments_buy_sdk_button">Buy attempts with SDK</string>
   <string name="payments_buy_osp_button">Buy attempts with OSP</string>
 
