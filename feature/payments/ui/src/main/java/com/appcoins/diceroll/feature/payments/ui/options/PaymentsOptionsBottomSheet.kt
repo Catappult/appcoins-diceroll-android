@@ -22,7 +22,6 @@ import com.appcoins.diceroll.feature.payments.ui.PaymentsIntegration
 import com.appcoins.diceroll.payments.appcoins.osp.OspLaunchCallback
 import com.appcoins.diceroll.payments.appcoins.osp.OspManager
 import com.appcoins.diceroll.payments.appcoins.osp.requireOspManagerEntryPoint
-import com.appcoins.diceroll.payments.appcoins_sdk.SdkManager
 import com.appcoins.diceroll.payments.appcoins_sdk.SdkManagerImpl
 
 @Composable
@@ -30,11 +29,9 @@ fun PaymentsOptions(
   itemId: String,
   onPaymentClick: (PaymentsIntegration) -> Unit,
 ) {
-  val context = LocalContext.current
-  val sdkManager = SdkManagerImpl(context)
+  val context = LocalContext.current as Activity
   PaymentsOptionsContent(
     context = context,
-    sdkManager = sdkManager,
     itemId = itemId,
     onResultPayment = onPaymentClick
   )
@@ -43,7 +40,6 @@ fun PaymentsOptions(
 @Composable
 fun PaymentsOptionsContent(
   context: Context,
-  sdkManager: SdkManager,
   ospManager: OspManager = requireOspManagerEntryPoint().ospManager,
   itemId: String,
   onResultPayment: (PaymentsIntegration) -> Unit,
@@ -61,7 +57,7 @@ fun PaymentsOptionsContent(
       fontSize = 12.sp,
     )
     Button(onClick = {
-      launchBillingSdkFlow(sdkManager, itemId, onResultPayment)
+      launchBillingSdkFlow(context, itemId, onResultPayment)
     }) {
       Text(text = stringResource(id = R.string.payments_buy_sdk_button))
     }
@@ -74,11 +70,11 @@ fun PaymentsOptionsContent(
 }
 
 fun launchBillingSdkFlow(
-  sdkManager: SdkManager,
+  context: Context,
   itemId: String,
   onResultPayment: (PaymentsIntegration) -> Unit,
 ) {
-  sdkManager.startPayment(itemId, "")
+  SdkManagerImpl.startPayment(context, itemId, "")
   onResultPayment(PaymentsIntegration.SDK)
 }
 
@@ -106,7 +102,6 @@ fun PreviewPaymentsOptionsContent() {
   DiceRollTheme(darkTheme = true) {
     PaymentsOptionsContent(
       context = LocalContext.current,
-      sdkManager = SdkManagerImpl(LocalContext.current as Activity),
       itemId = "attempts",
       onResultPayment = {}
     )
