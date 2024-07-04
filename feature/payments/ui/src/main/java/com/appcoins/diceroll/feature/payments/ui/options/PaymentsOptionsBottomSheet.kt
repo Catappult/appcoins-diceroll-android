@@ -9,16 +9,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.appcoins.diceroll.core.ui.design.theme.DiceRollTheme
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appcoins.diceroll.core.utils.R
 import com.appcoins.diceroll.feature.payments.ui.PaymentsIntegration
+import com.appcoins.diceroll.feature.payments.ui.PaymentsViewModel
 import com.appcoins.diceroll.payments.appcoins.osp.OspLaunchCallback
 import com.appcoins.diceroll.payments.appcoins.osp.OspManager
 import com.appcoins.diceroll.payments.appcoins.osp.requireOspManagerEntryPoint
@@ -43,6 +46,7 @@ fun PaymentsOptionsContent(
   ospManager: OspManager = requireOspManagerEntryPoint().ospManager,
   itemId: String,
   onResultPayment: (PaymentsIntegration) -> Unit,
+  viewModel: PaymentsViewModel = hiltViewModel()
 ) {
   Column(
     modifier = Modifier
@@ -56,10 +60,25 @@ fun PaymentsOptionsContent(
       text = stringResource(id = R.string.payments_info),
       fontSize = 12.sp,
     )
-    Button(onClick = {
-      launchBillingSdkFlow(context, itemId, onResultPayment)
-    }) {
-      Text(text = stringResource(id = R.string.payments_buy_sdk_button))
+
+    val sdkSetupState by viewModel.sdkConnectionState.collectAsStateWithLifecycle()
+    val attemptsPrice by viewModel.attemptsPrice.collectAsStateWithLifecycle()
+    val sdkIsReady = sdkSetupState && attemptsPrice != null
+
+    Button(
+      onClick = { launchBillingSdkFlow(context, itemId, onResultPayment) },
+      enabled = sdkIsReady
+    ) {
+      Text(
+        text =
+        if (sdkIsReady) {
+          stringResource(id = R.string.payments_buy_sdk_button) +
+                  (attemptsPrice?.let { "\n${it}" } ?: "")
+        } else {
+          stringResource(id = R.string.payments_sdk_initializing)
+        },
+        textAlign = TextAlign.Center
+      )
     }
     Button(onClick = {
       launchBillingOspFlow(ospManager, itemId, onResultPayment, context)
@@ -94,16 +113,4 @@ fun launchBillingOspFlow(
     }
   }
   ospManager.startPayment(context as Activity, itemId, ospCallback)
-}
-
-@Preview
-@Composable
-fun PreviewPaymentsOptionsContent() {
-  DiceRollTheme(darkTheme = true) {
-    PaymentsOptionsContent(
-      context = LocalContext.current,
-      itemId = "attempts",
-      onResultPayment = {}
-    )
-  }
 }

@@ -13,6 +13,7 @@ import com.appcoins.diceroll.feature.roll_game.data.DEFAULT_ATTEMPTS_NUMBER
 import com.appcoins.diceroll.feature.roll_game.data.usecases.ResetAttemptsUseCase
 import com.appcoins.diceroll.payments.appcoins.osp.data.model.OspCallbackState
 import com.appcoins.diceroll.payments.appcoins.osp.data.usecases.PollOspCallbackUseCase
+import com.appcoins.diceroll.payments.appcoins_sdk.SdkManagerImpl
 import com.appcoins.sdk.billing.ResponseCode
 import com.appcoins.sdk.billing.listeners.PurchaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,6 +40,9 @@ class PaymentsViewModel @Inject constructor(
   private val _paymentOptionsState =
     MutableStateFlow<PaymentsOptionsUiState>(PaymentsOptionsUiState.Loading)
   internal val paymentOptionsState: StateFlow<PaymentsOptionsUiState> get() = _paymentOptionsState
+
+  internal val sdkConnectionState: StateFlow<Boolean> get() = SdkManagerImpl.connectionState
+  internal val attemptsPrice: StateFlow<String?> get() = SdkManagerImpl.attemptsPrice
 
   init {
     when {

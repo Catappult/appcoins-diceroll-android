@@ -18,6 +18,7 @@ import com.appcoins.sdk.billing.types.SkuType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -38,6 +39,10 @@ interface SdkManager {
    */
   val cab: AppcoinsBillingClient
 
+  val _connectionState : MutableStateFlow<Boolean>
+
+  val _attemptsPrice : MutableStateFlow<String?>
+
   /**
    * Listener for AppCoins billing client state changes.
    *
@@ -53,12 +58,13 @@ interface SdkManager {
         override fun onBillingSetupFinished(responseCode: Int) {
           when (responseCode) {
             ResponseCode.OK.value -> {
-              queryPurchases()
-              queryInapps(ArrayList(listOf("attempts")))
               Log.d(
                 logTAG,
                 "AppCoinsBillingStateListener: AppCoins SDK Setup successful. Querying inventory."
               )
+              _connectionState.value = true
+              queryPurchases()
+              queryInapps(ArrayList(listOf("attempts")))
             }
 
             else -> {
@@ -66,12 +72,16 @@ interface SdkManager {
                 logTAG,
                 "AppCoinsBillingStateListener: Problem setting up AppCoins SDK: ${responseCode.toResponseCode()}"
               )
+              _connectionState.value = false
+              _attemptsPrice.value = null
             }
           }
         }
 
         override fun onBillingServiceDisconnected() {
           Log.d(logTAG, "AppCoinsBillingStateListener: AppCoins SDK Disconnected")
+          _connectionState.value = false
+          _attemptsPrice.value = null
         }
       }
 
@@ -146,6 +156,9 @@ interface SdkManager {
             logTAG,
             "SkuDetailsResponseListener: item response ${responseCode.toResponseCode()}, sku $sku"
           )
+          if (sku.sku == "attempts") {
+            _attemptsPrice.value = sku.price
+          }
           // You can add these details to a list in order to update
           // UI or use it in any other way
         }

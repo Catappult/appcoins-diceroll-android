@@ -7,6 +7,8 @@ import com.appcoins.sdk.billing.AppcoinsBillingClient
 import com.appcoins.sdk.billing.helpers.CatapultBillingAppCoinsFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -24,6 +26,14 @@ import kotlinx.coroutines.launch
 object SdkManagerImpl : SdkManager {
 
     override lateinit var cab: AppcoinsBillingClient
+
+    override val _connectionState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    override val _attemptsPrice: MutableStateFlow<String?> = MutableStateFlow(null)
+
+    val connectionState: StateFlow<Boolean> = _connectionState
+
+    val attemptsPrice: StateFlow<String?> = _attemptsPrice
 
     private val base64EncodedPublicKey = BuildConfig.CATAPPULT_PUBLIC_KEY
 
