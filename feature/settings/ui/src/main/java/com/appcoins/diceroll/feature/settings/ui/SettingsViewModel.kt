@@ -22,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
   private val userPrefsDataSource: UserPrefsDataSource,
-  private val storeDeeplinkRepository: StoreDeeplinkRepository,
 ) : ViewModel() {
   val uiState: StateFlow<SettingsUiState> =
     userPrefsDataSource.getUserPrefs()
@@ -35,24 +34,6 @@ class SettingsViewModel @Inject constructor(
         initialValue = Loading,
       )
 
-  private val _storeDeeplinkState =
-    MutableStateFlow<StoreDeeplinkUiState>(StoreDeeplinkUiState.Loading)
-  internal val storeDeeplinkState: StateFlow<StoreDeeplinkUiState> get() = _storeDeeplinkState
-
-  var shouldLaunchDeeplink = mutableStateOf(true)
-
-  fun getUpdateDeeplink(appPackage: String, storePackage: String?) {
-    viewModelScope.launch {
-      storeDeeplinkRepository.getStoreDeeplinkUrl(appPackage, storePackage)
-        .onSuccess { storeDeeplink ->
-          _storeDeeplinkState.value = StoreDeeplinkUiState.Success(storeDeeplink.url)
-        }
-        .onFailure {
-          _storeDeeplinkState.value = StoreDeeplinkUiState.Error
-        }
-    }
-  }
-
   fun updateThemeConfig(themeConfig: ThemeConfig) {
     viewModelScope.launch {
       userPrefsDataSource.saveThemeConfig(themeConfig)
@@ -63,10 +44,4 @@ class SettingsViewModel @Inject constructor(
 sealed interface SettingsUiState {
   data object Loading : SettingsUiState
   data class Success(val userPrefs: UserPrefs) : SettingsUiState
-}
-
-sealed interface StoreDeeplinkUiState {
-  data object Loading : StoreDeeplinkUiState
-  data object Error : StoreDeeplinkUiState
-  data class Success(val storeDeeplinkUrl: String) : StoreDeeplinkUiState
 }

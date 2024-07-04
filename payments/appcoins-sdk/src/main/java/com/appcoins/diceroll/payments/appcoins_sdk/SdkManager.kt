@@ -194,6 +194,10 @@ interface SdkManager {
     }
   }
 
+  fun launchAppUpdateDialog(context: Context){
+    cab.launchAppUpdateDialog(context)
+  }
+
   companion object {
     const val logTAG: String = "SdkManager"
   }
