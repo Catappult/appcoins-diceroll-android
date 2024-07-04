@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.appcoins.diceraoll",
+  "applicationId": "com.appcoins.diceroll",
   "variantName": "appcoinsRelease",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 13,
-      "versionName": "0.4.6",
-      "outputFile": "DiceRoll_v0.4.6_13_appcoins_release.apk"
+      "versionCode": 11,
+      "versionName": "0.4.4",
+      "outputFile": "DiceRoll_v0.4.4_11_appcoins_release.apk"
     }
   ],
   "elementType": "File"
